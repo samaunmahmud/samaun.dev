@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
-import { copyText, goTo, openExternal, PALETTE_EVENT, projectAnchor } from '../../lib/actions'
+import { copyText, goTo, openExternal, openProject, PALETTE_EVENT } from '../../lib/actions'
 import { ArrowUpRight, CopyIcon, DownloadIcon, HashIcon, SearchIcon } from './Icons'
 import { socialIcon } from './socialIcons'
 
@@ -31,7 +31,7 @@ function buildCommands(onCopied: () => void): Command[] {
       label: p.name,
       hint: p.tagline,
       icon: <HashIcon size={16} />,
-      run: () => goTo(projectAnchor(p.slug)),
+      run: () => openProject(p.slug),
     })),
     ...profile.socials
       .filter((s) => s.key !== 'email')

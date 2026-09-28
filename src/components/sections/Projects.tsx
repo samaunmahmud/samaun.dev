@@ -1,19 +1,14 @@
 import { useState, type MouseEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import type { Project } from '../../data/types'
-import { projectAnchor } from '../../lib/actions'
-import { ArrowUpRight, GitHubIcon } from '../ui/Icons'
+import { openProject, projectAnchor } from '../../lib/actions'
+import { ArrowUpRight } from '../ui/Icons'
 import { ProjectCover } from '../ui/ProjectCover'
+import { ProjectLinks, Status } from '../ui/ProjectMeta'
+import { ProjectModal } from '../ui/ProjectModal'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 import { Tag } from '../ui/Tag'
-
-const STATUS: Record<Project['status'], { label: string; cls: string }> = {
-  live: { label: 'Live', cls: 'text-up border-up/30 bg-up/10' },
-  'in-progress': { label: 'In progress', cls: 'text-amber border-amber/30 bg-amber/10' },
-  hackathon: { label: 'Hackathon', cls: 'text-violet border-violet/30 bg-violet/10' },
-  coursework: { label: 'Team project', cls: 'text-sky border-sky/30 bg-sky/10' },
-}
 
 /** Moves a soft light under the cursor. Pure CSS vars, no re-renders. */
 function spotlight(e: MouseEvent<HTMLElement>) {
@@ -22,7 +17,7 @@ function spotlight(e: MouseEvent<HTMLElement>) {
   e.currentTarget.style.setProperty('--y', `${e.clientY - r.top}px`)
 }
 const spotlightCls =
-  'before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:bg-[radial-gradient(420px_circle_at_var(--x)_var(--y),rgb(45_212_191/0.08),transparent_60%)]'
+  'before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:bg-[radial-gradient(420px_circle_at_var(--x)_var(--y),color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]'
 
 /** Tech that appears in 2+ projects, most-used first — these become the filter chips. */
 const FILTERS = Object.entries(
@@ -86,6 +81,8 @@ export function Projects() {
           </Reveal>
         ))}
       </div>
+
+      <ProjectModal />
     </Section>
   )
 }
@@ -110,36 +107,23 @@ function Dim({ on, children }: { on: boolean; children: ReactNode }) {
   return <div className={`h-full transition duration-300 ${on ? 'opacity-25 grayscale' : ''}`}>{children}</div>
 }
 
-function Status({ status }: { status: Project['status'] }) {
-  const s = STATUS[status]
-  return <span className={`w-fit rounded-full border px-2.5 py-0.5 font-mono text-[11px] ${s.cls}`}>{s.label}</span>
+/** Makes the whole card open the case study; real links inside sit above it (z-20). */
+function OpenDetails({ project }: { project: Project }) {
+  return (
+    <button
+      type="button"
+      onClick={() => openProject(project.slug)}
+      aria-label={`Open ${project.name} case study`}
+      className="absolute inset-0 z-[5] cursor-pointer rounded-[inherit]"
+    />
+  )
 }
 
-function Links({ project }: { project: Project }) {
-  if (!project.repo && !project.demo) return null
+function DetailsHint() {
   return (
-    <div className="flex flex-wrap gap-2">
-      {project.demo && (
-        <a
-          href={project.demo}
-          target="_blank"
-          rel="noreferrer"
-          className="relative z-20 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-ink-950 transition hover:bg-accent-strong"
-        >
-          Live demo <ArrowUpRight size={14} />
-        </a>
-      )}
-      {project.repo && (
-        <a
-          href={project.repo}
-          target="_blank"
-          rel="noreferrer"
-          className="relative z-20 inline-flex items-center gap-1.5 rounded-lg border border-ink-600 px-3.5 py-2 text-sm font-medium text-fg transition hover:border-fg-faint"
-        >
-          <GitHubIcon size={15} /> Code
-        </a>
-      )}
-    </div>
+    <span className="inline-flex items-center gap-1 font-mono text-xs text-fg-faint transition group-hover:text-accent">
+      Case study <ArrowUpRight size={12} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </span>
   )
 }
 
@@ -150,6 +134,7 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
       onMouseMove={spotlight}
       className={`group relative grid overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:border-ink-600 lg:grid-cols-2 ${spotlightCls}`}
     >
+      <OpenDetails project={project} />
       <div className={`relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[400px] ${flip ? 'lg:order-2' : ''}`}>
         <ProjectCover project={project} className="transition duration-700 group-hover:scale-[1.03]" />
       </div>
@@ -180,8 +165,9 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
           ))}
         </div>
 
-        <div className="mt-auto pt-7">
-          <Links project={project} />
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-7">
+          <ProjectLinks project={project} />
+          <DetailsHint />
         </div>
       </div>
     </article>
@@ -195,6 +181,7 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
       onMouseMove={spotlight}
       className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:-translate-y-1 hover:border-ink-600 ${spotlightCls}`}
     >
+      <OpenDetails project={project} />
       <div className="relative aspect-[16/9] overflow-hidden border-b border-ink-700">
         <ProjectCover project={project} className="transition duration-700 group-hover:scale-[1.04]" />
       </div>
@@ -202,7 +189,7 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
         <Status status={project.status} />
         <h3 className="mt-3 font-display text-xl font-semibold">{project.name}</h3>
         <p className="mt-1 text-sm text-accent">{project.tagline}</p>
-        <p className="mt-3 text-sm leading-relaxed text-fg-muted">{project.description}</p>
+        <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-fg-muted">{project.description}</p>
         <div className="mt-5 flex flex-wrap gap-1.5">
           {project.stack.map((s) => (
             <Tag key={s} active={s === tech}>
@@ -210,8 +197,9 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
             </Tag>
           ))}
         </div>
-        <div className="mt-auto pt-5">
-          <Links project={project} />
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-5">
+          <ProjectLinks project={project} />
+          <DetailsHint />
         </div>
       </div>
     </article>

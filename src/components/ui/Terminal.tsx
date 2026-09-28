@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
-import { copyText, goTo, isMac, openExternal, openPalette, projectAnchor } from '../../lib/actions'
+import { copyText, goTo, isMac, openExternal, openPalette, openProject } from '../../lib/actions'
 
 interface Line {
   id: number
@@ -19,7 +19,7 @@ const COMMANDS: Record<string, string> = {
   about: 'the short version',
   now: 'what I’m doing right now',
   projects: 'list projects',
-  open: 'open <project> — jump to a project',
+  open: 'open <project> — read a case study',
   skills: 'languages, frameworks, tools',
   ls: 'list sections',
   cd: 'cd <section> — scroll there',
@@ -111,8 +111,8 @@ function execute(raw: string): ReactNode | null {
     case 'open': {
       const p = profile.projects.find((x) => x.slug === arg || x.name.toLowerCase() === arg)
       if (!p) return <Err>open: no such project “{arg || '?'}”. Try: projects</Err>
-      goTo(projectAnchor(p.slug))
-      return <p>→ scrolling to {p.name}…</p>
+      openProject(p.slug)
+      return <p>→ opening the {p.name} case study…</p>
     }
     case 'skills':
     case 'stack':

@@ -29,3 +29,31 @@ export const isMac = () => typeof navigator !== 'undefined' && /Mac|iPhone|iPad/
 
 /** Anchor id for a project card, so the palette and terminal can jump straight to it. */
 export const projectAnchor = (slug: string) => `project-${slug}`
+
+/* ── Project detail view, driven by ?project=<slug> so it can be linked and shared ── */
+
+export const PROJECT_EVENT = 'project:change'
+const PROJECT_PARAM = 'project'
+
+export const currentProject = () => new URLSearchParams(window.location.search).get(PROJECT_PARAM)
+
+export function openProject(slug: string) {
+  const url = new URL(window.location.href)
+  url.searchParams.set(PROJECT_PARAM, slug)
+  url.hash = ''
+  // Replace when switching between projects so Back still closes the view in one step
+  if (currentProject()) history.replaceState({ project: true }, '', url)
+  else history.pushState({ project: true }, '', url)
+  window.dispatchEvent(new Event(PROJECT_EVENT))
+}
+
+export function closeProject() {
+  // If we opened it, going back restores the previous URL; otherwise (deep link) just strip the param
+  if (history.state?.project) history.back()
+  else {
+    const url = new URL(window.location.href)
+    url.searchParams.delete(PROJECT_PARAM)
+    history.replaceState(null, '', url)
+    window.dispatchEvent(new Event(PROJECT_EVENT))
+  }
+}

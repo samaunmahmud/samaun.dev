@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { profile } from '../../data/profile'
 import type { SocialLink } from '../../data/types'
+import { useGitHubRepos } from '../../hooks/useGitHubRepos'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
+import { timeAgo } from '../../hooks/useLastPush'
 import { useTheme } from '../../hooks/useTheme'
 import { ArrowUpRight } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
@@ -44,6 +46,7 @@ export function Profiles() {
           </Reveal>
         ))}
       </div>
+      {github && <RepoGrid username={github.handle} url={github.url} />}
       {github && <ContributionGraph username={github.handle} />}
     </Section>
   )
@@ -86,6 +89,69 @@ function ProfileCard({ link }: { link: SocialLink }) {
   )
 }
 
+/** GitHub's language colours are brand-ish; map the common ones onto theme tokens instead. */
+const LANG_DOT: Record<string, string> = {
+  Java: 'bg-amber',
+  TypeScript: 'bg-sky',
+  JavaScript: 'bg-up',
+  Python: 'bg-violet',
+  HTML: 'bg-rose',
+}
+
+/** Live list of recently pushed repos — shows the work is ongoing, not a snapshot. */
+function RepoGrid({ username, url }: { username: string; url: string }) {
+  const repos = useGitHubRepos(username)
+  if (repos && repos.length === 0) return null
+
+  return (
+    <Reveal delay={0.1}>
+      <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="font-mono text-xs tracking-widest text-fg-faint uppercase">Live from GitHub</p>
+          <h3 className="mt-2 font-display text-2xl font-semibold text-fg">Recently active repositories</h3>
+        </div>
+        <a href={url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-accent hover:underline">
+          View all on GitHub <ArrowUpRight size={14} />
+        </a>
+      </div>
+      <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-busy={!repos}>
+        {repos
+          ? repos.map((r) => (
+              <li key={r.name}>
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex h-full flex-col rounded-2xl border border-ink-700 bg-ink-900/60 p-5 transition hover:-translate-y-0.5 hover:border-accent/50"
+                >
+                  <span className="flex items-center justify-between gap-3">
+                    <span className="truncate font-mono text-sm font-medium text-fg group-hover:text-accent">{r.name}</span>
+                    <ArrowUpRight size={14} className="shrink-0 text-fg-faint transition group-hover:text-accent" />
+                  </span>
+                  <span className="mt-2 line-clamp-2 text-sm leading-relaxed text-fg-muted">
+                    {r.description ?? <span className="text-fg-faint italic">No description</span>}
+                  </span>
+                  <span className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-4 font-mono text-[11px] text-fg-faint">
+                    {r.language && (
+                      <span className="inline-flex items-center gap-1.5">
+                        <span className={`h-2 w-2 rounded-full ${LANG_DOT[r.language] ?? 'bg-fg-faint'}`} />
+                        {r.language}
+                      </span>
+                    )}
+                    {r.stars > 0 && <span>★ {r.stars}</span>}
+                    <span>updated {timeAgo(r.pushedAt)}</span>
+                  </span>
+                </a>
+              </li>
+            ))
+          : Array.from({ length: 6 }, (_, i) => (
+              <li key={i} className="h-[132px] animate-pulse rounded-2xl border border-ink-700 bg-ink-850" />
+            ))}
+      </ul>
+    </Reveal>
+  )
+}
+
 /** Third-party image of the GitHub contribution calendar. Hides itself if the service is down. */
 function ContributionGraph({ username }: { username: string }) {
   const [ok, setOk] = useState(true)
@@ -95,7 +161,7 @@ function ContributionGraph({ username }: { username: string }) {
   if (!ok) return null
   return (
     <Reveal delay={0.15}>
-      <div className="mt-5 overflow-x-auto rounded-2xl border border-ink-700 bg-ink-900/60 p-6">
+      <div className="mt-8 overflow-x-auto rounded-2xl border border-ink-700 bg-ink-900/60 p-6">
         <p className="mb-4 font-mono text-xs tracking-widest text-fg-faint uppercase">GitHub activity · last 12 months</p>
         <img
           key={theme}

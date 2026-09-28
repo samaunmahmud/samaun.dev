@@ -1,4 +1,5 @@
 import { profile } from '../../data/profile'
+import { CountUp } from '../ui/CountUp'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 
@@ -28,7 +29,9 @@ export function About() {
             <div className="grid grid-cols-3 gap-3">
               {profile.stats.map((s) => (
                 <div key={s.label} className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-                  <p className="font-display text-3xl font-semibold text-fg">{s.value}</p>
+                  <p className="font-display text-3xl font-semibold text-fg tabular-nums">
+                    <CountUp value={s.value} />
+                  </p>
                   <p className="mt-1 text-xs leading-snug text-fg-faint">{s.label}</p>
                 </div>
               ))}

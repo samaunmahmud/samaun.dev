@@ -102,3 +102,9 @@ export const MoonIcon = ({ size, ...p }: IconProps) => (
     <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />
   </svg>
 )
+
+export const ArrowUpIcon = ({ size, ...p }: IconProps) => (
+  <svg {...base(size)} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M12 19V5m0 0-6 6m6-6 6 6" />
+  </svg>
+)
