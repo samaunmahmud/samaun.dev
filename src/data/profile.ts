@@ -61,7 +61,7 @@ export const profile: Profile = {
   ],
 
   stats: [
-    { value: '5', label: 'projects shipped or in build' },
+    { value: '6', label: 'projects shipped or in build' },
     { value: '3', label: 'hackathons in 2026' },
     { value: 'Java', label: 'first language' },
   ],
@@ -182,6 +182,24 @@ export const profile: Profile = {
       status: 'coursework',
       accent: 'amber',
       art: 'stars',
+    },
+    {
+      slug: 'cinescout',
+      name: 'CineScout',
+      tagline: 'AI location scouting for film productions',
+      description:
+        'A filmmaker submits a scene; CineScout extracts the physical location requirements, finds real venues with grounded web search, assesses booking friction, works out shoot logistics and drafts outreach to venue owners.',
+      highlights: [
+        'Scene → location requirements → real venues, using an IBM watsonx.ai LLM with Parallel grounded web search',
+        'Resilience4j retries and circuit breakers around every LLM and search call, with bounded assessment concurrency',
+        'Shoot logistics from keyless public data: sun, weather (Open-Meteo), noise and nearby services (OpenStreetMap)',
+        'Flyway-owned schema, tested against real PostgreSQL via Testcontainers; external APIs stubbed with WireMock',
+      ],
+      stack: ['Java', 'Spring Boot', 'Spring WebFlux', 'PostgreSQL', 'React', 'TypeScript', 'watsonx.ai', 'Parallel', 'Docker'],
+      status: 'in-progress',
+      repo: 'https://github.com/samaunmahmud/cinescout',
+      accent: 'teal',
+      art: 'map',
     },
   ],
 

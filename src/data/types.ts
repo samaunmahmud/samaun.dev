@@ -35,7 +35,7 @@ export interface Project {
   image?: string
   /** Colour + illustration for the generated cover when there is no image. */
   accent: 'teal' | 'violet' | 'amber' | 'rose' | 'sky'
-  art: 'candles' | 'bars' | 'network' | 'scan' | 'stars'
+  art: 'candles' | 'bars' | 'network' | 'scan' | 'stars' | 'map'
   /** Optional architecture walkthrough. The first project that has one gets the Deep dive section. */
   flow?: FlowNode[]
 }

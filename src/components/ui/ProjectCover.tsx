@@ -120,6 +120,39 @@ function Art({ kind, color }: { kind: Project['art']; color: string }) {
           <rect x="60" y="100" width="280" height="26" fill={color} fillOpacity=".08" />
         </g>
       )
+    case 'map': {
+      // Street grid, a scouting route and venue pins
+      const pins = [
+        [118, 150],
+        [205, 88],
+        [292, 132],
+      ] as const
+      return (
+        <g>
+          {[70, 120, 170].map((y) => (
+            <line key={`h${y}`} x1="40" x2="360" y1={y} y2={y + 12} stroke={color} strokeOpacity=".18" strokeWidth="6" strokeLinecap="round" />
+          ))}
+          {[110, 200, 290].map((x) => (
+            <line key={`v${x}`} x1={x} x2={x - 18} y1="40" y2="210" stroke={color} strokeOpacity=".18" strokeWidth="6" strokeLinecap="round" />
+          ))}
+          <polyline
+            points={pins.map(([x, y]) => `${x},${y}`).join(' ')}
+            fill="none"
+            stroke={color}
+            strokeOpacity=".7"
+            strokeWidth="2"
+            strokeDasharray="5 5"
+          />
+          {pins.map(([x, y], i) => (
+            <g key={i} transform={`translate(${x} ${y})`}>
+              <circle r="22" fill={color} fillOpacity=".1" />
+              <path d="M0 0c-9-10-14-17-14-24a14 14 0 0 1 28 0c0 7-5 14-14 24z" fill={color} fillOpacity={i === 1 ? 1 : 0.55} />
+              <circle cy="-24" r="5" className="fill-ink-900" />
+            </g>
+          ))}
+        </g>
+      )
+    }
     case 'stars':
       return (
         <g>

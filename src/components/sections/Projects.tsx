@@ -72,7 +72,10 @@ export function Projects() {
         ))}
       </div>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* 3 across unless that would leave a lonely last row and 2 across divides evenly (e.g. 4 cards → 2×2) */}
+      <div
+        className={`mt-8 grid gap-6 md:grid-cols-2 ${rest.length % 3 !== 0 && rest.length % 2 === 0 ? '' : 'lg:grid-cols-3'}`}
+      >
         {rest.map((p, i) => (
           <Reveal key={p.slug} delay={i * 0.08} className="h-full">
             <Dim on={!matches(p)}>
