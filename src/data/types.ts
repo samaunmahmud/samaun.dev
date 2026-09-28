@@ -27,12 +27,14 @@ export interface Project {
   /** The hard problems solved — recruiters read these first. Keep to 2–4. */
   highlights: string[]
   stack: string[]
-  status: 'live' | 'in-progress' | 'hackathon' | 'coursework'
+  status: 'live' | 'complete' | 'in-progress' | 'hackathon' | 'coursework'
   featured?: boolean
   repo?: string
   demo?: string
   /** Path under /public, e.g. "/projects/meridian.png". Falls back to a generated cover. */
   image?: string
+  /** Optional dark-theme version of `image`, shown in dev mode. */
+  imageDark?: string
   /** Colour + illustration for the generated cover when there is no image. */
   accent: 'teal' | 'violet' | 'amber' | 'rose' | 'sky'
   art: 'candles' | 'bars' | 'network' | 'scan' | 'stars' | 'map'

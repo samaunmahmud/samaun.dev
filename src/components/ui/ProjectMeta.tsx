@@ -3,6 +3,7 @@ import { ArrowUpRight, GitHubIcon } from './Icons'
 
 const STATUS: Record<Project['status'], { label: string; cls: string }> = {
   live: { label: 'Live', cls: 'text-up border-up/30 bg-up/10' },
+  complete: { label: 'Complete', cls: 'text-accent border-accent/30 bg-accent-soft' },
   'in-progress': { label: 'In progress', cls: 'text-amber border-amber/30 bg-amber/10' },
   hackathon: { label: 'Hackathon', cls: 'text-violet border-violet/30 bg-violet/10' },
   coursework: { label: 'Team project', cls: 'text-sky border-sky/30 bg-sky/10' },

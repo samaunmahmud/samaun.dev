@@ -15,13 +15,13 @@ const ACCENT: Record<Project['accent'], string> = {
  */
 export function ProjectCover({ project, className = '' }: { project: Project; className?: string }) {
   if (project.image) {
-    return (
-      <img
-        src={project.image}
-        alt={`${project.name} screenshot`}
-        loading="lazy"
-        className={`h-full w-full object-cover object-top ${className}`}
-      />
+    return project.imageDark ? (
+      <>
+        <Shot src={project.image} alt={`${project.name} screenshot`} className={`dark:hidden ${className}`} />
+        <Shot src={project.imageDark} alt={`${project.name} screenshot`} className={`hidden dark:block ${className}`} />
+      </>
+    ) : (
+      <Shot src={project.image} alt={`${project.name} screenshot`} className={className} />
     )
   }
 
@@ -40,6 +40,26 @@ export function ProjectCover({ project, className = '' }: { project: Project; cl
       <span className="absolute bottom-4 left-5 font-mono text-xs tracking-widest text-fg-faint uppercase">
         {project.slug}
       </span>
+    </div>
+  )
+}
+
+/**
+ * The whole screenshot, uncropped and framed on the same grid surface as the generated covers,
+ * so it fits any frame shape (tall featured panel, wide modal header) without losing its edges.
+ */
+function Shot({ src, alt, className }: { src: string; alt: string; className: string }) {
+  return (
+    <div className={`relative h-full w-full overflow-hidden bg-ink-900 ${className}`}>
+      <div className="bg-grid absolute inset-0 opacity-60" aria-hidden />
+      <div className="relative flex h-full items-center justify-center p-5 sm:p-8">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          className="max-h-full max-w-full rounded-xl border border-ink-700 shadow-2xl shadow-black/25"
+        />
+      </div>
     </div>
   )
 }
