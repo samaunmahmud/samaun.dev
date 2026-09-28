@@ -10,7 +10,7 @@ export function Footer() {
           © {YEAR} {profile.name}
         </p>
         <p className="text-center">
-          Designed & built by me with React, TypeScript & Tailwind ·{' '}
+          Built with React, TypeScript and Tailwind CSS ·{' '}
           <a
             href={`${profile.sourceRepo}/commit/${__COMMIT__}`}
             target="_blank"

@@ -7,13 +7,13 @@ export function Skills() {
     <Section
       id="skills"
       index="05"
-      eyebrow="Toolbox"
+      eyebrow="Skills"
       title={
         <>
-          What I reach for <span className="text-fg-muted">when I build.</span>
+          Technical skills, <span className="text-fg-muted">grouped by area.</span>
         </>
       }
-      intro="No progress bars — every item here shows up in at least one project above."
+      intro="The languages, frameworks and tools I use across my projects and coursework."
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {profile.skills.map((g, i) => (

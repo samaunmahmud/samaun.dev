@@ -13,8 +13,9 @@ export const profile: Profile = {
   role: 'Full-stack Java developer',
   location: 'Uxbridge, London',
   timezone: 'Europe/London',
+  headline: { lead: 'Full-stack Java developer building', accent: 'real-time systems.' },
   tagline:
-    'Full-stack Java developer and CS (AI) student at Brunel. Real-time, data-heavy apps with Spring Boot and React — with a soft spot for fintech.',
+    'Computer Science (AI) student at Brunel University London. I build real-time, data-heavy applications with Spring Boot and React, with a particular interest in fintech.',
   about: [
     "I'm a second-year Computer Science (Artificial Intelligence) student at Brunel University London, on the four-year track with an industrial placement.",
     "Most of what I build sits where backend engineering meets finance: streaming market data over WebSockets, keeping trade ledgers consistent with transactions, and wiring third-party banking APIs into apps people can actually use.",
@@ -27,7 +28,8 @@ export const profile: Profile = {
     { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
   ],
   email: 'samaunmahmud9@gmail.com',
-  cvUrl: '/cv.pdf', // TODO: drop your CV into public/cv.pdf
+  // TODO: add your CV as public/cv.pdf, then uncomment — the résumé buttons reappear automatically
+  // cvUrl: '/cv.pdf',
   sourceRepo: 'https://github.com/samaunmahmud/samaun.dev',
 
   socials: [
@@ -43,12 +45,13 @@ export const profile: Profile = {
       handle: 'samaun-mahmud',
       url: 'https://www.linkedin.com/in/samaun-mahmud',
     },
-    {
-      key: 'leetcode',
-      label: 'LeetCode',
-      handle: 'your-username', // TODO: your LeetCode username
-      url: 'https://leetcode.com/u/your-username/', // TODO
-    },
+    // TODO: add your LeetCode username, then uncomment (hidden so there's no broken link)
+    // {
+    //   key: 'leetcode',
+    //   label: 'LeetCode',
+    //   handle: 'your-username',
+    //   url: 'https://leetcode.com/u/your-username/',
+    // },
     {
       key: 'email',
       label: 'Email',
@@ -246,18 +249,4 @@ export const profile: Profile = {
     { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Render', 'Vercel'] },
   ],
 
-  ticker: [
-    'Java',
-    'Spring Boot',
-    'React',
-    'PostgreSQL',
-    'WebSockets',
-    'Docker',
-    'TDD',
-    'CI/CD',
-    'Plaid API',
-    'Deeplearning4j',
-    'TypeScript',
-    'LLM agents',
-  ],
 }

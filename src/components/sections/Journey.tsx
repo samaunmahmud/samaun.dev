@@ -24,7 +24,7 @@ export function Journey() {
       eyebrow="Journey"
       title={
         <>
-          Where I&apos;ve been <span className="text-fg-muted">spending my time.</span>
+          Education, roles <span className="text-fg-muted">and hackathons.</span>
         </>
       }
     >

@@ -29,10 +29,10 @@ export function Contact() {
           <div className="relative">
             <p className="font-mono text-xs tracking-widest text-accent uppercase">08 · Contact</p>
             <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl">
-              Hiring for a 2027 placement? <span className="text-gradient">Let&apos;s talk.</span>
+              Open to 2027 placement opportunities. <span className="text-gradient">Get in touch.</span>
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-fg-muted">
-              Recruiters, engineers, fellow hackers — my inbox is open. The fastest way to reach me is email.
+              The best way to reach me is by email. You can also find me on LinkedIn and GitHub.
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -40,7 +40,7 @@ export function Contact() {
                 href={`mailto:${profile.email}`}
                 className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
               >
-                <MailIcon size={18} /> Email me
+                <MailIcon size={18} /> Send an email
               </a>
               <button
                 type="button"

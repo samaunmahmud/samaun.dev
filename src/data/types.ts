@@ -75,13 +75,16 @@ export interface Profile {
   location: string
   /** IANA zone for the live clock in the hero, e.g. "Europe/London". */
   timezone: string
+  /** Hero headline; `accent` is set in the accent style after `lead`. */
+  headline: { lead: string; accent: string }
   tagline: string
   about: string[]
   availability: string
   /** "Right now" card in About — keep it current, it's the first thing that goes stale. */
   now: NowItem[]
   email: string
-  cvUrl: string
+  /** Path under /public. Leave unset until the file exists — every résumé button hides itself. */
+  cvUrl?: string
   /** This site's own repo — the footer links the build hash to it. */
   sourceRepo: string
   socials: SocialLink[]
@@ -91,6 +94,4 @@ export interface Profile {
   skills: SkillGroup[]
   /** Recruiter FAQ. Only put answers here that are true today. */
   faq: FaqItem[]
-  /** Words that scroll in the hero ticker. */
-  ticker: string[]
 }

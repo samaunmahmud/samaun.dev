@@ -91,12 +91,11 @@ export function Navbar() {
             {theme === 'dark' ? <SunIcon size={16} /> : <MoonIcon size={16} />}
           </button>
           <a
-            href={profile.cvUrl}
-            target="_blank"
-            rel="noreferrer"
+            href={profile.cvUrl ?? '#contact'}
+            {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
             className="hidden rounded-lg border border-accent/50 px-3.5 py-1.5 text-sm font-medium text-accent transition hover:bg-accent hover:text-ink-950 sm:inline-block"
           >
-            Résumé
+            {profile.cvUrl ? 'Résumé' : 'Get in touch'}
           </a>
           <button
             type="button"
@@ -144,12 +143,12 @@ export function Navbar() {
               ))}
               <li className="pt-6">
                 <a
-                  href={profile.cvUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  href={profile.cvUrl ?? '#contact'}
+                  {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  onClick={() => setOpen(false)}
                   className="block rounded-lg bg-accent py-3 text-center font-medium text-ink-950"
                 >
-                  Download résumé
+                  {profile.cvUrl ? 'Download résumé' : 'Get in touch'}
                 </a>
               </li>
             </ul>

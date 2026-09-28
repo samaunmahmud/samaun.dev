@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { useState, type MouseEvent } from 'react'
+import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { useClock } from '../../hooks/useClock'
 import { timeAgo, useLastPush } from '../../hooks/useLastPush'
-import { useScramble } from '../../hooks/useScramble'
 import { ArrowUpRight, DownloadIcon } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
 import { Terminal } from '../ui/Terminal'
@@ -17,17 +16,11 @@ const fade = (delay: number) => ({
 export function Hero() {
   const reduce = useReducedMotion()
   const socials = profile.socials.filter((s) => s.key !== 'email')
-  const accentWords = useScramble('move fast.', { delay: 450, duration: 800 })
 
   return (
-    <section
-      id="top"
-      onMouseMove={trackPointer}
-      className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32"
-    >
-      {/* Background: grid + a brighter grid that follows the cursor + glow + a price-line that draws itself */}
+    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 pb-16 sm:pt-32">
+      {/* Background: grid + glow + a price-line that draws itself (a nod to Meridian) */}
       <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
-      <div className="bg-grid-bright mask-pointer pointer-events-none absolute inset-0 hidden pointer-fine:block" aria-hidden />
       <div
         className="pointer-events-none absolute top-[-10%] left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
         aria-hidden
@@ -40,25 +33,18 @@ export function Hero() {
             {...fade(0)}
             className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-ink-700 bg-ink-900/80 px-3.5 py-1.5 text-xs text-fg-muted backdrop-blur"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-up opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-up" />
-            </span>
+            <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
             {profile.availability}
           </motion.p>
 
-          <motion.p {...fade(0.06)} className="mt-8 font-mono text-sm text-accent">
-            Hi, I&apos;m {profile.name} 👋
+          <motion.p {...fade(0.06)} className="mt-8 font-mono text-sm tracking-wide text-accent">
+            {profile.name}
           </motion.p>
           <motion.h1
             {...fade(0.1)}
-            className="mt-3 font-display text-5xl leading-[1.04] font-bold tracking-tight sm:text-6xl lg:text-[4.25rem]"
+            className="mt-3 font-display text-4xl leading-[1.08] font-bold tracking-tight sm:text-5xl lg:text-[3.6rem]"
           >
-            I build systems <br className="hidden sm:block" />
-            that <span className="sr-only">move fast.</span>
-            <span className="text-gradient" aria-hidden>
-              {accentWords || '\u00a0'}
-            </span>
+            {profile.headline.lead} <span className="text-gradient">{profile.headline.accent}</span>
           </motion.h1>
 
           <motion.p {...fade(0.16)} className="mt-7 max-w-xl text-lg leading-relaxed text-fg-muted">
@@ -70,18 +56,27 @@ export function Hero() {
               href="#projects"
               className="group inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
             >
-              See my work
+              View projects
               <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
-            <a
-              href={profile.cvUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
-            >
-              <DownloadIcon size={16} />
-              Résumé
-            </a>
+            {profile.cvUrl ? (
+              <a
+                href={profile.cvUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
+              >
+                <DownloadIcon size={16} />
+                Résumé
+              </a>
+            ) : (
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
+              >
+                Get in touch
+              </a>
+            )}
             <div className="ml-1 flex items-center gap-1">
               {socials.map((s) => {
                 const Icon = socialIcon[s.key]
@@ -107,24 +102,15 @@ export function Hero() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30, rotate: reduce ? 0 : 1.5 }}
-          animate={{ opacity: 1, y: 0, rotate: 0 }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           <Console />
         </motion.div>
       </div>
-
-      <Ticker />
     </section>
   )
-}
-
-/** Feeds the cursor position to the .mask-pointer layer. CSS vars only, no re-renders. */
-function trackPointer(e: MouseEvent<HTMLElement>) {
-  const r = e.currentTarget.getBoundingClientRect()
-  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
-  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
 }
 
 /* ── Status line: local time + latest GitHub push ──────────── */
@@ -274,23 +260,5 @@ function PriceLine({ animate }: { animate: boolean }) {
         transition={{ duration: 2.2, delay: 0.3, ease: 'easeInOut' }}
       />
     </svg>
-  )
-}
-
-/* ── Ticker ────────────────────────────────────────────────── */
-
-function Ticker() {
-  const items = [...profile.ticker, ...profile.ticker]
-  return (
-    <div className="mask-fade-x relative mt-16 overflow-hidden border-y border-ink-800 bg-ink-900/40 py-4 backdrop-blur-sm">
-      <div className="flex w-max animate-marquee gap-10 hover:[animation-play-state:paused]">
-        {items.map((item, i) => (
-          <span key={i} className="flex items-center gap-2 font-mono text-sm whitespace-nowrap text-fg-muted">
-            <span className="text-[10px] text-up">▲</span>
-            {item.toUpperCase()}
-          </span>
-        ))}
-      </div>
-    </div>
   )
 }

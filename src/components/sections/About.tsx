@@ -10,7 +10,7 @@ export function About() {
       eyebrow="About"
       title={
         <>
-          Backend at heart, <span className="text-fg-muted">full-stack by necessity.</span>
+          Backend-focused, <span className="text-fg-muted">full-stack in practice.</span>
         </>
       }
     >
@@ -48,7 +48,7 @@ export function About() {
                   </div>
                 ))}
               </dl>
-              <p className="mt-6 border-t border-ink-700 pt-4 text-sm text-fg-faint">📍 {profile.location}</p>
+              <p className="mt-6 border-t border-ink-700 pt-4 text-sm text-fg-faint">Based in {profile.location}</p>
             </div>
           </Reveal>
         </div>

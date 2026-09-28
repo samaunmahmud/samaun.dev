@@ -45,10 +45,10 @@ export function Projects() {
       eyebrow="Selected work"
       title={
         <>
-          Things I&apos;ve built, <span className="text-fg-muted">broken, and fixed.</span>
+          Selected projects, <span className="text-fg-muted">and the problems behind them.</span>
         </>
       }
-      intro="Each one taught me something a tutorial couldn't. The bullet points are the hard parts."
+      intro="Each card lists the engineering problems I worked through, not just the stack."
     >
       {FILTERS.length > 0 && (
         <Reveal>

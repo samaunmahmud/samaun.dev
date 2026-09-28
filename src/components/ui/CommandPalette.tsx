@@ -57,14 +57,18 @@ function buildCommands(onCopied: () => void): Command[] {
         else openExternal(`mailto:${profile.email}`)
       },
     },
-    {
-      id: 'cv',
-      group: 'Actions',
-      label: 'Open résumé',
-      hint: 'PDF',
-      icon: <DownloadIcon size={16} />,
-      run: () => openExternal(profile.cvUrl),
-    },
+    ...(profile.cvUrl
+      ? [
+          {
+            id: 'cv',
+            group: 'Actions' as const,
+            label: 'Open résumé',
+            hint: 'PDF',
+            icon: <DownloadIcon size={16} />,
+            run: () => openExternal(profile.cvUrl!),
+          },
+        ]
+      : []),
     {
       id: 'source',
       group: 'Actions',

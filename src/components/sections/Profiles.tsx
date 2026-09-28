@@ -30,14 +30,14 @@ export function Profiles() {
     <Section
       id="profiles"
       index="06"
-      eyebrow="Find me online"
+      eyebrow="Profiles"
       title={
         <>
-          The receipts, <span className="text-fg-muted">in one place.</span>
+          Code, activity <span className="text-fg-muted">and professional profiles.</span>
         </>
       }
     >
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
         {cards.map((s, i) => (
           <Reveal key={s.key} delay={i * 0.07} className="h-full">
             <ProfileCard link={s} />

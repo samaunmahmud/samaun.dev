@@ -25,7 +25,7 @@ const COMMANDS: Record<string, string> = {
   cd: 'cd <section> — scroll there',
   contact: 'ways to reach me',
   email: 'copy my email',
-  cv: 'open my résumé',
+  ...(profile.cvUrl ? { cv: 'open my résumé' } : {}),
   github: 'open GitHub',
   linkedin: 'open LinkedIn',
   palette: 'open the command palette',
@@ -175,6 +175,7 @@ function execute(raw: string): ReactNode | null {
       )
     case 'cv':
     case 'resume':
+      if (!profile.cvUrl) return <p>Résumé coming soon. Try “contact”.</p>
       openExternal(profile.cvUrl)
       return <p>→ opening résumé…</p>
     case 'github':
@@ -188,19 +189,6 @@ function execute(raw: string): ReactNode | null {
       return ''
     case 'clear':
       return null
-    case 'sudo':
-      if (arg === 'hire-me' || arg === 'hire me') {
-        openExternal(`mailto:${profile.email}?subject=${encodeURIComponent('Placement opportunity')}`)
-        return (
-          <>
-            <p>
-              <Faint>[sudo] password for recruiter:</Faint> ••••••••
-            </p>
-            <p className="text-up">✔ Access granted. Opening a draft email…</p>
-          </>
-        )
-      }
-      return <Err>{USER} is not in the sudoers file. This incident will be reported. (try: sudo hire-me)</Err>
     default:
       return <Err>zsh: command not found: {cmd}. Type “help”.</Err>
   }
