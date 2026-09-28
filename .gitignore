@@ -29,3 +29,5 @@ dist-ssr
 
 # Claude Code — personal per-project overrides stay local
 .claude/settings.local.json
+.vercel
+.env*
