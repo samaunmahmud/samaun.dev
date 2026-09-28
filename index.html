@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +10,16 @@
       name="description"
       content="Samaun Mahmud — Computer Science (AI) student at Brunel University London building real-time, full-stack systems with Java, Spring Boot and React."
     />
-    <meta name="theme-color" content="#05080d" />
+    <meta name="theme-color" content="#f4f1ea" />
+    <!-- Apply the saved theme before first paint (no flash). Warm light is the default. -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.dataset.theme = 'dark'
+          document.querySelector('meta[name="theme-color"]').content = '#05080d'
+        }
+      } catch (e) {}
+    </script>
 
     <!-- Open Graph: controls the preview card on LinkedIn, WhatsApp, Slack -->
     <meta property="og:type" content="website" />

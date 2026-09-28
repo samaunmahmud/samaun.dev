@@ -2,6 +2,8 @@ import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
 import { About } from './components/sections/About'
 import { Contact } from './components/sections/Contact'
+import { DeepDive } from './components/sections/DeepDive'
+import { Faq } from './components/sections/Faq'
 import { Hero } from './components/sections/Hero'
 import { Journey } from './components/sections/Journey'
 import { Profiles } from './components/sections/Profiles'
@@ -23,9 +25,11 @@ export default function App() {
         <Hero />
         <About />
         <Projects />
+        <DeepDive />
         <Journey />
         <Skills />
         <Profiles />
+        <Faq />
         <Contact />
       </main>
       <Footer />

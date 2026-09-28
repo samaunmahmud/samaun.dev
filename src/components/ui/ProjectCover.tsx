@@ -1,11 +1,12 @@
 import type { Project } from '../../data/types'
 
+/** Theme tokens, so covers recolour with the light/dark theme. "teal" = the main accent. */
 const ACCENT: Record<Project['accent'], string> = {
-  teal: '#2dd4bf',
-  sky: '#38bdf8',
-  violet: '#a78bfa',
-  rose: '#fb7185',
-  amber: '#fbbf24',
+  teal: 'var(--accent)',
+  sky: 'var(--sky)',
+  violet: 'var(--violet)',
+  rose: 'var(--rose)',
+  amber: 'var(--amber)',
 }
 
 /**
@@ -29,11 +30,12 @@ export function ProjectCover({ project, className = '' }: { project: Project; cl
     <div className={`relative h-full w-full overflow-hidden bg-ink-900 ${className}`}>
       <div
         className="absolute inset-0"
-        style={{ background: `radial-gradient(ellipse 70% 60% at 70% 20%, ${color}26, transparent 70%)` }}
+        style={{ background: `radial-gradient(ellipse 70% 60% at 70% 20%, color-mix(in oklab, ${color} 15%, transparent), transparent 70%)` }}
       />
       <div className="bg-grid absolute inset-0 opacity-60" />
-      <svg viewBox="0 0 400 240" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet" aria-hidden>
-        <Art kind={project.art} color={color} />
+      {/* SVG attributes can't read CSS vars, so the art draws in currentColor */}
+      <svg viewBox="0 0 400 240" className="absolute inset-0 h-full w-full" style={{ color }} preserveAspectRatio="xMidYMid meet" aria-hidden>
+        <Art kind={project.art} color="currentColor" />
       </svg>
       <span className="absolute bottom-4 left-5 font-mono text-xs tracking-widest text-fg-faint uppercase">
         {project.slug}
@@ -63,11 +65,10 @@ function Art({ kind, color }: { kind: Project['art']; color: string }) {
           />
           {candles.map(([x, o, c, h, l]) => {
             const up = c < o
-            const col = up ? color : '#fb7185'
             return (
-              <g key={x}>
-                <line x1={x} x2={x} y1={h} y2={l} stroke={col} strokeWidth="1.5" />
-                <rect x={x - 7} y={Math.min(o, c)} width="14" height={Math.max(Math.abs(o - c), 3)} rx="2" fill={col} fillOpacity={up ? 0.9 : 0.7} />
+              <g key={x} className={up ? undefined : 'text-rose'}>
+                <line x1={x} x2={x} y1={h} y2={l} stroke="currentColor" strokeWidth="1.5" />
+                <rect x={x - 7} y={Math.min(o, c)} width="14" height={Math.max(Math.abs(o - c), 3)} rx="2" fill="currentColor" fillOpacity={up ? 0.9 : 0.7} />
               </g>
             )
           })}
@@ -100,7 +101,7 @@ function Art({ kind, color }: { kind: Project['art']; color: string }) {
           {nodes.map(([x, y, r], i) => (
             <g key={i}>
               <circle cx={x} cy={y} r={r + 10} fill={color} fillOpacity=".08" />
-              <circle cx={x} cy={y} r={r} fill={i === 0 ? color : '#0e1520'} stroke={color} strokeWidth="2" />
+              <circle cx={x} cy={y} r={r} className={i === 0 ? undefined : 'fill-ink-850'} fill={color} stroke={color} strokeWidth="2" />
             </g>
           ))}
         </g>

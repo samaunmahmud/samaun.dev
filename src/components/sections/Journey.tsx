@@ -1,3 +1,5 @@
+import { motion, useScroll, useSpring } from 'motion/react'
+import { useRef } from 'react'
 import { profile } from '../../data/profile'
 import type { TimelineItem } from '../../data/types'
 import { Reveal } from '../ui/Reveal'
@@ -10,10 +12,15 @@ const KIND: Record<TimelineItem['kind'], { label: string; dot: string }> = {
 }
 
 export function Journey() {
+  const ref = useRef<HTMLOListElement>(null)
+  // The accent line draws down the timeline as it scrolls through the viewport
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 60%'] })
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
+
   return (
     <Section
       id="journey"
-      index="03"
+      index="04"
       eyebrow="Journey"
       title={
         <>
@@ -21,7 +28,12 @@ export function Journey() {
         </>
       }
     >
-      <ol className="relative ml-2 border-l border-ink-700 sm:ml-4">
+      <ol ref={ref} className="relative ml-2 border-l border-ink-700 sm:ml-4">
+        <motion.span
+          className="absolute top-0 bottom-0 -left-px w-px origin-top bg-accent"
+          style={{ scaleY: progress }}
+          aria-hidden
+        />
         {profile.timeline.map((item, i) => {
           const kind = KIND[item.kind]
           return (

@@ -169,7 +169,10 @@ function Console() {
   return (
     <div className="relative">
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/40 via-ink-700 to-transparent" aria-hidden />
-      <div className="relative overflow-hidden rounded-2xl bg-ink-900/95 shadow-2xl shadow-black/50 backdrop-blur">
+      <div
+        data-theme="dark"
+        className="relative overflow-hidden rounded-2xl bg-ink-900 text-fg shadow-2xl shadow-black/40"
+      >
         <div className="flex items-center gap-2 border-b border-ink-700 px-4">
           <span className="h-3 w-3 rounded-full bg-rose/80" />
           <span className="h-3 w-3 rounded-full bg-amber/80" />
@@ -242,15 +245,15 @@ function PriceLine({ animate }: { animate: boolean }) {
     'M0 220 L60 205 L110 214 L170 180 L220 190 L280 150 L330 162 L390 120 L440 135 L500 98 L560 110 L620 70 L680 84 L740 52 L800 64 L860 30 L920 42 L1000 12'
   return (
     <svg
-      className="pointer-events-none absolute inset-x-0 bottom-24 h-[240px] w-full opacity-40"
+      className="pointer-events-none absolute inset-x-0 bottom-24 h-[240px] w-full text-accent opacity-40"
       viewBox="0 0 1000 240"
       preserveAspectRatio="none"
       aria-hidden
     >
       <defs>
         <linearGradient id="pl-fill" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#2dd4bf" stopOpacity="0.18" />
-          <stop offset="1" stopColor="#2dd4bf" stopOpacity="0" />
+          <stop offset="0" stopColor="currentColor" stopOpacity="0.18" />
+          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
         </linearGradient>
       </defs>
       <motion.path
@@ -263,7 +266,7 @@ function PriceLine({ animate }: { animate: boolean }) {
       <motion.path
         d={d}
         fill="none"
-        stroke="#2dd4bf"
+        stroke="currentColor"
         strokeWidth="1.5"
         vectorEffect="non-scaling-stroke"
         initial={{ pathLength: animate ? 0 : 1 }}

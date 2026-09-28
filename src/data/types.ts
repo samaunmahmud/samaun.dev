@@ -9,6 +9,16 @@ export interface SocialLink {
   url: string
 }
 
+/** One box in a project's architecture diagram (Deep dive section). */
+export interface FlowNode {
+  id: string
+  label: string
+  tech: string
+  detail: string
+  /** Drawn underneath this node instead of in the main left-to-right row. */
+  branchOf?: string
+}
+
 export interface Project {
   slug: string
   name: string
@@ -26,6 +36,13 @@ export interface Project {
   /** Colour + illustration for the generated cover when there is no image. */
   accent: 'teal' | 'violet' | 'amber' | 'rose' | 'sky'
   art: 'candles' | 'bars' | 'network' | 'scan' | 'stars'
+  /** Optional architecture walkthrough. The first project that has one gets the Deep dive section. */
+  flow?: FlowNode[]
+}
+
+export interface FaqItem {
+  q: string
+  a: string
 }
 
 export interface NowItem {
@@ -72,6 +89,8 @@ export interface Profile {
   projects: Project[]
   timeline: TimelineItem[]
   skills: SkillGroup[]
+  /** Recruiter FAQ. Only put answers here that are true today. */
+  faq: FaqItem[]
   /** Words that scroll in the hero ticker. */
   ticker: string[]
 }

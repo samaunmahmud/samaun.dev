@@ -82,6 +82,41 @@ export const profile: Profile = {
       repo: 'https://github.com/samaunmahmud/Meridian',
       accent: 'teal',
       art: 'candles',
+      flow: [
+        {
+          id: 'data',
+          label: 'Market data',
+          tech: 'Alpha Vantage API',
+          detail: 'Price data comes into the backend from the Alpha Vantage API.',
+        },
+        {
+          id: 'backend',
+          label: 'Trade engine',
+          tech: 'Spring Boot · Java',
+          detail:
+            'The Spring Boot backend runs the buy/sell engine: weighted-average-cost tracking and realised P&L for every position.',
+        },
+        {
+          id: 'ledger',
+          label: 'Ledger',
+          tech: 'PostgreSQL',
+          detail:
+            'Positions and trades are stored in PostgreSQL. @Transactional boundaries mean a failed trade never leaves a half-written position.',
+          branchOf: 'backend',
+        },
+        {
+          id: 'stream',
+          label: 'Live stream',
+          tech: 'WebSocket',
+          detail: 'Live prices stream from Spring Boot to the browser over WebSockets.',
+        },
+        {
+          id: 'ui',
+          label: 'Dashboard',
+          tech: 'React',
+          detail: 'A React dashboard shows the live prices and lets you buy and sell against them.',
+        },
+      ],
     },
     {
       slug: 'expense-tracker',
@@ -175,6 +210,30 @@ export const profile: Profile = {
       period: 'Sep 2026',
       kind: 'hackathon',
       points: ['Built a film-production research agent on the Parallel track'],
+    },
+  ],
+
+  // TODO: add a right-to-work / visa answer here if you want recruiters to see it
+  faq: [
+    {
+      q: 'When could you start?',
+      a: 'Summer 2027, for a 12-month industrial placement. It’s the placement year of my four-year Computer Science (AI) degree at Brunel University London.',
+    },
+    {
+      q: 'What kind of role are you looking for?',
+      a: 'A 12-month placement in fintech or big tech, ideally backend or full-stack Java work.',
+    },
+    {
+      q: 'What’s your strongest stack?',
+      a: 'Java is my first language. Most of my projects pair Spring Boot on the backend with React on the frontend, PostgreSQL for data and Docker for running services.',
+    },
+    {
+      q: 'Can I see your code?',
+      a: 'Yes. My projects are on GitHub at @samaunmahmud, including the source for this site.',
+    },
+    {
+      q: 'Where are you based?',
+      a: 'Uxbridge, London, near Brunel’s campus.',
     },
   ],
 

@@ -6,7 +6,7 @@ export function Skills() {
   return (
     <Section
       id="skills"
-      index="04"
+      index="05"
       eyebrow="Toolbox"
       title={
         <>

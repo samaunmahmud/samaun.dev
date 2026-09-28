@@ -27,7 +27,7 @@ export function Contact() {
             aria-hidden
           />
           <div className="relative">
-            <p className="font-mono text-xs tracking-widest text-accent uppercase">06 · Contact</p>
+            <p className="font-mono text-xs tracking-widest text-accent uppercase">08 · Contact</p>
             <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl">
               Hiring for a 2027 placement? <span className="text-gradient">Let&apos;s talk.</span>
             </h2>

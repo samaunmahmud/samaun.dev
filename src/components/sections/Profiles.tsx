@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { profile } from '../../data/profile'
 import type { SocialLink } from '../../data/types'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
+import { useTheme } from '../../hooks/useTheme'
 import { ArrowUpRight } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
 import { Reveal } from '../ui/Reveal'
@@ -28,7 +29,7 @@ export function Profiles() {
   return (
     <Section
       id="profiles"
-      index="05"
+      index="06"
       eyebrow="Find me online"
       title={
         <>
@@ -88,17 +89,21 @@ function ProfileCard({ link }: { link: SocialLink }) {
 /** Third-party image of the GitHub contribution calendar. Hides itself if the service is down. */
 function ContributionGraph({ username }: { username: string }) {
   const [ok, setOk] = useState(true)
+  const { theme } = useTheme()
+  // The chart service takes a hex colour, so read the live --accent token for the current theme
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim().replace('#', '')
   if (!ok) return null
   return (
     <Reveal delay={0.15}>
       <div className="mt-5 overflow-x-auto rounded-2xl border border-ink-700 bg-ink-900/60 p-6">
         <p className="mb-4 font-mono text-xs tracking-widest text-fg-faint uppercase">GitHub activity · last 12 months</p>
         <img
-          src={`https://ghchart.rshah.org/2dd4bf/${username}`}
+          key={theme}
+          src={`https://ghchart.rshah.org/${accent}/${username}`}
           alt={`${username}'s GitHub contribution chart`}
           loading="lazy"
           onError={() => setOk(false)}
-          className="min-w-[680px] opacity-90 invert-[.88] hue-rotate-180"
+          className="min-w-[680px] opacity-90 mix-blend-multiply dark:mix-blend-normal dark:invert-[.88] dark:hue-rotate-180"
         />
       </div>
     </Reveal>

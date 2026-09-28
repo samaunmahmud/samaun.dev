@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
 import { useActiveSection } from '../../hooks/useActiveSection'
+import { useTheme } from '../../hooks/useTheme'
 import { isMac, openPalette } from '../../lib/actions'
-import { CloseIcon, MenuIcon, SearchIcon } from '../ui/Icons'
+import { CloseIcon, MenuIcon, MoonIcon, SearchIcon, SunIcon } from '../ui/Icons'
 
 const ids = NAV_SECTIONS.map((s) => s.id)
 
@@ -13,6 +14,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [mod] = useState(() => (isMac() ? '⌘' : 'Ctrl'))
+  const { theme, toggle } = useTheme()
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 })
 
@@ -43,12 +45,12 @@ export function Navbar() {
           </span>
         </a>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center lg:flex">
           {NAV_SECTIONS.map((s) => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className={`relative rounded-md px-3 py-2 text-sm transition-colors ${
+                className={`relative rounded-md px-2.5 py-2 text-sm transition-colors ${
                   active === s.id ? 'text-fg' : 'text-fg-muted hover:text-fg'
                 }`}
               >
@@ -71,10 +73,22 @@ export function Navbar() {
             onClick={openPalette}
             aria-label="Open command palette"
             aria-keyshortcuts="Meta+K Control+K"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg lg:flex lg:w-auto lg:gap-2 lg:px-2.5"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg xl:flex xl:w-auto xl:gap-2 xl:px-2.5"
           >
             <SearchIcon size={15} />
-            <kbd className="hidden font-mono text-[11px] text-fg-faint lg:inline">{mod} K</kbd>
+            <kbd className="hidden font-mono text-[11px] text-fg-faint xl:inline">{mod} K</kbd>
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              const r = e.currentTarget.getBoundingClientRect()
+              toggle({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
+            }}
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dev mode (dark theme)'}
+            title={theme === 'dark' ? 'Light theme' : 'Dev mode'}
+            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-accent"
+          >
+            {theme === 'dark' ? <SunIcon size={16} /> : <MoonIcon size={16} />}
           </button>
           <a
             href={profile.cvUrl}
@@ -86,7 +100,7 @@ export function Navbar() {
           </a>
           <button
             type="button"
-            className="grid h-9 w-9 place-items-center rounded-lg text-fg-muted hover:bg-ink-800 hover:text-fg md:hidden"
+            className="grid h-9 w-9 place-items-center rounded-lg text-fg-muted hover:bg-ink-800 hover:text-fg lg:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
@@ -108,7 +122,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: '100dvh' }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden md:hidden"
+            className="overflow-hidden lg:hidden"
           >
             <ul className="flex flex-col gap-1 px-5 pt-4">
               {NAV_SECTIONS.map((s, i) => (
