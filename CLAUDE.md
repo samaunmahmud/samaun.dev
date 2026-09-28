@@ -44,7 +44,7 @@ public/            ← cv.pdf, og.png, favicon.svg, projects/*.png screenshots
 
 - **Do not add any AI attribution** to commits or PRs: no `Co-Authored-By: Claude`, no "Generated with Claude Code", no session links. Commits are authored by Samaun only. (`.claude/settings.json` disables it, and `.githooks/commit-msg` strips it as a backstop.)
 - Conventional commit messages: `feat: …`, `fix: …`, `style: …`, `content: …`, `chore: …`
-- Small, focused commits. Never `git push` without being asked.
+- Small, focused commits. After each finished change (and a passing `npm run check`), commit **and push** to `origin/main` — Samaun has asked for this as standing practice. Still ask before force-push, reset or rebase.
 
 ## Definition of done
 
