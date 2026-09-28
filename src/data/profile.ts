@@ -152,6 +152,7 @@ export const profile: Profile = {
       ],
       stack: ['Multi-agent', 'LLM agents', 'Nemotron Ultra', 'Nebius'],
       status: 'hackathon',
+      repo: 'https://github.com/samaunmahmud/zenith',
       accent: 'violet',
       art: 'network',
     },
