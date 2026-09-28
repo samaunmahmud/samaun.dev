@@ -70,3 +70,22 @@ export const CheckIcon = ({ size, ...p }: IconProps) => (
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </svg>
 )
+
+export const SearchIcon = ({ size, ...p }: IconProps) => (
+  <svg {...base(size)} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" {...p}>
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m20 20-4.2-4.2" />
+  </svg>
+)
+
+export const HashIcon = ({ size, ...p }: IconProps) => (
+  <svg {...base(size)} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" {...p}>
+    <path d="M5 9h15M4 15h15M10 3 8 21M16 3l-2 18" />
+  </svg>
+)
+
+export const CommandIcon = ({ size, ...p }: IconProps) => (
+  <svg {...base(size)} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+  </svg>
+)

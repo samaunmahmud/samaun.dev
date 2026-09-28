@@ -9,7 +9,18 @@ export function Footer() {
         <p>
           © {YEAR} {profile.name}
         </p>
-        <p>Built with React, TypeScript & Tailwind · Designed and built by me</p>
+        <p className="text-center">
+          Designed & built by me with React, TypeScript & Tailwind ·{' '}
+          <a
+            href={`${profile.sourceRepo}/commit/${__COMMIT__}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-fg-muted transition hover:text-accent"
+            title={`Built ${__BUILD_DATE__}`}
+          >
+            build {__COMMIT__}
+          </a>
+        </p>
         <a href="#top" className="transition hover:text-accent">
           Back to top ↑
         </a>

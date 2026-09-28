@@ -56,6 +56,8 @@ export interface Profile {
   shortName: string
   role: string
   location: string
+  /** IANA zone for the live clock in the hero, e.g. "Europe/London". */
+  timezone: string
   tagline: string
   about: string[]
   availability: string
@@ -63,6 +65,8 @@ export interface Profile {
   now: NowItem[]
   email: string
   cvUrl: string
+  /** This site's own repo — the footer links the build hash to it. */
+  sourceRepo: string
   socials: SocialLink[]
   stats: Stat[]
   projects: Project[]

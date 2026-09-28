@@ -1,6 +1,7 @@
-import { type MouseEvent } from 'react'
+import { useState, type MouseEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import type { Project } from '../../data/types'
+import { projectAnchor } from '../../lib/actions'
 import { ArrowUpRight, GitHubIcon } from '../ui/Icons'
 import { ProjectCover } from '../ui/ProjectCover'
 import { Reveal } from '../ui/Reveal'
@@ -23,9 +24,19 @@ function spotlight(e: MouseEvent<HTMLElement>) {
 const spotlightCls =
   'before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:bg-[radial-gradient(420px_circle_at_var(--x)_var(--y),rgb(45_212_191/0.08),transparent_60%)]'
 
+/** Tech that appears in 2+ projects, most-used first — these become the filter chips. */
+const FILTERS = Object.entries(
+  profile.projects.flatMap((p) => p.stack).reduce<Record<string, number>>((acc, t) => ({ ...acc, [t]: (acc[t] ?? 0) + 1 }), {}),
+)
+  .filter(([, n]) => n >= 2)
+  .sort((a, b) => b[1] - a[1])
+
 export function Projects() {
+  const [tech, setTech] = useState<string | null>(null)
   const featured = profile.projects.filter((p) => p.featured)
   const rest = profile.projects.filter((p) => !p.featured)
+  const matches = (p: Project) => !tech || p.stack.includes(tech)
+  const count = profile.projects.filter(matches).length
 
   return (
     <Section
@@ -39,10 +50,29 @@ export function Projects() {
       }
       intro="Each one taught me something a tutorial couldn't. The bullet points are the hard parts."
     >
+      {FILTERS.length > 0 && (
+        <Reveal>
+          <div className="mb-8 flex flex-wrap items-center gap-2 font-mono text-xs">
+            <span className="mr-1 text-fg-faint">
+              <span className="text-accent">$</span> filter --stack
+            </span>
+            <FilterChip label="all" count={profile.projects.length} active={!tech} onClick={() => setTech(null)} />
+            {FILTERS.map(([t, n]) => (
+              <FilterChip key={t} label={t} count={n} active={tech === t} onClick={() => setTech(tech === t ? null : t)} />
+            ))}
+            <span className="sr-only" aria-live="polite">
+              {tech ? `${count} of ${profile.projects.length} projects use ${tech}` : ''}
+            </span>
+          </div>
+        </Reveal>
+      )}
+
       <div className="space-y-8">
         {featured.map((p, i) => (
           <Reveal key={p.slug}>
-            <FeaturedCard project={p} flip={i % 2 === 1} />
+            <Dim on={!matches(p)}>
+              <FeaturedCard project={p} flip={i % 2 === 1} tech={tech} />
+            </Dim>
           </Reveal>
         ))}
       </div>
@@ -50,12 +80,34 @@ export function Projects() {
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {rest.map((p, i) => (
           <Reveal key={p.slug} delay={i * 0.08} className="h-full">
-            <SmallCard project={p} />
+            <Dim on={!matches(p)}>
+              <SmallCard project={p} tech={tech} />
+            </Dim>
           </Reveal>
         ))}
       </div>
     </Section>
   )
+}
+
+function FilterChip({ label, count, active, onClick }: { label: string; count: number; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`rounded-md border px-2.5 py-1.5 transition-colors ${
+        active ? 'border-accent/60 bg-accent-soft text-accent' : 'border-ink-700 text-fg-muted hover:border-ink-600 hover:text-fg'
+      }`}
+    >
+      {label} <span className={active ? 'text-accent/70' : 'text-fg-faint'}>{count}</span>
+    </button>
+  )
+}
+
+/** Fades out cards that don't match the active tech filter, without reflowing the layout. */
+function Dim({ on, children }: { on: boolean; children: ReactNode }) {
+  return <div className={`h-full transition duration-300 ${on ? 'opacity-25 grayscale' : ''}`}>{children}</div>
 }
 
 function Status({ status }: { status: Project['status'] }) {
@@ -91,9 +143,10 @@ function Links({ project }: { project: Project }) {
   )
 }
 
-function FeaturedCard({ project, flip }: { project: Project; flip: boolean }) {
+function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean; tech: string | null }) {
   return (
     <article
+      id={projectAnchor(project.slug)}
       onMouseMove={spotlight}
       className={`group relative grid overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:border-ink-600 lg:grid-cols-2 ${spotlightCls}`}
     >
@@ -121,7 +174,9 @@ function FeaturedCard({ project, flip }: { project: Project; flip: boolean }) {
 
         <div className="mt-6 flex flex-wrap gap-1.5">
           {project.stack.map((s) => (
-            <Tag key={s}>{s}</Tag>
+            <Tag key={s} active={s === tech}>
+              {s}
+            </Tag>
           ))}
         </div>
 
@@ -133,9 +188,10 @@ function FeaturedCard({ project, flip }: { project: Project; flip: boolean }) {
   )
 }
 
-function SmallCard({ project }: { project: Project }) {
+function SmallCard({ project, tech }: { project: Project; tech: string | null }) {
   return (
     <article
+      id={projectAnchor(project.slug)}
       onMouseMove={spotlight}
       className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:-translate-y-1 hover:border-ink-600 ${spotlightCls}`}
     >
@@ -149,7 +205,9 @@ function SmallCard({ project }: { project: Project }) {
         <p className="mt-3 text-sm leading-relaxed text-fg-muted">{project.description}</p>
         <div className="mt-5 flex flex-wrap gap-1.5">
           {project.stack.map((s) => (
-            <Tag key={s}>{s}</Tag>
+            <Tag key={s} active={s === tech}>
+              {s}
+            </Tag>
           ))}
         </div>
         <div className="mt-auto pt-5">

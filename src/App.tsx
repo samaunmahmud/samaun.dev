@@ -7,6 +7,7 @@ import { Journey } from './components/sections/Journey'
 import { Profiles } from './components/sections/Profiles'
 import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
+import { CommandPalette } from './components/ui/CommandPalette'
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <CommandPalette />
     </>
   )
 }

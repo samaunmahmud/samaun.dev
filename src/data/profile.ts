@@ -12,6 +12,7 @@ export const profile: Profile = {
   shortName: 'Samaun',
   role: 'Full-stack Java developer',
   location: 'Uxbridge, London',
+  timezone: 'Europe/London',
   tagline:
     'Full-stack Java developer and CS (AI) student at Brunel. Real-time, data-heavy apps with Spring Boot and React — with a soft spot for fintech.',
   about: [
@@ -27,6 +28,7 @@ export const profile: Profile = {
   ],
   email: 'samaunmahmud9@gmail.com',
   cvUrl: '/cv.pdf', // TODO: drop your CV into public/cv.pdf
+  sourceRepo: 'https://github.com/samaunmahmud/samaun.dev',
 
   socials: [
     {

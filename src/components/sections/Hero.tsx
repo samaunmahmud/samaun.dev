@@ -1,7 +1,12 @@
 import { motion, useReducedMotion } from 'motion/react'
+import { useState, type MouseEvent } from 'react'
 import { profile } from '../../data/profile'
+import { useClock } from '../../hooks/useClock'
+import { timeAgo, useLastPush } from '../../hooks/useLastPush'
+import { useScramble } from '../../hooks/useScramble'
 import { ArrowUpRight, DownloadIcon } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
+import { Terminal } from '../ui/Terminal'
 
 const fade = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
@@ -12,11 +17,17 @@ const fade = (delay: number) => ({
 export function Hero() {
   const reduce = useReducedMotion()
   const socials = profile.socials.filter((s) => s.key !== 'email')
+  const accentWords = useScramble('move fast.', { delay: 450, duration: 800 })
 
   return (
-    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
-      {/* Background: grid + glow + a price-line that draws itself (a nod to Meridian) */}
+    <section
+      id="top"
+      onMouseMove={trackPointer}
+      className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32"
+    >
+      {/* Background: grid + a brighter grid that follows the cursor + glow + a price-line that draws itself */}
       <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
+      <div className="bg-grid-bright mask-pointer pointer-events-none absolute inset-0 hidden pointer-fine:block" aria-hidden />
       <div
         className="pointer-events-none absolute top-[-10%] left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
         aria-hidden
@@ -44,7 +55,10 @@ export function Hero() {
             className="mt-3 font-display text-5xl leading-[1.04] font-bold tracking-tight sm:text-6xl lg:text-[4.25rem]"
           >
             I build systems <br className="hidden sm:block" />
-            that <span className="text-gradient">move fast.</span>
+            that <span className="sr-only">move fast.</span>
+            <span className="text-gradient" aria-hidden>
+              {accentWords || '\u00a0'}
+            </span>
           </motion.h1>
 
           <motion.p {...fade(0.16)} className="mt-7 max-w-xl text-lg leading-relaxed text-fg-muted">
@@ -86,6 +100,10 @@ export function Hero() {
               })}
             </div>
           </motion.div>
+
+          <motion.div {...fade(0.32)}>
+            <StatusLine />
+          </motion.div>
         </div>
 
         <motion.div
@@ -93,7 +111,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0, rotate: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <CodeCard />
+          <Console />
         </motion.div>
       </div>
 
@@ -102,7 +120,92 @@ export function Hero() {
   )
 }
 
-/* ── Code card ─────────────────────────────────────────────── */
+/** Feeds the cursor position to the .mask-pointer layer. CSS vars only, no re-renders. */
+function trackPointer(e: MouseEvent<HTMLElement>) {
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
+}
+
+/* ── Status line: local time + latest GitHub push ──────────── */
+
+function StatusLine() {
+  const time = useClock(profile.timezone)
+  const github = profile.socials.find((s) => s.key === 'github')
+  const push = useLastPush(github?.handle ?? '')
+  const city = profile.location.split(',').at(-1)?.trim()
+
+  return (
+    <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-ink-800 pt-5 font-mono text-xs text-fg-faint">
+      <span>
+        <span className="text-fg-muted">{city}</span> · {time}
+      </span>
+      {push && (
+        <a
+          href={push.url}
+          target="_blank"
+          rel="noreferrer"
+          className="group inline-flex min-w-0 items-center gap-2 transition hover:text-fg-muted"
+        >
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-up" />
+          last push {timeAgo(push.at)} →{' '}
+          <span className="truncate text-accent group-hover:underline">{push.repo}</span>
+        </a>
+      )}
+    </div>
+  )
+}
+
+/* ── Console: live terminal + source tab ───────────────────── */
+
+const TABS = [
+  { id: 'terminal', label: 'zsh' },
+  { id: 'code', label: 'Developer.java' },
+] as const
+
+function Console() {
+  const [tab, setTab] = useState<(typeof TABS)[number]['id']>('terminal')
+
+  return (
+    <div className="relative">
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/40 via-ink-700 to-transparent" aria-hidden />
+      <div className="relative overflow-hidden rounded-2xl bg-ink-900/95 shadow-2xl shadow-black/50 backdrop-blur">
+        <div className="flex items-center gap-2 border-b border-ink-700 px-4">
+          <span className="h-3 w-3 rounded-full bg-rose/80" />
+          <span className="h-3 w-3 rounded-full bg-amber/80" />
+          <span className="h-3 w-3 rounded-full bg-up/80" />
+          <div role="tablist" aria-label="Console view" className="ml-3 flex">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                role="tab"
+                id={`tab-${t.id}`}
+                aria-selected={tab === t.id}
+                aria-controls={`panel-${t.id}`}
+                onClick={() => setTab(t.id)}
+                className={`relative px-3 py-3 font-mono text-xs transition-colors ${
+                  tab === t.id ? 'text-fg' : 'text-fg-faint hover:text-fg-muted'
+                }`}
+              >
+                {t.label}
+                {tab === t.id && <span className="absolute inset-x-2 -bottom-px h-px bg-accent" />}
+              </button>
+            ))}
+          </div>
+          <span className="ml-auto hidden items-center gap-1.5 font-mono text-[10px] tracking-wider text-fg-faint uppercase sm:flex">
+            <span className="h-1.5 w-1.5 rounded-full bg-up" /> interactive
+          </span>
+        </div>
+        <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
+          {tab === 'terminal' ? <Terminal /> : <CodeCard />}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Code tab ──────────────────────────────────────────────── */
 
 const k = 'text-violet' // keyword
 const t = 'text-sky' // type
@@ -111,35 +214,24 @@ const c = 'text-fg-faint italic' // comment
 
 function CodeCard() {
   return (
-    <div className="relative">
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/40 via-ink-700 to-transparent" aria-hidden />
-      <div className="relative overflow-hidden rounded-2xl bg-ink-900/95 shadow-2xl shadow-black/50 backdrop-blur">
-        <div className="flex items-center gap-2 border-b border-ink-700 px-4 py-3">
-          <span className="h-3 w-3 rounded-full bg-rose/80" />
-          <span className="h-3 w-3 rounded-full bg-amber/80" />
-          <span className="h-3 w-3 rounded-full bg-up/80" />
-          <span className="ml-3 font-mono text-xs text-fg-faint">Developer.java</span>
-        </div>
-        <pre className="overflow-x-auto p-5 font-mono text-[12.5px] leading-6 text-fg sm:text-[13px]">
-          <code>
-            <span className={k}>public record</span> <span className={t}>Developer</span>(
-            {'\n'}    <span className={t}>String</span> name,
-            {'\n'}    <span className={t}>String</span> base,
-            {'\n'}    <span className={t}>List</span>&lt;<span className={t}>String</span>&gt; stack
-            {'\n'}) {'{}'}
-            {'\n'}
-            {'\n'}<span className={k}>var</span> me = <span className={k}>new</span> <span className={t}>Developer</span>(
-            {'\n'}    <span className={s}>"{profile.name}"</span>,
-            {'\n'}    <span className={s}>"Brunel · {profile.location.split(',')[0]}"</span>,
-            {'\n'}    <span className={t}>List</span>.of(<span className={s}>"Java"</span>, <span className={s}>"Spring"</span>, <span className={s}>"React"</span>)
-            {'\n'});
-            {'\n'}
-            {'\n'}me.lookingFor(); <span className={c}>// → "Placement, summer 2027"</span>
-            <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 animate-blink bg-accent" />
-          </code>
-        </pre>
-      </div>
-    </div>
+    <pre className="h-[340px] overflow-auto p-5 font-mono text-[12.5px] leading-6 text-fg sm:text-[13px]">
+      <code>
+        <span className={k}>public record</span> <span className={t}>Developer</span>(
+        {'\n'}    <span className={t}>String</span> name,
+        {'\n'}    <span className={t}>String</span> base,
+        {'\n'}    <span className={t}>List</span>&lt;<span className={t}>String</span>&gt; stack
+        {'\n'}) {'{}'}
+        {'\n'}
+        {'\n'}<span className={k}>var</span> me = <span className={k}>new</span> <span className={t}>Developer</span>(
+        {'\n'}    <span className={s}>"{profile.name}"</span>,
+        {'\n'}    <span className={s}>"Brunel · {profile.location.split(',')[0]}"</span>,
+        {'\n'}    <span className={t}>List</span>.of(<span className={s}>"Java"</span>, <span className={s}>"Spring"</span>, <span className={s}>"React"</span>)
+        {'\n'});
+        {'\n'}
+        {'\n'}me.lookingFor(); <span className={c}>// → "Placement, summer 2027"</span>
+        <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 animate-blink bg-accent" />
+      </code>
+    </pre>
   )
 }
 

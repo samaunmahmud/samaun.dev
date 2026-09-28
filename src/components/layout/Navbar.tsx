@@ -1,9 +1,10 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
 import { useActiveSection } from '../../hooks/useActiveSection'
-import { CloseIcon, MenuIcon } from '../ui/Icons'
+import { isMac, openPalette } from '../../lib/actions'
+import { CloseIcon, MenuIcon, SearchIcon } from '../ui/Icons'
 
 const ids = NAV_SECTIONS.map((s) => s.id)
 
@@ -11,6 +12,9 @@ export function Navbar() {
   const active = useActiveSection(ids)
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [mod] = useState(() => (isMac() ? '⌘' : 'Ctrl'))
+  const { scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 })
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -62,6 +66,16 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={openPalette}
+            aria-label="Open command palette"
+            aria-keyshortcuts="Meta+K Control+K"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg lg:flex lg:w-auto lg:gap-2 lg:px-2.5"
+          >
+            <SearchIcon size={15} />
+            <kbd className="hidden font-mono text-[11px] text-fg-faint lg:inline">{mod} K</kbd>
+          </button>
           <a
             href={profile.cvUrl}
             target="_blank"
@@ -81,6 +95,12 @@ export function Navbar() {
           </button>
         </div>
       </nav>
+
+      <motion.div
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-accent"
+        style={{ scaleX: progress }}
+        aria-hidden
+      />
 
       <AnimatePresence>
         {open && (
