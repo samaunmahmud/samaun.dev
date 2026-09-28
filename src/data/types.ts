@@ -1,0 +1,73 @@
+// Shapes for everything the site renders. Edit content in profile.ts, not here.
+
+export type SocialKey = 'github' | 'linkedin' | 'leetcode' | 'email'
+
+export interface SocialLink {
+  key: SocialKey
+  label: string
+  handle: string
+  url: string
+}
+
+export interface Project {
+  slug: string
+  name: string
+  tagline: string
+  description: string
+  /** The hard problems solved — recruiters read these first. Keep to 2–4. */
+  highlights: string[]
+  stack: string[]
+  status: 'live' | 'in-progress' | 'hackathon' | 'coursework'
+  featured?: boolean
+  repo?: string
+  demo?: string
+  /** Path under /public, e.g. "/projects/meridian.png". Falls back to a generated cover. */
+  image?: string
+  /** Colour + illustration for the generated cover when there is no image. */
+  accent: 'teal' | 'violet' | 'amber' | 'rose' | 'sky'
+  art: 'candles' | 'bars' | 'network' | 'scan' | 'stars'
+}
+
+export interface NowItem {
+  label: string
+  value: string
+}
+
+export interface TimelineItem {
+  title: string
+  org: string
+  period: string
+  kind: 'education' | 'role' | 'hackathon'
+  points: string[]
+}
+
+export interface SkillGroup {
+  name: string
+  items: string[]
+}
+
+export interface Stat {
+  value: string
+  label: string
+}
+
+export interface Profile {
+  name: string
+  shortName: string
+  role: string
+  location: string
+  tagline: string
+  about: string[]
+  availability: string
+  /** "Right now" card in About — keep it current, it's the first thing that goes stale. */
+  now: NowItem[]
+  email: string
+  cvUrl: string
+  socials: SocialLink[]
+  stats: Stat[]
+  projects: Project[]
+  timeline: TimelineItem[]
+  skills: SkillGroup[]
+  /** Words that scroll in the hero ticker. */
+  ticker: string[]
+}

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Strips AI attribution from every commit message before it is saved.
+# Safety net on top of .claude/settings.json — works no matter which tool
+# (or which machine's settings) wrote the commit.
+#
+# Removes lines like:
+#   Co-Authored-By: Claude <noreply@anthropic.com>
+#   Generated with [Claude Code](https://claude.com/claude-code)
+#   Claude-Session: https://claude.ai/code/...
+#   https://claude.ai/code/session_...
+
+MSG_FILE="$1"
+TMP="$MSG_FILE.tmp"
+
+grep -viE '^(co-authored-by:.*(claude|anthropic)|.*generated (with|by) .*claude|claude-session:|.*claude\.ai/code/)' "$MSG_FILE" > "$TMP" || true
+
+# Drop trailing blank lines left behind by the removal
+awk 'NF { for (i = 0; i < blank; i++) print ""; blank = 0; print; next } { blank++ }' "$TMP" > "$MSG_FILE"
+rm -f "$TMP"

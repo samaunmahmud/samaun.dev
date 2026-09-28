@@ -1,0 +1,202 @@
+import type { Profile } from './types'
+
+/**
+ * ─────────────────────────────────────────────────────────────
+ *  SINGLE SOURCE OF TRUTH for the whole site.
+ *  Every section reads from this object — to change what the site
+ *  says, edit this file only. Search for "TODO" to find the gaps.
+ * ─────────────────────────────────────────────────────────────
+ */
+export const profile: Profile = {
+  name: 'Samaun Mahmud',
+  shortName: 'Samaun',
+  role: 'Full-stack Java developer',
+  location: 'Uxbridge, London',
+  tagline:
+    'Full-stack Java developer and CS (AI) student at Brunel. Real-time, data-heavy apps with Spring Boot and React — with a soft spot for fintech.',
+  about: [
+    "I'm a second-year Computer Science (Artificial Intelligence) student at Brunel University London, on the four-year track with an industrial placement.",
+    "Most of what I build sits where backend engineering meets finance: streaming market data over WebSockets, keeping trade ledgers consistent with transactions, and wiring third-party banking APIs into apps people can actually use.",
+    "I learn by shipping. Every project here was deployed, broken, debugged and rebuilt — and the debugging stories are usually my favourite part. Outside my own projects I'm a Student Support Ambassador at Brunel, and I spend a lot of weekends at hackathons.",
+  ],
+  availability: 'Open to 12-month industrial placements from summer 2027',
+  now: [
+    { label: 'Building', value: 'Meridian — merging frontend & backend into one repo' },
+    { label: 'Hacking', value: 'Multi-agent investment committee for Nebius × NVIDIA' },
+    { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
+  ],
+  email: 'samaunmahmud9@gmail.com',
+  cvUrl: '/cv.pdf', // TODO: drop your CV into public/cv.pdf
+
+  socials: [
+    {
+      key: 'github',
+      label: 'GitHub',
+      handle: 'samaunmahmud',
+      url: 'https://github.com/samaunmahmud',
+    },
+    {
+      key: 'linkedin',
+      label: 'LinkedIn',
+      handle: 'samaun-mahmud',
+      url: 'https://www.linkedin.com/in/samaun-mahmud',
+    },
+    {
+      key: 'leetcode',
+      label: 'LeetCode',
+      handle: 'your-username', // TODO: your LeetCode username
+      url: 'https://leetcode.com/u/your-username/', // TODO
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      handle: 'samaunmahmud9@gmail.com',
+      url: 'mailto:samaunmahmud9@gmail.com',
+    },
+  ],
+
+  stats: [
+    { value: '5', label: 'projects shipped or in build' },
+    { value: '3', label: 'hackathons in 2026' },
+    { value: 'Java', label: 'first language' },
+  ],
+
+  projects: [
+    {
+      slug: 'meridian',
+      name: 'Meridian',
+      tagline: 'Real-time market data dashboard & paper trading platform',
+      description:
+        'An end-to-end trading sandbox: live prices stream from the backend to the browser over WebSockets, and a full paper-trading engine lets you buy and sell against them with a proper ledger behind every position.',
+      highlights: [
+        'WebSocket price streaming from Spring Boot to a React dashboard',
+        'Buy/sell engine with weighted-average-cost tracking and realised P&L',
+        '@Transactional boundaries so a failed trade never leaves a half-written position',
+        'Built with TDD and CI/CD practices; services run in Docker',
+      ],
+      stack: ['Spring Boot', 'React', 'PostgreSQL', 'WebSocket', 'Docker', 'Alpha Vantage'],
+      status: 'in-progress',
+      featured: true,
+      repo: 'https://github.com/samaunmahmud/Meridian',
+      accent: 'teal',
+      art: 'candles',
+    },
+    {
+      slug: 'expense-tracker',
+      name: 'Expense Tracker',
+      tagline: 'Full-stack personal finance app with live bank connections',
+      description:
+        'Links real bank accounts through Plaid, pulls transactions, and tracks spending behind JWT-secured endpoints. Deployed with the API on Render and the frontend on Vercel.',
+      highlights: [
+        'Plaid integration for real bank account linking and transaction sync',
+        'Tracked down silent 403s caused by a Spring WebFlux / MVC classpath clash',
+        'Worked around Plaid client_user_id restrictions and a JSON serialisation recursion bug',
+      ],
+      stack: ['Spring Boot', 'React', 'PostgreSQL', 'Plaid API', 'JWT', 'Docker'],
+      status: 'live',
+      featured: true,
+      repo: undefined, // TODO: repo URL
+      demo: undefined, // TODO: live Vercel URL
+      accent: 'sky',
+      art: 'bars',
+    },
+    {
+      slug: 'investment-committee',
+      name: 'AI Investment Committee',
+      tagline: 'Multi-agent system that debates a stock and writes the memo',
+      description:
+        'Fundamentals, technicals and risk analyst agents each build a case; a Nemotron Ultra chair weighs them and writes an investment memo. Built for the Nebius × NVIDIA Global AI Hackathon.',
+      highlights: [
+        'Specialist agents with separate tools and briefs',
+        'Chair agent reconciles disagreements into one written memo',
+      ],
+      stack: ['Multi-agent', 'LLM agents', 'Nemotron Ultra', 'Nebius'],
+      status: 'hackathon',
+      accent: 'violet',
+      art: 'network',
+    },
+    {
+      slug: 'pneumonia-classifier',
+      name: 'Pneumonia Classifier',
+      tagline: 'Chest X-ray CNN served behind a Java REST API',
+      description:
+        'A convolutional network trained in Deeplearning4j to flag pneumonia in chest X-rays, tuned for recall because a missed case costs far more than a false alarm.',
+      highlights: [
+        'Optimised for high recall rather than headline accuracy',
+        'Custom EvaluateModel.java script to measure the model properly',
+        'Model exposed through a Spring Boot REST endpoint',
+      ],
+      stack: ['Java', 'Deeplearning4j', 'CNN', 'Spring Boot'],
+      status: 'live',
+      accent: 'rose',
+      art: 'scan',
+    },
+    {
+      slug: 'pacific-marketplace',
+      name: 'Pacific Marketplace',
+      tagline: 'Reviews & ratings module for a group e-commerce platform',
+      description:
+        'My part of a team-built e-commerce marketplace: the reviews and ratings module, built to plug into the rest of the group’s platform.',
+      highlights: ['Built the reviews & ratings module', 'Worked inside a shared team codebase'],
+      stack: ['Java', 'Team project'],
+      status: 'coursework',
+      accent: 'amber',
+      art: 'stars',
+    },
+  ],
+
+  timeline: [
+    {
+      title: 'BSc Computer Science (Artificial Intelligence) with Work Placement',
+      org: 'Brunel University London',
+      period: '2025 — present', // TODO: check dates
+      kind: 'education',
+      points: ['Second year; placement year planned for 2027–28', 'Focus: software engineering, AI and machine learning'],
+    },
+    {
+      title: 'Student Support Ambassador',
+      org: 'Brunel University London',
+      period: 'Current', // TODO: start date
+      kind: 'role',
+      points: ['Help new and current students find their way around university life and support services'],
+    },
+    {
+      title: 'Nebius × NVIDIA Global AI Hackathon',
+      org: 'Devpost',
+      period: 'Autumn 2026',
+      kind: 'hackathon',
+      points: ['Building a multi-agent AI investment committee'],
+    },
+    {
+      title: 'Agentic Cinema Hackathon',
+      org: 'Google Cloud',
+      period: 'Sep 2026',
+      kind: 'hackathon',
+      points: ['Built a film-production research agent on the Parallel track'],
+    },
+  ],
+
+  // TODO: prune anything here you wouldn't want to be quizzed on in an interview
+  skills: [
+    { name: 'Languages', items: ['Java', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
+    { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT'] },
+    { name: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'HTML & CSS'] },
+    { name: 'Data & ML', items: ['PostgreSQL', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
+    { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Render', 'Vercel'] },
+  ],
+
+  ticker: [
+    'Java',
+    'Spring Boot',
+    'React',
+    'PostgreSQL',
+    'WebSockets',
+    'Docker',
+    'TDD',
+    'CI/CD',
+    'Plaid API',
+    'Deeplearning4j',
+    'TypeScript',
+    'LLM agents',
+  ],
+}
