@@ -28,8 +28,8 @@ export function About() {
           <Reveal delay={0.1}>
             <div className="grid grid-cols-3 gap-3">
               {profile.stats.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-ink-700 bg-ink-900 p-4">
-                  <p className="font-display text-3xl font-semibold text-fg tabular-nums">
+                <div key={s.label} className="rounded-2xl surface p-4 hover:-translate-y-0.5 hover:border-accent/40">
+                  <p className="text-gradient font-display text-3xl font-semibold tabular-nums sm:text-4xl">
                     <CountUp value={s.value} />
                   </p>
                   <p className="mt-1 text-xs leading-snug text-fg-faint">{s.label}</p>
@@ -39,9 +39,14 @@ export function About() {
           </Reveal>
 
           <Reveal delay={0.18}>
-            <div className="rounded-2xl border border-ink-700 bg-ink-900 p-6">
+            <div className="relative overflow-hidden rounded-2xl surface p-6">
+              <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-accent/15 blur-3xl" aria-hidden />
               <p className="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" /> Right now
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>{' '}
+                Right now
               </p>
               <dl className="mt-5 space-y-4">
                 {profile.now.map((n) => (

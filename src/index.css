@@ -34,6 +34,15 @@
   --display-word-spacing: normal;
   --text-gradient: linear-gradient(120deg, #f0fdfa 0%, #5eead4 45%, #2dd4bf 70%, #38bdf8 100%);
   --gradient-style: normal;
+
+  /* Depth: cards get a hairline top highlight + a soft drop shadow */
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 24px 48px -24px rgb(0 0 0 / 0.7);
+  --shadow-card-hover: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 32px 64px -28px rgb(0 0 0 / 0.85);
+  --aurora-a: #2dd4bf;
+  --aurora-b: #6366f1;
+  --aurora-c: #38bdf8;
+  --aurora-strength: 16%;
+  --grain-opacity: 0.05;
 }
 
 [data-theme='light'] {
@@ -63,6 +72,14 @@
   --display-word-spacing: 0.08em; /* tight tracking + serif needs air between words */
   --text-gradient: linear-gradient(var(--accent), var(--accent));
   --gradient-style: italic;
+
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 1px 2px rgb(74 52 30 / 0.05), 0 18px 40px -22px rgb(74 52 30 / 0.22);
+  --shadow-card-hover: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 2px 4px rgb(74 52 30 / 0.05), 0 28px 56px -24px rgb(74 52 30 / 0.3);
+  --aurora-a: #e0906f;
+  --aurora-b: #d8b26a;
+  --aurora-c: #b9a2e0;
+  --aurora-strength: 26%;
+  --grain-opacity: 0.07;
 }
 
 /* dark: variant follows the nearest data-theme, not the OS setting */
@@ -99,6 +116,8 @@
   --animate-blink: blink 1.1s steps(2, start) infinite;
   --animate-packet: packet 2.4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
   --animate-packet-y: packet-y 2.4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  --animate-ticker: ticker 40s linear infinite;
+  --animate-drift: drift 22s ease-in-out infinite alternate;
 
   @keyframes blink {
     to { visibility: hidden; }
@@ -109,6 +128,15 @@
     15% { opacity: 1; }
     85% { opacity: 1; }
     100% { left: 100%; opacity: 0; }
+  }
+  /* Stack ticker under the hero: content is duplicated, so -50% loops seamlessly */
+  @keyframes ticker {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes drift {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(4%, 3%, 0) scale(1.08); }
+    100% { transform: translate3d(-3%, -2%, 0) scale(0.96); }
   }
   @keyframes packet-y {
     0% { top: 0%; opacity: 0; }
@@ -131,6 +159,17 @@
     scrollbar-width: thin;
     scrollbar-color: var(--color-ink-600) transparent;
   }
+  /* Film grain over the whole page: gives flat fills some tooth */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
   ::selection {
     background: var(--color-accent);
     color: var(--color-ink-950);
@@ -149,6 +188,34 @@
   word-spacing: var(--display-word-spacing);
 }
 
+/* Shared card surface: border + fill + depth, recoloured per theme */
+@utility surface {
+  border: 1px solid var(--color-ink-700);
+  background-color: color-mix(in oklab, var(--color-ink-900) 85%, transparent);
+  box-shadow: var(--shadow-card);
+  transition-property: transform, border-color, box-shadow, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover { box-shadow: var(--shadow-card-hover); }
+}
+
+/* Soft colour wash made of three blurred blobs (hero + contact) */
+@utility aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  & > span {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    animation: var(--animate-drift);
+  }
+  & > span:nth-child(1) { background: color-mix(in oklab, var(--aurora-a) var(--aurora-strength), transparent); }
+  & > span:nth-child(2) { background: color-mix(in oklab, var(--aurora-b) var(--aurora-strength), transparent); animation-delay: -7s; }
+  & > span:nth-child(3) { background: color-mix(in oklab, var(--aurora-c) var(--aurora-strength), transparent); animation-delay: -14s; }
+}
+
 @layer utilities {
   /* Faint engineering-paper grid used behind the hero */
   .bg-grid {
@@ -156,6 +223,9 @@
       linear-gradient(to right, color-mix(in oklab, var(--color-fg) 5%, transparent) 1px, transparent 1px),
       linear-gradient(to bottom, color-mix(in oklab, var(--color-fg) 5%, transparent) 1px, transparent 1px);
     background-size: 56px 56px;
+  }
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
   }
   .mask-fade-b {
     mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 40%, transparent 100%);

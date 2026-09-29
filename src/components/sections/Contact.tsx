@@ -20,12 +20,13 @@ export function Contact() {
   return (
     <section id="contact" className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-32">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] border border-ink-700 bg-ink-900 px-6 py-16 text-center sm:px-12 md:py-24">
+        <div className="relative overflow-hidden rounded-[2rem] surface px-6 py-16 text-center sm:px-12 md:py-24">
+          <div className="aurora" aria-hidden>
+            <span className="-bottom-40 -left-20 h-96 w-[520px]" />
+            <span className="-top-40 -right-20 h-96 w-[480px]" />
+            <span className="-bottom-52 left-1/3 h-80 w-[420px]" />
+          </div>
           <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
-          <div
-            className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[640px] -translate-x-1/2 rounded-full bg-accent/15 blur-[100px]"
-            aria-hidden
-          />
           <div className="relative">
             <p className="font-mono text-xs tracking-widest text-accent uppercase">08 · Contact</p>
             <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl">

@@ -18,16 +18,17 @@ export function Hero() {
   const socials = profile.socials.filter((s) => s.key !== 'email')
 
   return (
-    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 pb-16 sm:pt-32">
-      {/* Background: grid + glow + a price-line that draws itself (a nod to Meridian) */}
+    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
+      {/* Background: grid + aurora wash + a price-line horizon that draws itself (a nod to Meridian) */}
+      <div className="aurora" aria-hidden>
+        <span className="top-[-18%] left-[-8%] h-[520px] w-[620px]" />
+        <span className="top-[-10%] right-[-10%] h-[480px] w-[560px]" />
+        <span className="top-[35%] left-[30%] h-[380px] w-[520px]" />
+      </div>
       <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
-      <div
-        className="pointer-events-none absolute top-[-10%] left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
-        aria-hidden
-      />
       <PriceLine animate={!reduce} />
 
-      <div className="relative mx-auto my-auto grid w-full max-w-6xl items-center grid-cols-[minmax(0,1fr)] gap-14 px-5 sm:px-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      <div className="relative mx-auto my-auto grid w-full max-w-6xl items-center grid-cols-[minmax(0,1fr)] gap-14 px-5 pb-16 sm:px-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <div>
           <motion.p
             {...fade(0)}
@@ -42,7 +43,7 @@ export function Hero() {
           </motion.p>
           <motion.h1
             {...fade(0.1)}
-            className="mt-3 font-display text-4xl leading-[1.08] font-bold tracking-tight sm:text-5xl lg:text-[3.6rem]"
+            className="mt-3 font-display text-[2.6rem] leading-[1.04] font-bold tracking-tight sm:text-6xl lg:text-[3.75rem]"
           >
             {profile.headline.lead} <span className="text-gradient">{profile.headline.accent}</span>
           </motion.h1>
@@ -109,7 +110,35 @@ export function Hero() {
           <Console />
         </motion.div>
       </div>
+
+      <StackTicker />
     </section>
+  )
+}
+
+/* ── Stack ticker: every skill from profile.ts, scrolling like a market tape ── */
+
+const TICKER = profile.skills.flatMap((g) => g.items)
+
+function StackTicker() {
+  return (
+    <div className="relative border-y border-ink-700/70 bg-ink-900/50 backdrop-blur-sm">
+      <p className="sr-only">Tech stack: {TICKER.join(', ')}</p>
+      <div className="mask-fade-x overflow-hidden py-3.5" aria-hidden>
+        <div className="flex w-max animate-ticker hover:[animation-play-state:paused]">
+          {[0, 1].map((copy) => (
+            <ul key={copy} className="flex shrink-0 items-center">
+              {TICKER.map((item, i) => (
+                <li key={item} className="flex items-center gap-3 px-5 font-mono text-xs tracking-wide text-fg-muted">
+                  <span className={`text-[9px] ${i % 3 === 0 ? 'text-up' : i % 3 === 1 ? 'text-accent' : 'text-sky'}`}>▲</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -154,7 +183,8 @@ function Console() {
 
   return (
     <div className="relative">
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/40 via-ink-700 to-transparent" aria-hidden />
+      <div className="absolute -inset-6 rounded-[2rem] bg-accent/15 blur-3xl" aria-hidden />
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/60 via-ink-700 to-violet/40" aria-hidden />
       <div
         data-theme="dark"
         className="relative overflow-hidden rounded-2xl bg-ink-900 text-fg shadow-2xl shadow-black/40"
@@ -231,7 +261,7 @@ function PriceLine({ animate }: { animate: boolean }) {
     'M0 220 L60 205 L110 214 L170 180 L220 190 L280 150 L330 162 L390 120 L440 135 L500 98 L560 110 L620 70 L680 84 L740 52 L800 64 L860 30 L920 42 L1000 12'
   return (
     <svg
-      className="pointer-events-none absolute inset-x-0 bottom-24 h-[240px] w-full text-accent opacity-40"
+      className="pointer-events-none absolute inset-x-0 bottom-12 h-[180px] w-full text-accent opacity-30"
       viewBox="0 0 1000 240"
       preserveAspectRatio="none"
       aria-hidden

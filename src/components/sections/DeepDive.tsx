@@ -85,7 +85,7 @@ function Walkthrough({ flow }: { flow: FlowNode[] }) {
   const step = order.indexOf(current) + 1
 
   return (
-    <div ref={ref} className="overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70">
+    <div ref={ref} className="overflow-hidden rounded-3xl surface">
       {/* Diagram */}
       <div className="relative border-b border-ink-700 p-6 sm:p-10">
         <div className="bg-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden />

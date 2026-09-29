@@ -62,7 +62,7 @@ function ProfileCard({ link }: { link: SocialLink }) {
       href={link.url}
       target="_blank"
       rel="noreferrer"
-      className={`group flex h-full flex-col rounded-2xl border border-ink-700 bg-ink-900/60 p-6 transition hover:-translate-y-1 ${HOVER[link.key]}`}
+      className={`group flex h-full flex-col rounded-2xl surface p-6 hover:-translate-y-1 ${HOVER[link.key]}`}
     >
       <div className="flex items-center justify-between">
         <span className="grid h-12 w-12 place-items-center rounded-xl bg-ink-800 text-fg transition group-hover:text-accent">
@@ -122,7 +122,7 @@ function RepoGrid({ username, url }: { username: string; url: string }) {
                   href={r.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="group flex h-full flex-col rounded-2xl border border-ink-700 bg-ink-900/60 p-5 transition hover:-translate-y-0.5 hover:border-accent/50"
+                  className="group flex h-full flex-col rounded-2xl surface p-5 hover:-translate-y-0.5 hover:border-accent/50"
                 >
                   <span className="flex items-center justify-between gap-3">
                     <span className="truncate font-mono text-sm font-medium text-fg group-hover:text-accent">{r.name}</span>
@@ -161,7 +161,7 @@ function ContributionGraph({ username }: { username: string }) {
   if (!ok) return null
   return (
     <Reveal delay={0.15}>
-      <div className="mt-8 overflow-x-auto rounded-2xl border border-ink-700 bg-ink-900/60 p-6">
+      <div className="mt-8 overflow-x-auto rounded-2xl surface p-6">
         <p className="mb-4 font-mono text-xs tracking-widest text-fg-faint uppercase">GitHub activity · last 12 months</p>
         <img
           key={theme}

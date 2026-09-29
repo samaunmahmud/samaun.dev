@@ -5,10 +5,10 @@ import type { TimelineItem } from '../../data/types'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 
-const KIND: Record<TimelineItem['kind'], { label: string; dot: string }> = {
-  education: { label: 'Education', dot: 'bg-sky' },
-  role: { label: 'Role', dot: 'bg-accent' },
-  hackathon: { label: 'Hackathon', dot: 'bg-violet' },
+const KIND: Record<TimelineItem['kind'], { label: string; dot: string; pill: string }> = {
+  education: { label: 'Education', dot: 'bg-sky', pill: 'text-sky border-sky/30 bg-sky/10' },
+  role: { label: 'Role', dot: 'bg-accent', pill: 'text-accent border-accent/30 bg-accent-soft' },
+  hackathon: { label: 'Hackathon', dot: 'bg-violet', pill: 'text-violet border-violet/30 bg-violet/10' },
 }
 
 export function Journey() {
@@ -39,15 +39,15 @@ export function Journey() {
           return (
             <li key={item.title} className="relative pb-12 pl-8 last:pb-0 sm:pl-12">
               <span className="absolute top-1.5 -left-[7px] flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-ink-950 bg-ink-950">
-                <span className={`h-2.5 w-2.5 rounded-full ${kind.dot}`} />
+                <span className={`h-2.5 w-2.5 rounded-full ${kind.dot} shadow-[0_0_0_4px] shadow-ink-950`} />
               </span>
               <Reveal delay={i * 0.05}>
                 <div className="grid gap-2 sm:grid-cols-[180px_1fr] sm:gap-8">
                   <div>
                     <p className="font-mono text-sm text-fg-muted">{item.period}</p>
-                    <p className="mt-1 font-mono text-[11px] tracking-wider text-fg-faint uppercase">{kind.label}</p>
+                    <p className={`mt-2 w-fit rounded-full border px-2.5 py-0.5 font-mono text-[10px] tracking-wider uppercase ${kind.pill}`}>{kind.label}</p>
                   </div>
-                  <div className="rounded-2xl border border-ink-700 bg-ink-900/60 p-6 transition hover:border-ink-600">
+                  <div className="rounded-2xl surface p-6 hover:-translate-y-0.5 hover:border-ink-600">
                     <h3 className="font-display text-lg font-semibold text-fg">{item.title}</h3>
                     <p className="mt-0.5 text-accent">{item.org}</p>
                     <ul className="mt-3 space-y-1.5 text-[15px] text-fg-muted">

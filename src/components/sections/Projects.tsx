@@ -135,7 +135,7 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
     <article
       id={projectAnchor(project.slug)}
       onMouseMove={spotlight}
-      className={`group relative grid overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:border-ink-600 lg:grid-cols-2 ${spotlightCls}`}
+      className={`group relative grid overflow-hidden rounded-3xl surface hover:border-ink-600 lg:grid-cols-2 ${spotlightCls}`}
     >
       <OpenDetails project={project} />
       <div className={`relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[400px] ${flip ? 'lg:order-2' : ''}`}>
@@ -182,7 +182,7 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
     <article
       id={projectAnchor(project.slug)}
       onMouseMove={spotlight}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/70 transition hover:-translate-y-1 hover:border-ink-600 ${spotlightCls}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl surface hover:-translate-y-1 hover:border-ink-600 ${spotlightCls}`}
     >
       <OpenDetails project={project} />
       <div className="relative aspect-[16/9] overflow-hidden border-b border-ink-700">
