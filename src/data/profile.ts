@@ -79,7 +79,7 @@ export const profile: Profile = {
         '@Transactional boundaries so a failed trade never leaves a half-written position',
         'Built with TDD and CI/CD practices; services run in Docker',
       ],
-      stack: ['Spring Boot', 'React', 'MySQL', 'WebSocket', 'Docker', 'Alpha Vantage'],
+      stack: ['Spring Boot', 'React', 'MySQL', 'WebSockets', 'Docker', 'Alpha Vantage'],
       status: 'in-progress',
       featured: true,
       repo: 'https://github.com/samaunmahmud/Meridian',
