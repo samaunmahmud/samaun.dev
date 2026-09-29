@@ -79,7 +79,7 @@ export const profile: Profile = {
         '@Transactional boundaries so a failed trade never leaves a half-written position',
         'Built with TDD and CI/CD practices; services run in Docker',
       ],
-      stack: ['Spring Boot', 'React', 'PostgreSQL', 'WebSocket', 'Docker', 'Alpha Vantage'],
+      stack: ['Spring Boot', 'React', 'MySQL', 'WebSocket', 'Docker', 'Alpha Vantage'],
       status: 'in-progress',
       featured: true,
       repo: 'https://github.com/samaunmahmud/Meridian',
@@ -104,9 +104,9 @@ export const profile: Profile = {
         {
           id: 'ledger',
           label: 'Ledger',
-          tech: 'PostgreSQL',
+          tech: 'MySQL',
           detail:
-            'Positions and trades are stored in PostgreSQL. @Transactional boundaries mean a failed trade never leaves a half-written position.',
+            'Positions and trades are stored in MySQL. @Transactional boundaries mean a failed trade never leaves a half-written position.',
           branchOf: 'backend',
         },
         {
@@ -260,7 +260,7 @@ export const profile: Profile = {
     },
     {
       q: 'What’s your strongest stack?',
-      a: 'Java is my first language. Most of my projects pair Spring Boot on the backend with React on the frontend, PostgreSQL for data and Docker for running services.',
+      a: 'Java is my first language. Most of my projects pair Spring Boot on the backend with React on the frontend, PostgreSQL or MySQL for data and Docker for running services.',
     },
     {
       q: 'Can I see your code?',
@@ -277,7 +277,7 @@ export const profile: Profile = {
     { name: 'Languages', items: ['Java', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
     { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT'] },
     { name: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'HTML & CSS'] },
-    { name: 'Data & ML', items: ['PostgreSQL', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
+    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
     { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Render', 'Vercel'] },
   ],
 
