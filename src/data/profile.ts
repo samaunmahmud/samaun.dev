@@ -31,6 +31,7 @@ export const profile: Profile = {
   // TODO: add your CV as public/cv.pdf, then uncomment — the résumé buttons reappear automatically
   // cvUrl: '/cv.pdf',
   sourceRepo: 'https://github.com/samaunmahmud/samaun.dev',
+  hiddenRepos: ['CashMatrix', 'Pacific-E-Commerce-Marketplace', 'Expense-Tracker-*'],
 
   socials: [
     {

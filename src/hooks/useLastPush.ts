@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { isHiddenRepo } from './useGitHubRepos'
 
 export interface LastPush {
   repo: string
@@ -19,7 +20,7 @@ export function useLastPush(username: string) {
     fetch(`https://api.github.com/users/${username}/events/public?per_page=30`, { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((events: { type: string; repo: { name: string }; created_at: string }[]) => {
-        const e = events.find((ev) => ev.type === 'PushEvent')
+        const e = events.find((ev) => ev.type === 'PushEvent' && !isHiddenRepo(ev.repo.name.split('/')[1] ?? ''))
         if (!e) return
         setPush({
           repo: e.repo.name.split('/')[1] ?? e.repo.name,

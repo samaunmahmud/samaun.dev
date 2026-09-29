@@ -89,6 +89,8 @@ export interface Profile {
   cvUrl?: string
   /** This site's own repo — the footer links the build hash to it. */
   sourceRepo: string
+  /** Practice repos kept out of the live GitHub feed. A trailing * matches a prefix. */
+  hiddenRepos: string[]
   socials: SocialLink[]
   stats: Stat[]
   projects: Project[]

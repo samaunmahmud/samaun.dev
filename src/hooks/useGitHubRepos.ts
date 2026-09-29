@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { profile } from '../data/profile'
 
 export interface Repo {
   name: string
@@ -7,6 +8,15 @@ export interface Repo {
   language: string | null
   stars: number
   pushedAt: Date
+}
+
+/** True for repos listed in profile.hiddenRepos (case-insensitive; "Name-*" matches a prefix). */
+export function isHiddenRepo(name: string) {
+  const n = name.toLowerCase()
+  return profile.hiddenRepos.some((h) => {
+    const p = h.toLowerCase()
+    return p.endsWith('*') ? n.startsWith(p.slice(0, -1)) : n === p
+  })
 }
 
 /**
@@ -35,8 +45,8 @@ export function useGitHubRepos(username: string, limit = 6) {
         ) =>
           setRepos(
             data
-              // skip forks and the profile-README repo (named after the user)
-              .filter((r) => !r.fork && r.name.toLowerCase() !== username.toLowerCase())
+              // skip forks, practice repos and the profile-README repo (named after the user)
+              .filter((r) => !r.fork && !isHiddenRepo(r.name) && r.name.toLowerCase() !== username.toLowerCase())
               .slice(0, limit)
               .map((r) => ({
                 name: r.name,
