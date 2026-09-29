@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { useClock } from '../../hooks/useClock'
 import { timeAgo, useLastPush } from '../../hooks/useLastPush'
+import { magnet, release, track } from '../../lib/pointer'
 import { ArrowUpRight, DownloadIcon } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
 import { Terminal } from '../ui/Terminal'
@@ -18,7 +19,7 @@ export function Hero() {
   const socials = profile.socials.filter((s) => s.key !== 'email')
 
   return (
-    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
+    <section id="top" onPointerMove={track} className="group/hero relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
       {/* Background: grid + aurora wash + a price-line horizon that draws itself (a nod to Meridian) */}
       <div className="aurora" aria-hidden>
         <span className="top-[-18%] left-[-8%] h-[520px] w-[620px]" />
@@ -26,6 +27,11 @@ export function Hero() {
         <span className="top-[35%] left-[30%] h-[380px] w-[520px]" />
       </div>
       <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
+      {/* Cursor spotlight: lights up the grid under the pointer (mouse only, see lib/pointer.ts) */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/hero:opacity-100 bg-[radial-gradient(360px_circle_at_var(--px,-999px)_var(--py,-999px),var(--color-accent-soft),transparent_70%)]"
+        aria-hidden
+      />
       <PriceLine animate={!reduce} />
 
       <div className="relative mx-auto my-auto grid w-full max-w-6xl items-center grid-cols-[minmax(0,1fr)] gap-14 px-5 pb-16 sm:px-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
@@ -55,7 +61,9 @@ export function Hero() {
           <motion.div {...fade(0.24)} className="mt-9 flex flex-wrap items-center gap-3">
             <a
               href="#projects"
-              className="group inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
+              onPointerMove={(e) => magnet(e)}
+              onPointerLeave={release}
+              className="magnetic group inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
             >
               View projects
               <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -73,7 +81,9 @@ export function Hero() {
             ) : (
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
+                onPointerMove={(e) => magnet(e)}
+                onPointerLeave={release}
+                className="magnetic inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
               >
                 Get in touch
               </a>

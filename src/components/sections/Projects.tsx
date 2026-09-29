@@ -1,7 +1,8 @@
-import { useState, type MouseEvent, type ReactNode } from 'react'
+import { useEffect, useState, type PointerEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import type { Project } from '../../data/types'
-import { openProject, projectAnchor } from '../../lib/actions'
+import { openProject, projectAnchor, STACK_EVENT } from '../../lib/actions'
+import { release, tilt } from '../../lib/pointer'
 import { ArrowUpRight } from '../ui/Icons'
 import { ProjectCover } from '../ui/ProjectCover'
 import { ProjectLinks, Status } from '../ui/ProjectMeta'
@@ -10,11 +11,12 @@ import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 import { Tag } from '../ui/Tag'
 
-/** Moves a soft light under the cursor. Pure CSS vars, no re-renders. */
-function spotlight(e: MouseEvent<HTMLElement>) {
+/** Moves a soft light under the cursor and tilts the screenshot towards it. Pure CSS vars, no re-renders. */
+function spotlight(e: PointerEvent<HTMLElement>) {
   const r = e.currentTarget.getBoundingClientRect()
   e.currentTarget.style.setProperty('--x', `${e.clientX - r.left}px`)
   e.currentTarget.style.setProperty('--y', `${e.clientY - r.top}px`)
+  tilt(e, 5)
 }
 const spotlightCls =
   'before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:bg-[radial-gradient(420px_circle_at_var(--x)_var(--y),color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]'
@@ -28,6 +30,12 @@ const FILTERS = Object.entries(
 
 export function Projects() {
   const [tech, setTech] = useState<string | null>(null)
+  // A click on a skill in the Skills section filters this list (see filterStack)
+  useEffect(() => {
+    const onFilter = (e: Event) => setTech((e as CustomEvent<string>).detail)
+    window.addEventListener(STACK_EVENT, onFilter)
+    return () => window.removeEventListener(STACK_EVENT, onFilter)
+  }, [])
   const featured = profile.projects.filter((p) => p.featured)
   const rest = profile.projects.filter((p) => !p.featured)
   const matches = (p: Project) => !tech || p.stack.includes(tech)
@@ -55,6 +63,10 @@ export function Projects() {
             {FILTERS.map(([t, n]) => (
               <FilterChip key={t} label={t} count={n} active={tech === t} onClick={() => setTech(tech === t ? null : t)} />
             ))}
+            {/* A skill picked from the Skills section may be used by only one project, so it has no chip of its own */}
+            {tech && !FILTERS.some(([t]) => t === tech) && (
+              <FilterChip label={tech} count={count} active onClick={() => setTech(null)} />
+            )}
             <span className="sr-only" aria-live="polite">
               {tech ? `${count} of ${profile.projects.length} projects use ${tech}` : ''}
             </span>
@@ -134,7 +146,8 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
   return (
     <article
       id={projectAnchor(project.slug)}
-      onMouseMove={spotlight}
+      onPointerMove={spotlight}
+      onPointerLeave={release}
       className={`group relative grid overflow-hidden rounded-3xl surface hover:border-ink-600 lg:grid-cols-2 ${spotlightCls}`}
     >
       <OpenDetails project={project} />
@@ -181,12 +194,13 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
   return (
     <article
       id={projectAnchor(project.slug)}
-      onMouseMove={spotlight}
+      onPointerMove={spotlight}
+      onPointerLeave={release}
       className={`group relative flex h-full flex-col overflow-hidden rounded-3xl surface hover:-translate-y-1 hover:border-ink-600 ${spotlightCls}`}
     >
       <OpenDetails project={project} />
       <div className="relative aspect-[16/9] overflow-hidden border-b border-ink-700">
-        <ProjectCover project={project} className="transition duration-700 group-hover:scale-[1.04]" />
+        <ProjectCover project={project} peek className="transition duration-700 group-hover:scale-[1.04]" />
       </div>
       <div className="flex flex-1 flex-col p-6">
         <Status status={project.status} />

@@ -216,6 +216,17 @@
   & > span:nth-child(3) { background: color-mix(in oklab, var(--aurora-c) var(--aurora-strength), transparent); animation-delay: -14s; }
 }
 
+/* Pointer effects driven by src/lib/pointer.ts */
+@utility tilt-3d {
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+@utility magnetic {
+  translate: var(--mx, 0) var(--my, 0);
+  transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms, border-color 150ms, box-shadow 150ms;
+}
+
 @layer utilities {
   /* Faint engineering-paper grid used behind the hero */
   .bg-grid {

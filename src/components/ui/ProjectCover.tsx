@@ -13,15 +13,16 @@ const ACCENT: Record<Project['accent'], string> = {
  * Generated cover art so the site looks finished before you have screenshots.
  * Set `image` on a project in profile.ts and this is replaced automatically.
  */
-export function ProjectCover({ project, className = '' }: { project: Project; className?: string }) {
+/** `peek`: the screenshot fills the width and runs off the bottom edge — for short, wide card headers. */
+export function ProjectCover({ project, className = '', peek = false }: { project: Project; className?: string; peek?: boolean }) {
   if (project.image) {
     return project.imageDark ? (
       <>
-        <Shot src={project.image} alt={`${project.name} screenshot`} className={`dark:hidden ${className}`} />
-        <Shot src={project.imageDark} alt={`${project.name} screenshot`} className={`hidden dark:block ${className}`} />
+        <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={`dark:hidden ${className}`} />
+        <Shot src={project.imageDark} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={`hidden dark:block ${className}`} />
       </>
     ) : (
-      <Shot src={project.image} alt={`${project.name} screenshot`} className={className} />
+      <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={className} />
     )
   }
 
@@ -45,20 +46,34 @@ export function ProjectCover({ project, className = '' }: { project: Project; cl
 }
 
 /**
- * The whole screenshot, uncropped and framed on the same grid surface as the generated covers,
- * so it fits any frame shape (tall featured panel, wide modal header) without losing its edges.
+ * The whole screenshot, uncropped, in a browser-window frame on the same grid surface as the
+ * generated covers, so it fits any frame shape (tall featured panel, wide modal header).
+ * The frame tilts with --rx/--ry, which the parent card sets from the cursor (lib/pointer.ts).
  */
-function Shot({ src, alt, className }: { src: string; alt: string; className: string }) {
+function Shot({ src, alt, label, peek, className }: { src: string; alt: string; label: string; peek: boolean; className: string }) {
   return (
     <div className={`relative h-full w-full overflow-hidden bg-ink-900 ${className}`}>
       <div className="bg-grid absolute inset-0 opacity-60" aria-hidden />
-      <div className="relative flex h-full items-center justify-center p-5 sm:p-8">
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          className="max-h-full max-w-full rounded-xl border border-ink-700 shadow-2xl shadow-black/25"
-        />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,var(--color-accent-soft),transparent_70%)]" aria-hidden />
+      <div className={`relative flex h-full justify-center ${peek ? 'px-6 pt-6 sm:px-8 sm:pt-7' : 'items-center p-5 sm:p-8'}`}>
+        <figure
+          className={`tilt-3d flex flex-col overflow-hidden border border-ink-700 bg-ink-850 shadow-2xl shadow-black/30 ${
+            peek ? 'w-full rounded-t-xl border-b-0' : 'max-h-full max-w-full rounded-xl'
+          }`}
+        >
+          <div className="flex shrink-0 items-center gap-1.5 border-b border-ink-700 px-3 py-2" aria-hidden>
+            <span className="h-2 w-2 rounded-full bg-rose/70" />
+            <span className="h-2 w-2 rounded-full bg-amber/70" />
+            <span className="h-2 w-2 rounded-full bg-up/70" />
+            <span className="mx-auto truncate rounded-md bg-ink-800 px-3 py-0.5 font-mono text-[10px] text-fg-faint">{label}</span>
+          </div>
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            className={peek ? 'min-h-0 w-full flex-1 object-cover object-top' : 'min-h-0 max-w-full object-contain'}
+          />
+        </figure>
       </div>
     </div>
   )

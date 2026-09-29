@@ -57,3 +57,12 @@ export function closeProject() {
     window.dispatchEvent(new Event(PROJECT_EVENT))
   }
 }
+
+/* ── Stack filter: the Skills section can filter the Projects list ── */
+
+export const STACK_EVENT = 'stack:filter'
+
+export function filterStack(tech: string) {
+  window.dispatchEvent(new CustomEvent<string>(STACK_EVENT, { detail: tech }))
+  goTo('projects')
+}
