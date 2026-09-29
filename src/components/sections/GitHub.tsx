@@ -10,81 +10,58 @@ import { socialIcon } from '../ui/socialIcons'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 
-const BLURB: Record<SocialLink['key'], string> = {
-  github: 'Source for everything on this page, plus experiments that never made it here.',
-  linkedin: 'Placement updates, hackathon write-ups and what I’m learning.',
-  leetcode: 'Where I practise data structures and algorithms — Java all the way.',
-  email: '',
-}
-
-const HOVER: Record<SocialLink['key'], string> = {
-  github: 'hover:border-fg-faint',
-  linkedin: 'hover:border-sky/60',
-  leetcode: 'hover:border-amber/60',
-  email: '',
-}
-
-export function Profiles() {
-  const cards = profile.socials.filter((s) => s.key !== 'email')
+export function GitHub() {
+  const links = profile.socials.filter((s) => s.key !== 'email')
   const github = profile.socials.find((s) => s.key === 'github')
 
   return (
     <Section
-      id="profiles"
+      id="github"
       index="06"
-      eyebrow="Profiles"
+      eyebrow="GitHub"
       title={
         <>
-          Code, activity <span className="text-fg-muted">and professional profiles.</span>
+          Live from GitHub, <span className="text-fg-muted">updated as I push.</span>
         </>
       }
+      intro="My most recently active repositories and a year of commits, pulled from GitHub when you load the page."
     >
-      <div className="grid gap-5 md:grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
-        {cards.map((s, i) => (
-          <Reveal key={s.key} delay={i * 0.07} className="h-full">
-            <ProfileCard link={s} />
-          </Reveal>
-        ))}
-      </div>
-      {github && <RepoGrid username={github.handle} url={github.url} />}
+      <Reveal>
+        <div className="flex flex-wrap gap-3">
+          {links.map((s) => (
+            <ProfileLink key={s.key} link={s} />
+          ))}
+        </div>
+      </Reveal>
+      {github && <RepoGrid username={github.handle} />}
       {github && <ContributionGraph username={github.handle} />}
     </Section>
   )
 }
 
-function ProfileCard({ link }: { link: SocialLink }) {
+/** Compact profile button; GitHub also shows the live public-repo count. */
+function ProfileLink({ link }: { link: SocialLink }) {
   const Icon = socialIcon[link.key]
   const gh = useGitHubStats(link.key === 'github' ? link.handle : '')
-  const showGh = link.key === 'github' && gh
 
   return (
     <a
       href={link.url}
       target="_blank"
       rel="noreferrer"
-      className={`group flex h-full flex-col rounded-2xl surface p-6 hover:-translate-y-1 ${HOVER[link.key]}`}
+      className="group inline-flex items-center gap-3 rounded-xl surface py-2.5 pr-4 pl-2.5 hover:-translate-y-0.5 hover:border-accent/50"
     >
-      <div className="flex items-center justify-between">
-        <span className="grid h-12 w-12 place-items-center rounded-xl bg-ink-800 text-fg transition group-hover:text-accent">
-          <Icon size={24} />
+      <span className="grid h-9 w-9 place-items-center rounded-lg bg-ink-800 text-fg transition group-hover:text-accent">
+        <Icon size={18} />
+      </span>
+      <span className="leading-tight">
+        <span className="block text-sm font-medium text-fg">{link.label}</span>
+        <span className="block font-mono text-xs text-fg-faint">
+          @{link.handle}
+          {link.key === 'github' && gh && <> · {gh.publicRepos} repos</>}
         </span>
-        <ArrowUpRight size={18} className="text-fg-faint transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
-      </div>
-      <p className="mt-6 font-display text-xl font-semibold">{link.label}</p>
-      <p className="font-mono text-sm text-accent">@{link.handle}</p>
-      <p className="mt-3 text-sm leading-relaxed text-fg-muted">{BLURB[link.key]}</p>
-      {showGh && (
-        <div className="mt-auto flex gap-6 border-t border-ink-700 pt-4 font-mono text-sm">
-          <span>
-            <span className="text-fg">{gh.publicRepos}</span> <span className="text-fg-faint">repos</span>
-          </span>
-          {gh.followers >= 10 && (
-            <span>
-              <span className="text-fg">{gh.followers}</span> <span className="text-fg-faint">followers</span>
-            </span>
-          )}
-        </div>
-      )}
+      </span>
+      <ArrowUpRight size={14} className="ml-1 text-fg-faint transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
     </a>
   )
 }
@@ -99,25 +76,17 @@ const LANG_DOT: Record<string, string> = {
 }
 
 /** Live list of recently pushed repos — shows the work is ongoing, not a snapshot. */
-function RepoGrid({ username, url }: { username: string; url: string }) {
+function RepoGrid({ username }: { username: string }) {
   const repos = useGitHubRepos(username)
   if (repos && repos.length === 0) return null
 
   return (
     <Reveal delay={0.1}>
-      <div className="mt-12 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="font-mono text-xs tracking-widest text-fg-faint uppercase">Live from GitHub</p>
-          <h3 className="mt-2 font-display text-2xl font-semibold text-fg">Recently active repositories</h3>
-        </div>
-        <a href={url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-accent hover:underline">
-          View all on GitHub <ArrowUpRight size={14} />
-        </a>
-      </div>
-      <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-busy={!repos}>
+      <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-busy={!repos}>
         {repos
-          ? repos.map((r) => (
-              <li key={r.name}>
+          ? repos.map((r, i) => (
+              // four on phones keeps the scroll short; all six from sm up
+              <li key={r.name} className={i >= 4 ? 'hidden sm:block' : undefined}>
                 <a
                   href={r.url}
                   target="_blank"

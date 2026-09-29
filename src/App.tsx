@@ -5,9 +5,9 @@ import { About } from './components/sections/About'
 import { Contact } from './components/sections/Contact'
 import { DeepDive } from './components/sections/DeepDive'
 import { Faq } from './components/sections/Faq'
+import { GitHub } from './components/sections/GitHub'
 import { Hero } from './components/sections/Hero'
 import { Journey } from './components/sections/Journey'
-import { Profiles } from './components/sections/Profiles'
 import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
 import { CommandPalette } from './components/ui/CommandPalette'
@@ -27,9 +27,9 @@ export default function App() {
         <About />
         <Projects />
         <DeepDive />
-        <Journey />
         <Skills />
-        <Profiles />
+        <Journey />
+        <GitHub />
         <Faq />
         <Contact />
       </main>

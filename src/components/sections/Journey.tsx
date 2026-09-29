@@ -20,7 +20,9 @@ export function Journey() {
   return (
     <Section
       id="journey"
-      index="04"
+      index="05"
+      band
+      split
       eyebrow="Journey"
       title={
         <>
@@ -42,7 +44,7 @@ export function Journey() {
                 <span className={`h-2.5 w-2.5 rounded-full ${kind.dot} shadow-[0_0_0_4px] shadow-ink-950`} />
               </span>
               <Reveal delay={i * 0.05}>
-                <div className="grid gap-2 sm:grid-cols-[180px_1fr] sm:gap-8">
+                <div className="grid gap-2 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-6">
                   <div>
                     <p className="font-mono text-sm text-fg-muted">{item.period}</p>
                     <p className={`mt-2 w-fit rounded-full border px-2.5 py-0.5 font-mono text-[10px] tracking-wider uppercase ${kind.pill}`}>{kind.label}</p>

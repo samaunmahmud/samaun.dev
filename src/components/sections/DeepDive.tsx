@@ -20,6 +20,7 @@ export function DeepDive() {
     <Section
       id="deep-dive"
       index="03"
+      band
       eyebrow="Deep dive"
       title={
         <>

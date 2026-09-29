@@ -11,6 +11,17 @@ export function Faq() {
     <Section
       id="faq"
       index="07"
+      band
+      split
+      aside={
+        <p className="text-fg-muted">
+          Something not covered here?{' '}
+          <a href="#contact" className="text-accent underline-offset-4 hover:underline">
+            Get in touch
+          </a>
+          .
+        </p>
+      }
       eyebrow="FAQ"
       title={
         <>
@@ -31,9 +42,9 @@ export function Faq() {
                     aria-expanded={expanded}
                     aria-controls={`faq-a-${i}`}
                     onClick={() => setOpen(expanded ? null : i)}
-                    className="group flex w-full items-center justify-between gap-6 py-6 text-left"
+                    className="group flex w-full items-center justify-between gap-6 py-5 text-left"
                   >
-                    <span className="font-display text-xl text-fg transition-colors group-hover:text-accent sm:text-2xl">
+                    <span className="font-display text-lg text-fg transition-colors group-hover:text-accent sm:text-xl">
                       {item.q}
                     </span>
                     <span
