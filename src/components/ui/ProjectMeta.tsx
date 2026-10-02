@@ -34,7 +34,7 @@ export function ProjectLinks({ project }: { project: Project }) {
           href={project.repo}
           target="_blank"
           rel="noreferrer"
-          className="relative z-20 inline-flex items-center gap-1.5 rounded-lg border border-ink-600 px-3.5 py-2 text-sm font-medium text-fg transition hover:border-fg-faint"
+          className="relative z-20 inline-flex items-center gap-1.5 rounded-full border border-ink-600 px-4 py-2 text-sm font-medium text-fg transition hover:border-accent hover:text-accent"
         >
           <GitHubIcon size={15} /> Code
         </a>

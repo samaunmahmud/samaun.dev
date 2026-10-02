@@ -1,12 +1,15 @@
 import type { Project } from '../../data/types'
 
-/** Theme tokens, so covers recolour with the light/dark theme. "teal" = the main accent. */
+/**
+ * Theme tokens, so covers recolour with the light/dark theme. The site uses a single orange
+ * accent, so every generated cover draws in it — the per-project `accent` only varies the shade.
+ */
 const ACCENT: Record<Project['accent'], string> = {
   teal: 'var(--accent)',
-  sky: 'var(--sky)',
-  violet: 'var(--violet)',
-  rose: 'var(--rose)',
-  amber: 'var(--amber)',
+  sky: 'var(--accent)',
+  violet: 'var(--accent-strong)',
+  rose: 'var(--accent)',
+  amber: 'var(--accent-strong)',
 }
 
 /**

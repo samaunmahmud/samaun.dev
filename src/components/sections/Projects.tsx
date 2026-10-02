@@ -136,8 +136,12 @@ function OpenDetails({ project }: { project: Project }) {
 
 function DetailsHint() {
   return (
-    <span className="inline-flex items-center gap-1 font-mono text-xs text-fg-faint transition group-hover:text-accent">
-      Case study <ArrowUpRight size={12} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    <span className="inline-flex items-center gap-2.5 text-sm font-medium text-fg-muted transition group-hover:text-fg">
+      Case study
+      {/* Orange arrow disc, as on the template's cards; turns to point right on hover */}
+      <span className="grid h-9 w-9 place-items-center rounded-full bg-accent text-ink-950 transition duration-300 group-hover:rotate-45">
+        <ArrowUpRight size={16} />
+      </span>
     </span>
   )
 }
