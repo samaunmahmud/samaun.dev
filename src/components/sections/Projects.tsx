@@ -48,7 +48,7 @@ export function Projects() {
       eyebrow="Selected work"
       title={
         <>
-          Selected projects, <span className="text-accent">and the problems behind them.</span>
+          Selected <span className="text-accent">projects</span>, and the problems behind them.
         </>
       }
       intro="Each card lists the engineering problems I worked through, not just the stack."
@@ -160,7 +160,7 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
           <Status status={project.status} />
           <span className="font-mono text-xs text-fg-faint">Featured</span>
         </div>
-        <h3 className="mt-4 font-display text-3xl font-semibold tracking-tight">{project.name}</h3>
+        <h3 className="mt-4 font-display text-display-md font-bold">{project.name}</h3>
         <p className="mt-1 text-accent">{project.tagline}</p>
         <p className="mt-4 leading-relaxed text-fg-muted">{project.description}</p>
 
@@ -204,7 +204,7 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
       </div>
       <div className="flex flex-1 flex-col p-6">
         <Status status={project.status} />
-        <h3 className="mt-3 font-display text-xl font-semibold">{project.name}</h3>
+        <h3 className="mt-3 font-display text-display-sm font-bold">{project.name}</h3>
         <p className="mt-1 text-sm text-accent">{project.tagline}</p>
         <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-fg-muted">{project.description}</p>
         <div className="mt-5 flex flex-wrap gap-1.5">

@@ -22,7 +22,7 @@ export function Journey() {
       eyebrow="Journey"
       title={
         <>
-          Education, roles <span className="text-accent">and hackathons.</span>
+          Education, roles and <span className="text-accent">hackathons</span>.
         </>
       }
     >
@@ -39,7 +39,7 @@ export function Journey() {
               className="relative grid grid-cols-[24px_minmax(0,1fr)] gap-x-5 pb-12 last:pb-0 md:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)] md:gap-x-10"
             >
               <Reveal delay={i * 0.05} className="col-start-2 md:col-start-1 md:text-right">
-                <p className="font-display text-xl font-semibold text-fg sm:text-2xl">{item.org}</p>
+                <p className="font-display text-display-sm font-bold text-fg">{item.org}</p>
                 <p className="mt-1 text-sm text-fg-muted">{item.period}</p>
                 <p className="mt-2 inline-block rounded-full border border-ink-700 px-2.5 py-0.5 font-mono text-[10px] tracking-wider text-fg-muted uppercase">
                   {kind.label}
@@ -52,7 +52,7 @@ export function Journey() {
               </span>
 
               <Reveal delay={i * 0.05 + 0.05} className="col-start-2 mt-3 md:col-start-3 md:row-start-1 md:mt-0">
-                <h3 className="font-display text-xl font-semibold text-fg sm:text-2xl">{item.title}</h3>
+                <h3 className="font-display text-display-sm font-bold text-fg">{item.title}</h3>
                 <ul className="mt-2 space-y-1.5 text-[15px] leading-relaxed text-fg-muted">
                   {item.points.map((pt) => (
                     <li key={pt}>{pt}</li>

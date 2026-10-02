@@ -33,7 +33,7 @@ export function Hero() {
 
           <motion.h1
             {...fade(0.08)}
-            className="relative mt-5 font-display text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-fg sm:text-6xl lg:text-[5.25rem]"
+            className="relative mt-5 font-display text-display-xl font-semibold text-fg"
           >
             {profile.headline.lead} <span className="text-accent">{profile.headline.accent}</span>,
             <br />
@@ -82,7 +82,7 @@ export function Hero() {
                   <StarIcon key={i} className="h-4 w-4" />
                 ))}
               </p>
-              <p className="mt-2 font-display text-4xl font-bold text-fg">
+              <p className="mt-2 font-display text-5xl leading-none font-bold text-fg">
                 <CountUp value={stat.value} />
               </p>
               <p className="text-sm text-fg-muted">{stat.label}</p>

@@ -11,12 +11,12 @@ export function About() {
       eyebrow="About"
       title={
         <>
-          Backend-focused, <span className="text-accent">full-stack in practice.</span>
+          Backend-focused, <span className="whitespace-nowrap text-accent">full-stack</span> in practice.
         </>
       }
     >
       <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-        <div className="space-y-5 text-lg leading-relaxed text-fg-muted">
+        <div className="max-w-[62ch] space-y-5 text-base leading-[1.75] text-fg-muted sm:text-lg">
           {profile.about.map((p, i) => (
             <Reveal key={i} delay={i * 0.06}>
               <p>{p}</p>
@@ -29,7 +29,7 @@ export function About() {
             <div className="grid grid-cols-3 gap-3">
               {profile.stats.map((s) => (
                 <div key={s.label} className="rounded-2xl surface p-4 hover:-translate-y-0.5 hover:border-accent/40">
-                  <p className="text-gradient font-display text-3xl font-semibold tabular-nums sm:text-4xl">
+                  <p className="text-gradient font-display text-4xl font-bold tabular-nums">
                     <CountUp value={s.value} />
                   </p>
                   <p className="mt-1 text-xs leading-snug text-fg-faint">{s.label}</p>

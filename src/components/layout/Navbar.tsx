@@ -137,7 +137,7 @@ export function Navbar() {
                   <a
                     href={`#${s.id}`}
                     onClick={() => setOpen(false)}
-                    className="flex items-baseline gap-4 border-b border-ink-800 py-4 font-display text-2xl text-fg"
+                    className="flex items-baseline gap-4 border-b border-ink-800 py-4 font-display text-2xl font-semibold text-fg"
                   >
                     <span className="font-mono text-xs text-accent">0{i + 1}</span>
                     {s.label}

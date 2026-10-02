@@ -25,7 +25,7 @@ export function Faq() {
       eyebrow="FAQ"
       title={
         <>
-          Quick answers <span className="text-accent">for recruiters.</span>
+          Quick answers for <span className="text-accent">recruiters</span>.
         </>
       }
     >
@@ -44,7 +44,7 @@ export function Faq() {
                     onClick={() => setOpen(expanded ? null : i)}
                     className="group flex w-full items-center justify-between gap-6 py-5 text-left"
                   >
-                    <span className="font-display text-lg text-fg transition-colors group-hover:text-accent sm:text-xl">
+                    <span className="font-display text-lg font-semibold text-fg transition-colors group-hover:text-accent sm:text-xl">
                       {item.q}
                     </span>
                     <span

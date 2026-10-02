@@ -24,7 +24,7 @@ export function DeepDive() {
       eyebrow="Deep dive"
       title={
         <>
-          Under the hood of <span className="text-gradient">{project.name}.</span>
+          Under the hood of <span className="text-accent">{project.name}</span>.
         </>
       }
       intro={project.description}
@@ -144,7 +144,7 @@ function Walkthrough({ flow }: { flow: FlowNode[] }) {
             transition={{ duration: 0.25 }}
           >
             <p className="font-mono text-xs tracking-widest text-accent uppercase">{current.tech}</p>
-            <h3 className="mt-2 font-display text-2xl font-semibold text-fg">{current.label}</h3>
+            <h3 className="mt-2 font-display text-display-md font-bold text-fg">{current.label}</h3>
             <p className="mt-3 max-w-2xl text-lg leading-relaxed text-fg-muted">{current.detail}</p>
           </motion.div>
         </AnimatePresence>
@@ -179,7 +179,7 @@ function Node({ node, active, onPick }: { node: FlowNode; active: boolean; onPic
       }`}
     >
       <span className={`block font-mono text-[11px] ${active ? 'text-accent' : 'text-fg-faint'}`}>{node.tech}</span>
-      <span className="mt-1 block font-display text-lg font-semibold text-fg">{node.label}</span>
+      <span className="mt-1 block font-display text-lg font-bold text-fg">{node.label}</span>
     </button>
   )
 }

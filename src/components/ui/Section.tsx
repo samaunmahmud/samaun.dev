@@ -30,9 +30,7 @@ export function Section({ id, index, eyebrow, title, intro, band = false, split 
         {eyebrow}
       </p>
       <h2
-        className={`font-display leading-[1.1] font-semibold tracking-tight text-pretty text-fg ${
-          split ? 'text-[2rem] sm:text-5xl lg:text-[2.6rem]' : `max-w-4xl text-[2rem] sm:text-5xl md:text-[3.25rem] ${center ? 'mx-auto' : ''}`
-        }`}
+        className={`font-display text-display-lg font-bold text-balance text-fg ${split ? '' : `max-w-3xl ${center ? 'mx-auto' : ''}`}`}
       >
         {title}
       </h2>

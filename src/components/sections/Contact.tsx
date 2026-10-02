@@ -29,8 +29,8 @@ export function Contact() {
           <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
           <div className="relative">
             <p className="font-mono text-xs tracking-widest text-accent uppercase">08 · Contact</p>
-            <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl">
-              Open to 2027 placement opportunities. <span className="text-gradient">Get in touch.</span>
+            <h2 className="mx-auto mt-5 max-w-3xl font-display text-display-lg font-bold text-balance">
+              Open to 2027 placement opportunities. <span className="text-accent">Get in touch.</span>
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg text-fg-muted">
               The best way to reach me is by email. You can also find me on LinkedIn and GitHub.

@@ -14,16 +14,16 @@ export const profile: Profile = {
   location: 'Uxbridge, London',
   timezone: 'Europe/London',
   greeting: 'Hello!',
-  headline: { lead: "I'm", accent: 'Samaun', tail: 'Full-stack Java Developer' },
+  headline: { lead: "I’m", accent: 'Samaun', tail: 'Full-stack Java Developer' },
   // TODO: add a portrait (ideally a cut-out PNG with a transparent background) as public/me.png, then uncomment —
   // it replaces the terminal on the hero's orange circle
   // photo: '/me.png',
   tagline:
     'Computer Science (AI) student at Brunel University London. I build real-time, data-heavy applications with Spring Boot and React, with a particular interest in fintech.',
   about: [
-    "I'm a second-year Computer Science (Artificial Intelligence) student at Brunel University London, on the four-year track with an industrial placement.",
+    "I’m a second-year Computer Science (Artificial Intelligence) student at Brunel University London, on the four-year track with an industrial placement.",
     "Most of what I build sits where backend engineering meets finance: streaming market data over WebSockets, keeping trade ledgers consistent with transactions, and wiring third-party banking APIs into apps people can actually use.",
-    "I learn by shipping. Every project here was deployed, broken, debugged and rebuilt — and the debugging stories are usually my favourite part. Outside my own projects I'm a Student Support Ambassador at Brunel, and I spend a lot of weekends at hackathons.",
+    "I learn by shipping. Every project here was deployed, broken, debugged and rebuilt — and the debugging stories are usually my favourite part. Outside my own projects I’m a Student Support Ambassador at Brunel, and I spend a lot of weekends at hackathons.",
   ],
   availability: 'Open to 12-month industrial placements from summer 2027',
   now: [

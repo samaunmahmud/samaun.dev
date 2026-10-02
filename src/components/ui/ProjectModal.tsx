@@ -109,7 +109,7 @@ export function ProjectModal() {
                 transition={{ duration: 0.2 }}
               >
                 <Status status={project.status} />
-                <h2 id="project-modal-title" className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h2 id="project-modal-title" className="mt-4 font-display text-display-md font-bold">
                   {project.name}
                 </h2>
                 <p className="mt-2 text-lg text-accent">{project.tagline}</p>

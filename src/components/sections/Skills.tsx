@@ -26,7 +26,7 @@ export function Skills() {
       center
       title={
         <>
-          Technical skills, <span className="text-accent">grouped by area.</span>
+          Technical <span className="text-accent">skills</span>, grouped by area.
         </>
       }
       intro="The languages, frameworks and tools I use across my projects and coursework. Click one with a number to see the projects that use it."
@@ -36,7 +36,7 @@ export function Skills() {
           <Reveal key={g.name} delay={i * 0.05} className={`h-full ${span(i, profile.skills.length)}`}>
             <div className="group relative h-full overflow-hidden rounded-3xl border border-ink-700 bg-ink-900/80 p-6 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-accent/60">
               <div className="flex items-center justify-between gap-4">
-                <h3 className="font-display text-xl font-semibold text-fg">{g.name}</h3>
+                <h3 className="font-display text-display-sm font-bold text-fg">{g.name}</h3>
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent font-mono text-xs font-semibold text-ink-950 transition group-hover:rotate-12">
                   {String(g.items.length).padStart(2, '0')}
                 </span>

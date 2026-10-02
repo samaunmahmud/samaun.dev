@@ -31,7 +31,7 @@
   --rose: #fb7185;
   --sky: #7dd3fc;
 
-  --display-font: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --display-font: 'Urbanist Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --display-wght: normal;
   --display-word-spacing: normal;
   --text-gradient: linear-gradient(120deg, #ffd0a8 0%, #ff9a4d 40%, #ff7a1a 70%, #fd6f00 100%);
@@ -71,7 +71,7 @@
   --rose: #be123c;
   --sky: #0369a1;
 
-  --display-font: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --display-font: 'Urbanist Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --display-wght: normal;
   --display-word-spacing: normal;
   --text-gradient: linear-gradient(var(--accent), var(--accent));
@@ -93,6 +93,20 @@
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--display-font);
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Display type scale — fluid from 390px to 1440px, so headings never jump at breakpoints */
+  --text-display-xl: clamp(2.6rem, 1.6rem + 4.3vw, 5.25rem);
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.025em;
+  --text-display-lg: clamp(2.1rem, 1.65rem + 1.9vw, 3.375rem);
+  --text-display-lg--line-height: 1.08;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: clamp(1.65rem, 1.45rem + 0.85vw, 2.25rem);
+  --text-display-md--line-height: 1.15;
+  --text-display-md--letter-spacing: -0.015em;
+  --text-display-sm: clamp(1.25rem, 1.17rem + 0.35vw, 1.5rem);
+  --text-display-sm--line-height: 1.25;
+  --text-display-sm--letter-spacing: -0.01em;
 
   --color-ink-950: var(--ink-950);
   --color-ink-900: var(--ink-900);
@@ -174,6 +188,10 @@
     opacity: var(--grain-opacity);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
+  }
+  /* No lonely last words in running text */
+  p, li, dd {
+    text-wrap: pretty;
   }
   ::selection {
     background: var(--color-accent);
