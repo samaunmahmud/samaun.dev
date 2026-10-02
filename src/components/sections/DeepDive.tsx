@@ -45,7 +45,7 @@ export function DeepDive() {
               href={project.repo}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-ink-950 transition hover:bg-accent-strong"
+              className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-medium text-ink-950 transition hover:bg-accent-strong"
             >
               <GitHubIcon size={15} /> Read the code <ArrowUpRight size={14} />
             </a>

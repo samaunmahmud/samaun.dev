@@ -24,7 +24,7 @@ export function ProjectLinks({ project }: { project: Project }) {
           href={project.demo}
           target="_blank"
           rel="noreferrer"
-          className="relative z-20 inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-ink-950 transition hover:bg-accent-strong"
+          className="relative z-20 inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-medium text-ink-950 transition hover:bg-accent-strong"
         >
           Live demo <ArrowUpRight size={14} />
         </a>

@@ -5,7 +5,7 @@ export type Theme = 'light' | 'dark'
 
 const STORAGE_KEY = 'theme'
 /** Must match --ink-950 for each theme in index.css (browser chrome colour on mobile). */
-const CHROME: Record<Theme, string> = { light: '#f4f1ea', dark: '#05080d' }
+const CHROME: Record<Theme, string> = { light: '#ffffff', dark: '#121212' }
 
 const root = () => document.documentElement
 const read = (): Theme => (root().dataset.theme === 'dark' ? 'dark' : 'light')

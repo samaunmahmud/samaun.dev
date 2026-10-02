@@ -1,85 +1,87 @@
 @import 'tailwindcss';
 
 /* ─── Themes ──────────────────────────────────────────────────
-   Two palettes: warm editorial "light" (default) and techy "dark" (dev mode).
-   The raw values live on [data-theme] so any subtree can opt into a theme —
-   e.g. the hero terminal stays dark on the light page via data-theme="dark".
+   Two palettes, both orange-accented: clean white "light" (default) and
+   charcoal "dark" (dev mode). The raw values live on [data-theme] so any
+   subtree can opt into a theme — e.g. the hero terminal stays dark on the
+   light page via data-theme="dark".
    Components use the Tailwind names below (bg-ink-950, text-accent …), never hex. */
 
 :root,
 [data-theme='dark'] {
   color-scheme: dark;
-  --ink-950: #05080d;
-  --ink-900: #0a0f17;
-  --ink-850: #0e1520;
-  --ink-800: #131c29;
-  --ink-700: #1d2939;
-  --ink-600: #2a3a4f;
+  --ink-950: #121212;
+  --ink-900: #1a1a1a;
+  --ink-850: #202020;
+  --ink-800: #262626;
+  --ink-700: #333333;
+  --ink-600: #474747;
 
-  --fg: #e6edf5;
-  --fg-muted: #9aa8ba;
-  --fg-faint: #64748b;
+  --fg: #f5f5f5;
+  --fg-muted: #a8a8a8;
+  --fg-faint: #919191;
 
-  --accent: #2dd4bf;
-  --accent-strong: #14b8a6;
+  --accent: #ff7a1a;
+  --accent-strong: #fd6f00;
 
-  --up: #34d399;
-  --violet: #a78bfa;
+  --up: #4ade80;
+  --violet: #c4b5fd;
   --amber: #fbbf24;
   --rose: #fb7185;
-  --sky: #38bdf8;
+  --sky: #7dd3fc;
 
   --display-font: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --display-wght: normal;
   --display-word-spacing: normal;
-  --text-gradient: linear-gradient(120deg, #f0fdfa 0%, #5eead4 45%, #2dd4bf 70%, #38bdf8 100%);
+  --text-gradient: linear-gradient(120deg, #ffd0a8 0%, #ff9a4d 40%, #ff7a1a 70%, #fd6f00 100%);
   --gradient-style: normal;
 
   /* Depth: cards get a hairline top highlight + a soft drop shadow */
   --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 24px 48px -24px rgb(0 0 0 / 0.7);
   --shadow-card-hover: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 32px 64px -28px rgb(0 0 0 / 0.85);
-  --aurora-a: #2dd4bf;
-  --aurora-b: #6366f1;
-  --aurora-c: #38bdf8;
-  --aurora-strength: 16%;
-  --grain-opacity: 0.05;
+  --aurora-a: #fd6f00;
+  --aurora-b: #ff9a4d;
+  --aurora-c: #b45309;
+  --aurora-strength: 14%;
+  --grain-opacity: 0.04;
 }
 
 [data-theme='light'] {
   color-scheme: light;
-  --ink-950: #f4f1ea;
-  --ink-900: #fcfaf5;
-  --ink-850: #efebe2;
-  --ink-800: #e8e3d8;
-  --ink-700: #ddd6c8;
-  --ink-600: #c7bdab;
+  --ink-950: #ffffff;
+  --ink-900: #f7f7f8;
+  --ink-850: #f0f0f1;
+  --ink-800: #e9e9eb;
+  --ink-700: #dedee1;
+  --ink-600: #c8c8cc;
 
-  --fg: #1f1d1a;
-  --fg-muted: #57524a;
-  --fg-faint: #736c61;
+  --fg: #171717;
+  --fg-muted: #525252;
+  --fg-faint: #6b6b6b;
 
-  --accent: #b85c3c;
-  --accent-strong: #9e4b2f;
+  /* Deeper than the template's #fd6f00 so orange text and white-on-orange buttons pass WCAG AA */
+  --accent: #bd4700;
+  --accent-strong: #9c3a00;
 
-  --up: #2f855a;
-  --violet: #6d4fc2;
-  --amber: #a86a12;
-  --rose: #c43d52;
-  --sky: #2b6fa8;
+  --up: #15803d;
+  --violet: #6d28d9;
+  --amber: #a16207;
+  --rose: #be123c;
+  --sky: #0369a1;
 
-  --display-font: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --display-wght: 'wght' 430, 'opsz' 96;
-  --display-word-spacing: 0.08em; /* tight tracking + serif needs air between words */
+  --display-font: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --display-wght: normal;
+  --display-word-spacing: normal;
   --text-gradient: linear-gradient(var(--accent), var(--accent));
-  --gradient-style: italic;
+  --gradient-style: normal;
 
-  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 1px 2px rgb(74 52 30 / 0.05), 0 18px 40px -22px rgb(74 52 30 / 0.22);
-  --shadow-card-hover: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 2px 4px rgb(74 52 30 / 0.05), 0 28px 56px -24px rgb(74 52 30 / 0.3);
-  --aurora-a: #e0906f;
-  --aurora-b: #d8b26a;
-  --aurora-c: #b9a2e0;
-  --aurora-strength: 26%;
-  --grain-opacity: 0.07;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 18px 40px -22px rgb(0 0 0 / 0.16);
+  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.05), 0 28px 56px -24px rgb(253 111 0 / 0.28);
+  --aurora-a: #fd6f00;
+  --aurora-b: #ffb36b;
+  --aurora-c: #ffd9b8;
+  --aurora-strength: 22%;
+  --grain-opacity: 0.03;
 }
 
 /* dark: variant follows the nearest data-theme, not the OS setting */

@@ -39,14 +39,14 @@ export function Contact() {
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
               >
                 <MailIcon size={18} /> Send an email
               </a>
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-2 rounded-xl border border-ink-600 px-5 py-3.5 font-mono text-sm text-fg-muted transition hover:border-fg-faint hover:text-fg"
+                className="inline-flex items-center gap-2 rounded-full border border-ink-600 px-6 py-3.5 font-mono text-sm text-fg-muted transition hover:border-fg-faint hover:text-fg"
               >
                 {copied ? <CheckIcon size={16} className="text-up" /> : <CopyIcon size={16} />}
                 {copied ? 'Copied!' : profile.email}
@@ -65,7 +65,7 @@ export function Contact() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={s.label}
-                      className="grid h-12 w-12 place-items-center rounded-xl border border-ink-700 text-fg-muted transition hover:border-accent/50 hover:text-accent"
+                      className="grid h-12 w-12 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-accent hover:bg-accent hover:text-ink-950"
                     >
                       <Icon size={20} />
                     </a>

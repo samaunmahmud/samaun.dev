@@ -37,7 +37,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Main">
         <a href="#top" className="group flex items-center gap-2.5 font-mono text-sm" onClick={() => setOpen(false)}>
-          <span className="grid h-8 w-8 place-items-center rounded-lg border border-accent/40 bg-accent-soft font-semibold text-accent transition group-hover:border-accent">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display font-bold text-ink-950 transition group-hover:bg-accent-strong">
             SM
           </span>
           <span className="hidden text-fg-muted transition group-hover:text-fg sm:inline">
@@ -45,19 +45,19 @@ export function Navbar() {
           </span>
         </a>
 
-        <ul className="hidden items-center lg:flex">
+        <ul className="isolate hidden items-center rounded-full border border-ink-700 bg-ink-900/70 p-1 backdrop-blur lg:flex">
           {NAV_SECTIONS.map((s) => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className={`relative rounded-md px-2.5 py-2 text-sm transition-colors ${
-                  active === s.id ? 'text-fg' : 'text-fg-muted hover:text-fg'
+                className={`relative rounded-full px-3 py-1.5 text-sm transition-colors ${
+                  active === s.id ? 'font-medium text-ink-950' : 'text-fg-muted hover:text-fg'
                 }`}
               >
                 {active === s.id && (
                   <motion.span
                     layoutId="nav-pill"
-                    className="absolute inset-0 -z-10 rounded-md bg-ink-800"
+                    className="absolute inset-0 -z-10 rounded-full bg-accent"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
                   />
                 )}
@@ -73,7 +73,7 @@ export function Navbar() {
             onClick={openPalette}
             aria-label="Open command palette"
             aria-keyshortcuts="Meta+K Control+K"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg xl:flex xl:w-auto xl:gap-2 xl:px-2.5"
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg xl:flex xl:w-auto xl:gap-2 xl:px-2.5"
           >
             <SearchIcon size={15} />
             <kbd className="hidden font-mono text-[11px] text-fg-faint xl:inline">{mod} K</kbd>
@@ -86,14 +86,14 @@ export function Navbar() {
             }}
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dev mode (dark theme)'}
             title={theme === 'dark' ? 'Light theme' : 'Dev mode'}
-            className="grid h-9 w-9 place-items-center rounded-lg border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-accent"
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-accent hover:text-accent"
           >
             {theme === 'dark' ? <SunIcon size={16} /> : <MoonIcon size={16} />}
           </button>
           <a
             href={profile.cvUrl ?? '#contact'}
             {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
-            className="hidden rounded-lg border border-accent/50 px-3.5 py-1.5 text-sm font-medium text-accent transition hover:bg-accent hover:text-ink-950 sm:inline-block"
+            className="hidden rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-ink-950 transition hover:bg-accent-strong sm:inline-block"
           >
             {profile.cvUrl ? 'Résumé' : 'Get in touch'}
           </a>
@@ -146,7 +146,7 @@ export function Navbar() {
                   href={profile.cvUrl ?? '#contact'}
                   {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg bg-accent py-3 text-center font-medium text-ink-950"
+                  className="block rounded-full bg-accent py-3 text-center font-medium text-ink-950"
                 >
                   {profile.cvUrl ? 'Download résumé' : 'Get in touch'}
                 </a>

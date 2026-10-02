@@ -63,7 +63,7 @@ export function Hero() {
               href="#projects"
               onPointerMove={(e) => magnet(e)}
               onPointerLeave={release}
-              className="magnetic group inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
+              className="magnetic group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
             >
               View projects
               <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -73,7 +73,7 @@ export function Hero() {
                 href={profile.cvUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
+                className="inline-flex items-center gap-2 rounded-full border border-ink-600 bg-ink-900/60 px-6 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
               >
                 <DownloadIcon size={16} />
                 Résumé
@@ -83,7 +83,7 @@ export function Hero() {
                 href="#contact"
                 onPointerMove={(e) => magnet(e)}
                 onPointerLeave={release}
-                className="magnetic inline-flex items-center gap-2 rounded-xl border border-ink-600 bg-ink-900/60 px-5 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
+                className="magnetic inline-flex items-center gap-2 rounded-full border border-ink-600 bg-ink-900/60 px-6 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
               >
                 Get in touch
               </a>
@@ -98,7 +98,7 @@ export function Hero() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="grid h-11 w-11 place-items-center rounded-xl text-fg-muted transition hover:bg-ink-800 hover:text-accent"
+                    className="grid h-11 w-11 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-accent hover:bg-accent hover:text-ink-950"
                   >
                     <Icon size={20} />
                   </a>
@@ -193,8 +193,10 @@ function Console() {
 
   return (
     <div className="relative">
-      <div className="absolute -inset-6 rounded-[2rem] bg-accent/15 blur-3xl" aria-hidden />
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent/60 via-ink-700 to-violet/40" aria-hidden />
+      {/* Orange disc + dashed ring peeking out behind the console (the template's photo-on-a-circle motif) */}
+      <div className="absolute -top-14 -right-12 h-60 w-60 rounded-full bg-accent sm:h-72 sm:w-72" aria-hidden />
+      <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full border-2 border-dashed border-accent/60" aria-hidden />
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent via-ink-700 to-accent/30" aria-hidden />
       <div
         data-theme="dark"
         className="relative overflow-hidden rounded-2xl bg-ink-900 text-fg shadow-2xl shadow-black/40"
