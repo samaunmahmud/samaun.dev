@@ -11,7 +11,7 @@ export function About() {
       eyebrow="About"
       title={
         <>
-          Backend-focused, <span className="text-fg-muted">full-stack in practice.</span>
+          Backend-focused, <span className="text-accent">full-stack in practice.</span>
         </>
       }
     >

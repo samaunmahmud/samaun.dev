@@ -1,64 +1,63 @@
-import { motion, useScroll, useSpring } from 'motion/react'
-import { useRef } from 'react'
 import { profile } from '../../data/profile'
 import type { TimelineItem } from '../../data/types'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 
-const KIND: Record<TimelineItem['kind'], { label: string; dot: string; pill: string }> = {
-  education: { label: 'Education', dot: 'bg-sky', pill: 'text-sky border-sky/30 bg-sky/10' },
-  role: { label: 'Role', dot: 'bg-accent', pill: 'text-accent border-accent/30 bg-accent-soft' },
-  hackathon: { label: 'Hackathon', dot: 'bg-violet', pill: 'text-violet border-violet/30 bg-violet/10' },
+const KIND: Record<TimelineItem['kind'], { label: string; dot: string }> = {
+  education: { label: 'Education', dot: 'border-fg bg-fg' },
+  role: { label: 'Role', dot: 'border-accent bg-accent' },
+  hackathon: { label: 'Hackathon', dot: 'border-accent bg-accent' },
 }
 
+/**
+ * Centred timeline (the template's "My Work Experience"): org + period on the left,
+ * role + details on the right, joined by a dashed spine. Mobile: one column, spine on the left.
+ */
 export function Journey() {
-  const ref = useRef<HTMLOListElement>(null)
-  // The accent line draws down the timeline as it scrolls through the viewport
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 60%'] })
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
-
   return (
     <Section
       id="journey"
       index="05"
-      band
-      split
+      center
       eyebrow="Journey"
       title={
         <>
-          Education, roles <span className="text-fg-muted">and hackathons.</span>
+          Education, roles <span className="text-accent">and hackathons.</span>
         </>
       }
     >
-      <ol ref={ref} className="relative ml-2 border-l border-ink-700 sm:ml-4">
-        <motion.span
-          className="absolute top-0 bottom-0 -left-px w-px origin-top bg-accent"
-          style={{ scaleY: progress }}
+      <ol className="relative mx-auto max-w-4xl">
+        <span
+          className="absolute top-2 bottom-2 left-[11px] border-l-2 border-dashed border-ink-600 md:left-1/2 md:-translate-x-px"
           aria-hidden
         />
         {profile.timeline.map((item, i) => {
           const kind = KIND[item.kind]
           return (
-            <li key={item.title} className="relative pb-12 pl-8 last:pb-0 sm:pl-12">
-              <span className="absolute top-1.5 -left-[7px] flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-ink-950 bg-ink-950">
-                <span className={`h-2.5 w-2.5 rounded-full ${kind.dot} shadow-[0_0_0_4px] shadow-ink-950`} />
+            <li
+              key={item.title}
+              className="relative grid grid-cols-[24px_minmax(0,1fr)] gap-x-5 pb-12 last:pb-0 md:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)] md:gap-x-10"
+            >
+              <Reveal delay={i * 0.05} className="col-start-2 md:col-start-1 md:text-right">
+                <p className="font-display text-xl font-semibold text-fg sm:text-2xl">{item.org}</p>
+                <p className="mt-1 text-sm text-fg-muted">{item.period}</p>
+                <p className="mt-2 inline-block rounded-full border border-ink-700 px-2.5 py-0.5 font-mono text-[10px] tracking-wider text-fg-muted uppercase">
+                  {kind.label}
+                </p>
+              </Reveal>
+
+              {/* Dot on the spine: a ringed circle, like the template */}
+              <span className="row-start-1 col-start-1 mt-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-dashed border-accent bg-ink-950 md:col-start-2">
+                <span className={`h-2.5 w-2.5 rounded-full border ${kind.dot}`} />
               </span>
-              <Reveal delay={i * 0.05}>
-                <div className="grid gap-2 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-6">
-                  <div>
-                    <p className="font-mono text-sm text-fg-muted">{item.period}</p>
-                    <p className={`mt-2 w-fit rounded-full border px-2.5 py-0.5 font-mono text-[10px] tracking-wider uppercase ${kind.pill}`}>{kind.label}</p>
-                  </div>
-                  <div className="rounded-2xl surface p-6 hover:-translate-y-0.5 hover:border-ink-600">
-                    <h3 className="font-display text-lg font-semibold text-fg">{item.title}</h3>
-                    <p className="mt-0.5 text-accent">{item.org}</p>
-                    <ul className="mt-3 space-y-1.5 text-[15px] text-fg-muted">
-                      {item.points.map((pt) => (
-                        <li key={pt}>{pt}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+
+              <Reveal delay={i * 0.05 + 0.05} className="col-start-2 mt-3 md:col-start-3 md:row-start-1 md:mt-0">
+                <h3 className="font-display text-xl font-semibold text-fg sm:text-2xl">{item.title}</h3>
+                <ul className="mt-2 space-y-1.5 text-[15px] leading-relaxed text-fg-muted">
+                  {item.points.map((pt) => (
+                    <li key={pt}>{pt}</li>
+                  ))}
+                </ul>
               </Reveal>
             </li>
           )

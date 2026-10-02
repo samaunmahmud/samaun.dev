@@ -48,7 +48,7 @@ export function Projects() {
       eyebrow="Selected work"
       title={
         <>
-          Selected projects, <span className="text-fg-muted">and the problems behind them.</span>
+          Selected projects, <span className="text-accent">and the problems behind them.</span>
         </>
       }
       intro="Each card lists the engineering problems I worked through, not just the stack."

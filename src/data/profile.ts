@@ -13,7 +13,11 @@ export const profile: Profile = {
   role: 'Full-stack Java developer',
   location: 'Uxbridge, London',
   timezone: 'Europe/London',
-  headline: { lead: 'Full-stack Java developer building', accent: 'real-time systems.' },
+  greeting: 'Hello!',
+  headline: { lead: "I'm", accent: 'Samaun', tail: 'Full-stack Java Developer' },
+  // TODO: add a portrait (ideally a cut-out PNG with a transparent background) as public/me.png, then uncomment —
+  // it replaces the terminal on the hero's orange circle
+  // photo: '/me.png',
   tagline:
     'Computer Science (AI) student at Brunel University London. I build real-time, data-heavy applications with Spring Boot and React, with a particular interest in fintech.',
   about: [

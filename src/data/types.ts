@@ -77,8 +77,12 @@ export interface Profile {
   location: string
   /** IANA zone for the live clock in the hero, e.g. "Europe/London". */
   timezone: string
-  /** Hero headline; `accent` is set in the accent style after `lead`. */
-  headline: { lead: string; accent: string }
+  /** Small badge above the hero headline. */
+  greeting: string
+  /** Hero headline: `lead` `accent`, then `tail` on its own line; `accent` is set in orange. */
+  headline: { lead: string; accent: string; tail: string }
+  /** Path under /public for a cut-out portrait on the hero's orange circle. Unset = the terminal shows there. */
+  photo?: string
   tagline: string
   about: string[]
   availability: string

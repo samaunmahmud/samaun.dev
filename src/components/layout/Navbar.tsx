@@ -30,12 +30,15 @@ export function Navbar() {
   }, [open])
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open ? 'border-b border-ink-700/60 bg-ink-950/75 backdrop-blur-xl' : 'border-b border-transparent'
-      }`}
-    >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Main">
+    <header className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-300 sm:px-6 ${scrolled || open ? 'pt-2' : 'pt-4'}`}>
+      {/* A dark pill in both themes, like the template's nav bar */}
+      <nav
+        data-theme="dark"
+        className={`relative mx-auto flex h-14 max-w-6xl items-center justify-between overflow-hidden rounded-full border border-ink-700 bg-ink-950/90 pr-2 pl-3 text-fg backdrop-blur-xl transition-shadow sm:pl-4 ${
+          scrolled || open ? 'shadow-xl shadow-black/25' : ''
+        }`}
+        aria-label="Main"
+      >
         <a href="#top" className="group flex items-center gap-2.5 font-mono text-sm" onClick={() => setOpen(false)}>
           <span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-display font-bold text-ink-950 transition group-hover:bg-accent-strong">
             SM
@@ -45,7 +48,7 @@ export function Navbar() {
           </span>
         </a>
 
-        <ul className="isolate hidden items-center rounded-full border border-ink-700 bg-ink-900/70 p-1 backdrop-blur lg:flex">
+        <ul className="isolate hidden items-center lg:flex">
           {NAV_SECTIONS.map((s) => (
             <li key={s.id}>
               <a
@@ -107,23 +110,23 @@ export function Navbar() {
             {open ? <CloseIcon size={20} /> : <MenuIcon size={20} />}
           </button>
         </div>
+        <motion.div
+          className="absolute inset-x-6 bottom-0 h-0.5 origin-left rounded-full bg-accent"
+          style={{ scaleX: progress }}
+          aria-hidden
+        />
       </nav>
-
-      <motion.div
-        className="absolute inset-x-0 bottom-0 h-px origin-left bg-accent"
-        style={{ scaleX: progress }}
-        aria-hidden
-      />
 
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: '100dvh' }}
+            animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden lg:hidden"
+            data-theme="dark"
+            className="mt-2 max-h-[calc(100dvh-5rem)] overflow-y-auto rounded-3xl border border-ink-700 bg-ink-950/95 backdrop-blur-xl lg:hidden"
           >
-            <ul className="flex flex-col gap-1 px-5 pt-4">
+            <ul className="flex flex-col gap-1 px-5 pt-2 pb-5 text-fg">
               {NAV_SECTIONS.map((s, i) => (
                 <motion.li
                   key={s.id}

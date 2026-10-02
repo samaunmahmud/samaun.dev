@@ -1,9 +1,10 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { useClock } from '../../hooks/useClock'
 import { timeAgo, useLastPush } from '../../hooks/useLastPush'
-import { magnet, release, track } from '../../lib/pointer'
+import { magnet, release } from '../../lib/pointer'
+import { CountUp } from '../ui/CountUp'
 import { ArrowUpRight, DownloadIcon } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
 import { Terminal } from '../ui/Terminal'
@@ -15,80 +16,38 @@ const fade = (delay: number) => ({
 })
 
 export function Hero() {
-  const reduce = useReducedMotion()
   const socials = profile.socials.filter((s) => s.key !== 'email')
+  const stat = profile.stats[0]
 
   return (
-    <section id="top" onPointerMove={track} className="group/hero relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
-      {/* Background: grid + aurora wash + a price-line horizon that draws itself (a nod to Meridian) */}
-      <div className="aurora" aria-hidden>
-        <span className="top-[-18%] left-[-8%] h-[520px] w-[620px]" />
-        <span className="top-[-10%] right-[-10%] h-[480px] w-[560px]" />
-        <span className="top-[35%] left-[30%] h-[380px] w-[520px]" />
-      </div>
-      <div className="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden />
-      {/* Cursor spotlight: lights up the grid under the pointer (mouse only, see lib/pointer.ts) */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/hero:opacity-100 bg-[radial-gradient(360px_circle_at_var(--px,-999px)_var(--py,-999px),var(--color-accent-soft),transparent_70%)]"
-        aria-hidden
-      />
-      <PriceLine animate={!reduce} />
-
-      <div className="relative mx-auto my-auto grid w-full max-w-6xl items-center grid-cols-[minmax(0,1fr)] gap-14 px-5 pb-16 sm:px-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-        <div>
-          <motion.p
-            {...fade(0)}
-            className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-ink-700 bg-ink-900/80 px-3.5 py-1.5 text-xs text-fg-muted backdrop-blur"
-          >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
-            {profile.availability}
+    <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
+      <div className="relative mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
+        {/* Greeting badge + headline, centred */}
+        <div className="text-center">
+          <motion.p {...fade(0)} className="relative inline-block">
+            <span className="inline-block rounded-full border border-fg/80 px-4 py-1.5 text-sm font-medium text-fg">
+              {profile.greeting}
+            </span>
+            <Doodle className="absolute -top-4 -right-6 h-6 w-6 text-accent" />
           </motion.p>
 
-          <motion.p {...fade(0.06)} className="mt-8 font-mono text-sm tracking-wide text-accent">
-            {profile.name}
-          </motion.p>
           <motion.h1
-            {...fade(0.1)}
-            className="mt-3 font-display text-[2.6rem] leading-[1.04] font-bold tracking-tight sm:text-6xl lg:text-[3.75rem]"
+            {...fade(0.08)}
+            className="relative mt-5 font-display text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-fg sm:text-6xl lg:text-[5.25rem]"
           >
-            {profile.headline.lead} <span className="text-gradient">{profile.headline.accent}</span>
+            {profile.headline.lead} <span className="text-accent">{profile.headline.accent}</span>,
+            <br />
+            {profile.headline.tail}
+            <Doodle className="absolute -bottom-6 -left-2 hidden h-9 w-9 rotate-180 text-accent sm:block lg:-left-6" />
           </motion.h1>
+        </div>
 
-          <motion.p {...fade(0.16)} className="mt-7 max-w-xl text-lg leading-relaxed text-fg-muted">
-            {profile.tagline}
-          </motion.p>
-
-          <motion.div {...fade(0.24)} className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href="#projects"
-              onPointerMove={(e) => magnet(e)}
-              onPointerLeave={release}
-              className="magnetic group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
-            >
-              View projects
-              <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-            {profile.cvUrl ? (
-              <a
-                href={profile.cvUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-ink-600 bg-ink-900/60 px-6 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
-              >
-                <DownloadIcon size={16} />
-                Résumé
-              </a>
-            ) : (
-              <a
-                href="#contact"
-                onPointerMove={(e) => magnet(e)}
-                onPointerLeave={release}
-                className="magnetic inline-flex items-center gap-2 rounded-full border border-ink-600 bg-ink-900/60 px-6 py-3 font-medium text-fg backdrop-blur transition hover:border-fg-faint"
-              >
-                Get in touch
-              </a>
-            )}
-            <div className="ml-1 flex items-center gap-1">
+        {/* Quote · visual · stat — stacks on mobile */}
+        <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:mt-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,580px)_minmax(0,1fr)] lg:gap-8">
+          <motion.div {...fade(0.16)} className="max-w-xs lg:mt-16">
+            <QuoteIcon className="h-7 w-7 text-fg" />
+            <p className="mt-3 text-[15px] leading-relaxed text-fg-muted">{profile.tagline}</p>
+            <div className="mt-5 flex items-center gap-2">
               {socials.map((s) => {
                 const Icon = socialIcon[s.key]
                 return (
@@ -98,31 +57,133 @@ export function Hero() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="grid h-11 w-11 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-accent hover:bg-accent hover:text-ink-950"
+                    className="grid h-10 w-10 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-accent hover:bg-accent hover:text-ink-950"
                   >
-                    <Icon size={20} />
+                    <Icon size={18} />
                   </a>
                 )
               })}
             </div>
           </motion.div>
 
-          <motion.div {...fade(0.32)}>
-            <StatusLine />
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative order-first lg:order-none"
+          >
+            <Stage />
           </motion.div>
+
+          {stat && (
+            <motion.div {...fade(0.24)} className="lg:mt-16 lg:justify-self-end lg:text-right">
+              <p className="flex gap-1 text-accent lg:justify-end" aria-hidden>
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <StarIcon key={i} className="h-4 w-4" />
+                ))}
+              </p>
+              <p className="mt-2 font-display text-4xl font-bold text-fg">
+                <CountUp value={stat.value} />
+              </p>
+              <p className="text-sm text-fg-muted">{stat.label}</p>
+              <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-700 px-3 py-1 text-xs text-fg-muted">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
+                {profile.availability}
+              </p>
+            </motion.div>
+          )}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Console />
+        <motion.div {...fade(0.32)}>
+          <StatusLine />
         </motion.div>
       </div>
 
       <StackTicker />
     </section>
+  )
+}
+
+/* ── Stage: the orange disc with the portrait (or terminal) and the CTA capsule ── */
+
+function Stage() {
+  return (
+    <div className="relative mx-auto max-w-[580px] pt-6">
+      {/* The disc sits behind, its top half showing above the content */}
+      <div className="absolute inset-x-[4%] top-0 aspect-square rounded-full bg-accent-bright" aria-hidden />
+      <div className="relative px-[3%]">
+        {profile.photo ? (
+          <img
+            src={profile.photo}
+            alt={profile.name}
+            className="relative mx-auto block max-h-[520px] w-auto object-contain"
+            fetchPriority="high"
+          />
+        ) : (
+          <div className="pt-[14%]">
+            <Console />
+          </div>
+        )}
+      </div>
+
+      {/* Glass capsule with the two CTAs, overlapping the bottom edge */}
+      <div
+        data-theme="dark"
+        className="relative z-10 mx-auto -mt-9 flex w-fit items-center gap-1.5 rounded-full border border-white/20 bg-ink-950/50 p-1.5 text-fg shadow-lg backdrop-blur-md"
+      >
+        <a
+          href="#projects"
+          onPointerMove={(e) => magnet(e)}
+          onPointerLeave={release}
+          className="magnetic group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-ink-950 transition hover:bg-accent-strong"
+        >
+          View projects
+          <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </a>
+        {profile.cvUrl ? (
+          <a
+            href={profile.cvUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-medium text-fg transition hover:text-accent"
+          >
+            <DownloadIcon size={16} />
+            Résumé
+          </a>
+        ) : (
+          <a href="#contact" className="rounded-full px-5 py-3 font-medium text-fg transition hover:text-accent">
+            Hire me
+          </a>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/** Three hand-drawn strokes, as on the template's "Hello!" badge. */
+function Doodle({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={className} aria-hidden>
+      <path d="M4 14 L9 19" />
+      <path d="M10 6 L12 16" />
+      <path d="M18 4 L15 15" />
+    </svg>
+  )
+}
+
+function QuoteIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden>
+      <path d="M13 8c-5 1.5-9 5.6-9 11.5V25h9v-9H8.6c.4-2.8 2.2-4.9 5.4-5.9L13 8Zm15 0c-5 1.5-9 5.6-9 11.5V25h9v-9h-4.4c.4-2.8 2.2-4.9 5.4-5.9L28 8Z" />
+    </svg>
+  )
+}
+
+function StarIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className={className}>
+      <path d="m10 1.5 2.6 5.5 6 .7-4.5 4.1 1.2 5.9L10 14.8l-5.3 2.9 1.2-5.9L1.4 7.7l6-.7L10 1.5Z" />
+    </svg>
   )
 }
 
@@ -161,7 +222,7 @@ function StatusLine() {
   const city = profile.location.split(',').at(-1)?.trim()
 
   return (
-    <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-ink-800 pt-5 font-mono text-xs text-fg-faint">
+    <div className="mt-12 mb-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs text-fg-faint">
       <span>
         <span className="text-fg-muted">{city}</span> · {time}
       </span>
@@ -193,10 +254,6 @@ function Console() {
 
   return (
     <div className="relative">
-      {/* Orange disc + dashed ring peeking out behind the console (the template's photo-on-a-circle motif) */}
-      <div className="absolute -top-14 -right-12 h-60 w-60 rounded-full bg-accent sm:h-72 sm:w-72" aria-hidden />
-      <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full border-2 border-dashed border-accent/60" aria-hidden />
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-accent via-ink-700 to-accent/30" aria-hidden />
       <div
         data-theme="dark"
         className="relative overflow-hidden rounded-2xl bg-ink-900 text-fg shadow-2xl shadow-black/40"
@@ -263,44 +320,5 @@ function CodeCard() {
         <span className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 animate-blink bg-accent" />
       </code>
     </pre>
-  )
-}
-
-/* ── Price line ────────────────────────────────────────────── */
-
-function PriceLine({ animate }: { animate: boolean }) {
-  const d =
-    'M0 220 L60 205 L110 214 L170 180 L220 190 L280 150 L330 162 L390 120 L440 135 L500 98 L560 110 L620 70 L680 84 L740 52 L800 64 L860 30 L920 42 L1000 12'
-  return (
-    <svg
-      className="pointer-events-none absolute inset-x-0 bottom-12 h-[180px] w-full text-accent opacity-30"
-      viewBox="0 0 1000 240"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      <defs>
-        <linearGradient id="pl-fill" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="currentColor" stopOpacity="0.18" />
-          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <motion.path
-        d={`${d} L1000 240 L0 240 Z`}
-        fill="url(#pl-fill)"
-        initial={{ opacity: animate ? 0 : 1 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 1.4 }}
-      />
-      <motion.path
-        d={d}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        vectorEffect="non-scaling-stroke"
-        initial={{ pathLength: animate ? 0 : 1 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 2.2, delay: 0.3, ease: 'easeInOut' }}
-      />
-    </svg>
   )
 }

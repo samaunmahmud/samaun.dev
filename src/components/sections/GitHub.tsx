@@ -21,7 +21,7 @@ export function GitHub() {
       eyebrow="GitHub"
       title={
         <>
-          Live from GitHub, <span className="text-fg-muted">updated as I push.</span>
+          Live from GitHub, <span className="text-accent">updated as I push.</span>
         </>
       }
       intro="My most recently active repositories and a year of commits, pulled from GitHub when you load the page."

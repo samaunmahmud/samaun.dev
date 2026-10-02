@@ -23,6 +23,7 @@
 
   --accent: #ff7a1a;
   --accent-strong: #fd6f00;
+  --accent-bright: #fd6f00; /* decorative fills only (hero disc), never text */
 
   --up: #4ade80;
   --violet: #c4b5fd;
@@ -62,6 +63,7 @@
   /* Deeper than the template's #fd6f00 so orange text and white-on-orange buttons pass WCAG AA */
   --accent: #bd4700;
   --accent-strong: #9c3a00;
+  --accent-bright: #ffa865; /* decorative fills only (hero disc), never text */
 
   --up: #15803d;
   --violet: #6d28d9;
@@ -105,6 +107,7 @@
 
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-accent-bright: var(--accent-bright);
   --color-accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
 
   --color-up: var(--up);
@@ -151,7 +154,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
   body {
     @apply bg-ink-950 font-sans text-fg antialiased;

@@ -25,7 +25,7 @@ export function Faq() {
       eyebrow="FAQ"
       title={
         <>
-          Quick answers <span className="text-fg-muted">for recruiters.</span>
+          Quick answers <span className="text-accent">for recruiters.</span>
         </>
       }
     >
