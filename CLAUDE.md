@@ -6,7 +6,7 @@ Audience: placement recruiters and engineers who give it 30–60 seconds. Speed 
 ## Commands
 
 - `npm run dev` — dev server on http://localhost:5173
-- `npm run check` — lint + type-check + production build. **Run before saying any task is done.**
+- `npm run check` — lint + content check (`scripts/validate-content.ts`) + type-check + production build. **Run before saying any task is done.**
 - `npm run preview` — serve the production build locally
 
 ## Stack
