@@ -1,5 +1,10 @@
 /** Small side-effect helpers shared by the command palette and the hero terminal. */
 
+import { profile } from '../data/profile'
+
+/** The designed PDF if there is one, otherwise the printable page generated from profile.ts. */
+export const resumeUrl = profile.cvUrl ?? '/resume'
+
 /** Scrolls to a section or project anchor. CSS scroll-behavior handles smooth vs. reduced motion. */
 export function goTo(id: string) {
   const el = document.getElementById(id)

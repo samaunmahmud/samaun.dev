@@ -282,6 +282,16 @@
   mix-blend-mode: normal;
 }
 
+/* Printing (the /resume page): A4, no grain overlay, keep the orange rules and bullets */
+@page {
+  size: A4;
+  margin: 14mm 16mm;
+}
+@media print {
+  body::after { display: none; }
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

@@ -4,4 +4,8 @@
     <loc>https://samaun-dev.vercel.app/</loc>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://samaun-dev.vercel.app/resume</loc>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

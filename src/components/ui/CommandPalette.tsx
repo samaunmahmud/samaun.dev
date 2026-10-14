@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
-import { copyText, goTo, openExternal, openProject, PALETTE_EVENT } from '../../lib/actions'
+import { copyText, goTo, openExternal, openProject, PALETTE_EVENT, resumeUrl } from '../../lib/actions'
 import { ArrowUpRight, CopyIcon, DownloadIcon, HashIcon, SearchIcon } from './Icons'
 import { socialIcon } from './socialIcons'
 
@@ -57,18 +57,14 @@ function buildCommands(onCopied: () => void): Command[] {
         else openExternal(`mailto:${profile.email}`)
       },
     },
-    ...(profile.cvUrl
-      ? [
-          {
-            id: 'cv',
-            group: 'Actions' as const,
-            label: 'Open résumé',
-            hint: 'PDF',
-            icon: <DownloadIcon size={16} />,
-            run: () => openExternal(profile.cvUrl!),
-          },
-        ]
-      : []),
+    {
+      id: 'cv',
+      group: 'Actions',
+      label: 'Open résumé',
+      hint: profile.cvUrl ? 'PDF' : 'Printable',
+      icon: <DownloadIcon size={16} />,
+      run: () => openExternal(resumeUrl),
+    },
     {
       id: 'source',
       group: 'Actions',

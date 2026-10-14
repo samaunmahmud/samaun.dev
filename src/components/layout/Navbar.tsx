@@ -4,7 +4,7 @@ import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { useTheme } from '../../hooks/useTheme'
-import { isMac, openPalette } from '../../lib/actions'
+import { isMac, openPalette, resumeUrl } from '../../lib/actions'
 import { CloseIcon, MenuIcon, MoonIcon, SearchIcon, SunIcon } from '../ui/Icons'
 
 const ids = NAV_SECTIONS.map((s) => s.id)
@@ -94,11 +94,12 @@ export function Navbar() {
             {theme === 'dark' ? <SunIcon size={16} /> : <MoonIcon size={16} />}
           </button>
           <a
-            href={profile.cvUrl ?? '#contact'}
-            {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+            href={resumeUrl}
+            target="_blank"
+            rel="noreferrer"
             className="hidden rounded-full bg-accent px-4 py-1.5 text-sm font-medium text-ink-950 transition hover:bg-accent-strong sm:inline-block"
           >
-            {profile.cvUrl ? 'Résumé' : 'Get in touch'}
+            Résumé
           </a>
           <button
             type="button"
@@ -146,12 +147,13 @@ export function Navbar() {
               ))}
               <li className="pt-6">
                 <a
-                  href={profile.cvUrl ?? '#contact'}
-                  {...(profile.cvUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noreferrer"
                   onClick={() => setOpen(false)}
                   className="block rounded-full bg-accent py-3 text-center font-medium text-ink-950"
                 >
-                  {profile.cvUrl ? 'Download résumé' : 'Get in touch'}
+                  {profile.cvUrl ? 'Download résumé' : 'View résumé'}
                 </a>
               </li>
             </ul>

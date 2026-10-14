@@ -17,6 +17,12 @@ function commitHash() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // Two pages: the portfolio and the printable résumé (served at /resume via cleanUrls in vercel.json)
+  build: {
+    rollupOptions: {
+      input: { main: 'index.html', resume: 'resume.html' },
+    },
+  },
   define: {
     __COMMIT__: JSON.stringify(commitHash()),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),

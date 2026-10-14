@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
-import { copyText, goTo, isMac, openExternal, openPalette, openProject } from '../../lib/actions'
+import { copyText, goTo, isMac, openExternal, openPalette, openProject, resumeUrl } from '../../lib/actions'
 
 interface Line {
   id: number
@@ -25,7 +25,7 @@ const COMMANDS: Record<string, string> = {
   cd: 'cd <section> — scroll there',
   contact: 'ways to reach me',
   email: 'copy my email',
-  ...(profile.cvUrl ? { cv: 'open my résumé' } : {}),
+  cv: 'open my résumé',
   github: 'open GitHub',
   linkedin: 'open LinkedIn',
   palette: 'open the command palette',
@@ -175,8 +175,7 @@ function execute(raw: string): ReactNode | null {
       )
     case 'cv':
     case 'resume':
-      if (!profile.cvUrl) return <p>Résumé coming soon. Try “contact”.</p>
-      openExternal(profile.cvUrl)
+      openExternal(resumeUrl)
       return <p>→ opening résumé…</p>
     case 'github':
     case 'linkedin': {

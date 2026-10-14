@@ -89,8 +89,10 @@ export interface Profile {
   /** "Right now" card in About — keep it current, it's the first thing that goes stale. */
   now: NowItem[]
   email: string
-  /** Path under /public. Leave unset until the file exists — every résumé button hides itself. */
+  /** Path under /public. Unset = résumé buttons open the printable /resume page generated from this file. */
   cvUrl?: string
+  /** Live URL of this site, shown on the printable résumé. */
+  siteUrl: string
   /** This site's own repo — the footer links the build hash to it. */
   sourceRepo: string
   /** Practice repos kept out of the live GitHub feed. A trailing * matches a prefix. */

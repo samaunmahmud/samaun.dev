@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { useClock } from '../../hooks/useClock'
 import { timeAgo, useLastPush } from '../../hooks/useLastPush'
+import { resumeUrl } from '../../lib/actions'
 import { magnet, release } from '../../lib/pointer'
 import { CountUp } from '../ui/CountUp'
 import { ArrowUpRight, DownloadIcon } from '../ui/Icons'
@@ -140,21 +141,15 @@ function Stage() {
           View projects
           <ArrowUpRight size={16} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </a>
-        {profile.cvUrl ? (
-          <a
-            href={profile.cvUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-medium text-fg transition hover:text-accent"
-          >
-            <DownloadIcon size={16} />
-            Résumé
-          </a>
-        ) : (
-          <a href="#contact" className="rounded-full px-5 py-3 font-medium text-fg transition hover:text-accent">
-            Hire me
-          </a>
-        )}
+        <a
+          href={resumeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-medium text-fg transition hover:text-accent"
+        >
+          <DownloadIcon size={16} />
+          Résumé
+        </a>
       </div>
     </div>
   )
