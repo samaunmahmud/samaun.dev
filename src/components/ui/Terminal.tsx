@@ -291,7 +291,7 @@ export function Terminal() {
       onClick={() => {
         if (!window.getSelection()?.toString()) inputRef.current?.focus({ preventScroll: true })
       }}
-      className="h-[340px] cursor-text overflow-y-auto p-5 ring-accent/30 ring-inset focus-within:ring-1 font-mono text-[12.5px] leading-6 text-fg-muted sm:text-[13px]"
+      className="h-[340px] cursor-text overflow-y-auto p-5 ring-accent ring-inset focus-within:ring-2 font-mono text-[12.5px] leading-6 text-fg-muted sm:text-[13px]"
     >
       <div className="space-y-0.5">
         {lines.map((l) => (
