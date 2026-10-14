@@ -33,6 +33,8 @@ export interface Project {
   demo?: string
   /** Path under /public, e.g. "/projects/meridian.png". Falls back to a generated cover. */
   image?: string
+  /** Pixel size of `image` (and `imageDark`), so the browser reserves space before it loads. */
+  imageSize?: [width: number, height: number]
   /** Optional dark-theme version of `image`, shown in dev mode. */
   imageDark?: string
   /** Colour + illustration for the generated cover when there is no image. */

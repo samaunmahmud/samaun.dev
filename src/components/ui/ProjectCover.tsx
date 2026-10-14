@@ -21,11 +21,11 @@ export function ProjectCover({ project, className = '', peek = false }: { projec
   if (project.image) {
     return project.imageDark ? (
       <>
-        <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={`dark:hidden ${className}`} />
-        <Shot src={project.imageDark} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={`hidden dark:block ${className}`} />
+        <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} size={project.imageSize} peek={peek} className={`dark:hidden ${className}`} />
+        <Shot src={project.imageDark} alt={`${project.name} screenshot`} label={project.slug} size={project.imageSize} peek={peek} className={`hidden dark:block ${className}`} />
       </>
     ) : (
-      <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} peek={peek} className={className} />
+      <Shot src={project.image} alt={`${project.name} screenshot`} label={project.slug} size={project.imageSize} peek={peek} className={className} />
     )
   }
 
@@ -53,7 +53,7 @@ export function ProjectCover({ project, className = '', peek = false }: { projec
  * generated covers, so it fits any frame shape (tall featured panel, wide modal header).
  * The frame tilts with --rx/--ry, which the parent card sets from the cursor (lib/pointer.ts).
  */
-function Shot({ src, alt, label, peek, className }: { src: string; alt: string; label: string; peek: boolean; className: string }) {
+function Shot({ src, alt, label, size, peek, className }: { src: string; alt: string; label: string; size?: [number, number]; peek: boolean; className: string }) {
   return (
     <div className={`relative h-full w-full overflow-hidden bg-ink-900 ${className}`}>
       <div className="bg-grid absolute inset-0 opacity-60" aria-hidden />
@@ -73,7 +73,10 @@ function Shot({ src, alt, label, peek, className }: { src: string; alt: string; 
           <img
             src={src}
             alt={alt}
+            width={size?.[0]}
+            height={size?.[1]}
             loading="lazy"
+            decoding="async"
             className={peek ? 'min-h-0 w-full flex-1 object-cover object-top' : 'min-h-0 max-w-full object-contain'}
           />
         </figure>
