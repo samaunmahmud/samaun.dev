@@ -399,8 +399,8 @@ export const profile: Profile = {
     { name: 'Languages', items: ['Java', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
     { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT'] },
     { name: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'HTML & CSS'] },
-    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
-    { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Render', 'Vercel'] },
+    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Flyway', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
+    { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Testcontainers', 'Vitest', 'Render', 'Vercel'] },
   ],
 
 }
