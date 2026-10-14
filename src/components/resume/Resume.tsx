@@ -37,79 +37,81 @@ export function Resume() {
         </button>
       </div>
 
-      <article className="mx-auto max-w-[210mm] bg-ink-950 px-6 py-8 text-[13px] leading-snug shadow-[var(--shadow-card)] print:max-w-none print:p-0 print:shadow-none sm:px-12 sm:py-12">
-        <header className="border-b-2 border-accent pb-4">
-          <h1 className="font-display text-4xl font-bold tracking-tight">{profile.name}</h1>
-          <p className="mt-1 text-base font-medium text-accent">{profile.role}</p>
-          <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-fg-muted">
-            <span>{profile.location}</span>
-            <a href={`mailto:${profile.email}`} className="hover:text-accent">
-              {profile.email}
-            </a>
-            {links.map((url) => (
-              <a key={url} href={url} className="hover:text-accent">
-                {bare(url)}
+      <main>
+        <article className="mx-auto max-w-[210mm] bg-ink-950 px-6 py-8 text-[13px] leading-snug shadow-[var(--shadow-card)] print:max-w-none print:p-0 print:shadow-none sm:px-12 sm:py-12">
+          <header className="border-b-2 border-accent pb-4">
+            <h1 className="font-display text-4xl font-bold tracking-tight">{profile.name}</h1>
+            <p className="mt-1 text-base font-medium text-accent">{profile.role}</p>
+            <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-fg-muted">
+              <span>{profile.location}</span>
+              <a href={`mailto:${profile.email}`} className="hover:text-accent">
+                {profile.email}
               </a>
-            ))}
-          </p>
-        </header>
+              {links.map((url) => (
+                <a key={url} href={url} className="hover:text-accent">
+                  {bare(url)}
+                </a>
+              ))}
+            </p>
+          </header>
 
-        <Block title="Profile">
-          <p>{profile.tagline}</p>
-          <p className="mt-1 font-medium">{profile.availability}.</p>
-        </Block>
+          <Block title="Profile">
+            <p>{profile.tagline}</p>
+            <p className="mt-1 font-medium">{profile.availability}.</p>
+          </Block>
 
-        <Block title="Education">
-          <Entries items={byKind('education')} />
-        </Block>
+          <Block title="Education">
+            <Entries items={byKind('education')} />
+          </Block>
 
-        <Block title="Projects">
-          <div className="space-y-3 print:space-y-2">
-            {projects.map((p) => (
-              <section key={p.slug} className="break-inside-avoid">
-                <h3 className="font-semibold">
-                  {p.name} <span className="font-normal text-fg-muted">— {p.tagline}</span>
-                </h3>
-                <p className="mt-0.5 text-xs text-fg-faint">
-                  {p.stack.join(' · ')}
-                  {p.repo && (
-                    <>
-                      {' · '}
-                      <a href={p.repo} className="text-fg-muted hover:text-accent">
-                        {bare(p.repo)}
-                      </a>
-                    </>
-                  )}
-                </p>
-                <ul className="mt-1 list-disc space-y-0.5 pl-4 marker:text-accent">
-                  {p.highlights.slice(0, 3).map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </Block>
+          <Block title="Projects">
+            <div className="space-y-3 print:space-y-2">
+              {projects.map((p) => (
+                <section key={p.slug} className="break-inside-avoid">
+                  <h3 className="font-semibold">
+                    {p.name} <span className="font-normal text-fg-muted">— {p.tagline}</span>
+                  </h3>
+                  <p className="mt-0.5 text-xs text-fg-faint">
+                    {p.stack.join(' · ')}
+                    {p.repo && (
+                      <>
+                        {' · '}
+                        <a href={p.repo} className="text-fg-muted underline decoration-ink-600 underline-offset-2 hover:text-accent">
+                          {bare(p.repo)}
+                        </a>
+                      </>
+                    )}
+                  </p>
+                  <ul className="mt-1 list-disc space-y-0.5 pl-4 marker:text-accent">
+                    {p.highlights.slice(0, 3).map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </Block>
 
-        <Block title="Experience">
-          <Entries items={byKind('role')} />
-        </Block>
+          <Block title="Experience">
+            <Entries items={byKind('role')} />
+          </Block>
 
-        <Block title="Hackathons">
-          <Entries items={byKind('hackathon')} />
-        </Block>
+          <Block title="Hackathons">
+            <Entries items={byKind('hackathon')} />
+          </Block>
 
-        <Block title="Skills">
-          <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1">
-            {profile.skills.map((g) => (
-              <div key={g.name} className="contents">
-                <dt className="font-semibold">{g.name}</dt>
-                <dd className="text-fg-muted">{g.items.join(', ')}</dd>
-              </div>
-            ))}
-          </dl>
-        </Block>
-      </article>
+          <Block title="Skills">
+            <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1">
+              {profile.skills.map((g) => (
+                <div key={g.name} className="contents">
+                  <dt className="font-semibold">{g.name}</dt>
+                  <dd className="text-fg-muted">{g.items.join(', ')}</dd>
+                </div>
+              ))}
+            </dl>
+          </Block>
+        </article>
+      </main>
       <Analytics />
     </div>
   )

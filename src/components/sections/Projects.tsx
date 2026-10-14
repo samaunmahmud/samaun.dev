@@ -109,7 +109,7 @@ function FilterChip({ label, count, active, onClick }: { label: string; count: n
       onClick={onClick}
       aria-pressed={active}
       className={`rounded-md border px-2.5 py-1.5 transition-colors ${
-        active ? 'border-accent/60 bg-accent-soft text-accent' : 'border-ink-700 text-fg-muted hover:border-ink-600 hover:text-fg'
+        active ? 'border-accent/60 bg-accent-tint text-accent-ink' : 'border-ink-700 text-fg-muted hover:border-ink-600 hover:text-fg'
       }`}
     >
       {label} <span className={active ? 'text-accent/70' : 'text-fg-faint'}>{count}</span>

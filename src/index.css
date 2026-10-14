@@ -24,6 +24,7 @@
   --accent: #ff7a1a;
   --accent-strong: #fd6f00;
   --accent-bright: #fd6f00; /* decorative fills only (hero disc), never text */
+  --accent-ink: #ff7a1a; /* orange text on an accent-tint chip */
 
   --up: #4ade80;
   --violet: #c4b5fd;
@@ -64,6 +65,7 @@
   --accent: #bd4700;
   --accent-strong: #9c3a00;
   --accent-bright: #ffa865; /* decorative fills only (hero disc), never text */
+  --accent-ink: #9c3a00; /* orange text on an accent-tint chip: plain accent drops below AA there */
 
   --up: #15803d;
   --violet: #6d28d9;
@@ -123,6 +125,9 @@
   --color-accent-strong: var(--accent-strong);
   --color-accent-bright: var(--accent-bright);
   --color-accent-soft: color-mix(in oklab, var(--accent) 12%, transparent);
+  /* Opaque version of accent-soft for chips with text on them, so glows behind can't eat the contrast */
+  --color-accent-tint: color-mix(in oklab, var(--accent) 12%, var(--ink-950));
+  --color-accent-ink: var(--accent-ink);
 
   --color-up: var(--up);
   --color-violet: var(--violet);

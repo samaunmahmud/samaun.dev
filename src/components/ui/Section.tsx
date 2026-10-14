@@ -25,7 +25,7 @@ export function Section({ id, index, eyebrow, title, intro, band = false, split 
   const heading = (
     <Reveal className={center ? 'text-center' : ''}>
       <p className={`mb-5 flex items-center gap-3 ${center ? 'justify-center' : ''} font-mono text-xs tracking-widest text-accent uppercase`}>
-        <span className="rounded-full border border-accent/30 bg-accent-soft px-2.5 py-1 leading-none tabular-nums">{index}</span>
+        <span className="rounded-full border border-accent/30 bg-accent-tint px-2.5 text-accent-ink py-1 leading-none tabular-nums">{index}</span>
         <span className="h-px w-10 bg-gradient-to-r from-accent/60 to-transparent" />
         {eyebrow}
       </p>

@@ -22,7 +22,7 @@ export function Footer() {
             href={`${profile.sourceRepo}/commit/${__COMMIT__}`}
             target="_blank"
             rel="noreferrer"
-            className="text-fg-muted transition hover:text-accent"
+            className="text-fg-muted underline decoration-ink-600 underline-offset-2 transition hover:text-accent"
             title={`Built ${__BUILD_DATE__}`}
           >
             build {__COMMIT__}

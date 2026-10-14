@@ -74,7 +74,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={openPalette}
-            aria-label="Open command palette"
+            aria-label={`Open command palette (${mod} K)`}
             aria-keyshortcuts="Meta+K Control+K"
             className="grid h-9 w-9 place-items-center rounded-full border border-ink-700 text-fg-muted transition hover:border-ink-600 hover:text-fg xl:flex xl:w-auto xl:gap-2 xl:px-2.5"
           >
