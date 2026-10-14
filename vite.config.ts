@@ -42,10 +42,10 @@ function siteMeta(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), siteMeta()],
-  // Two pages: the portfolio and the printable résumé (served at /resume via cleanUrls in vercel.json)
+  // Pages: the portfolio, the printable résumé (served at /resume via cleanUrls in vercel.json) and the 404 Vercel serves for unknown URLs
   build: {
     rollupOptions: {
-      input: { main: 'index.html', resume: 'resume.html' },
+      input: { main: 'index.html', resume: 'resume.html', notFound: '404.html' },
     },
   },
   define: {
