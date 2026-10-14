@@ -40,7 +40,7 @@ export interface Project {
   /** Colour + illustration for the generated cover when there is no image. */
   accent: 'teal' | 'violet' | 'amber' | 'rose' | 'sky'
   art: 'candles' | 'bars' | 'network' | 'scan' | 'stars' | 'map'
-  /** Optional architecture walkthrough. The first project that has one gets the Deep dive section. */
+  /** Optional architecture walkthrough. Every project with one gets a tab in the Deep dive section (one branch per main node). */
   flow?: FlowNode[]
 }
 

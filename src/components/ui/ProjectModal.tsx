@@ -2,7 +2,7 @@ import { AnimatePresence, m } from 'motion/react'
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { profile } from '../../data/profile'
 import { useProjectParam } from '../../hooks/useProjectParam'
-import { closeProject, copyText, goTo, openProject, projectLink } from '../../lib/actions'
+import { closeProject, copyText, openProject, projectLink, showArchitecture } from '../../lib/actions'
 import { ArrowUpRight, CheckIcon, CloseIcon, CopyIcon } from './Icons'
 import { ProjectCover } from './ProjectCover'
 import { ProjectLinks, Status } from './ProjectMeta'
@@ -139,7 +139,7 @@ export function ProjectModal() {
                       type="button"
                       onClick={() => {
                         closeProject()
-                        window.setTimeout(() => goTo('deep-dive'), 50)
+                        window.setTimeout(() => showArchitecture(project.slug), 50)
                       }}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-ink-600 px-3.5 py-2 text-sm font-medium text-fg transition hover:border-fg-faint"
                     >

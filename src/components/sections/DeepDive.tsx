@@ -2,19 +2,30 @@ import { AnimatePresence, m, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { profile } from '../../data/profile'
 import type { FlowNode } from '../../data/types'
-import { projectAnchor } from '../../lib/actions'
+import { DEEP_DIVE_EVENT, projectAnchor } from '../../lib/actions'
 import { ArrowUpRight, GitHubIcon } from '../ui/Icons'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 
 const CYCLE_MS = 4500
 
-const project = profile.projects.find((p) => p.flow?.length)
+const projects = profile.projects.filter((p) => p.flow?.length)
 
-/** Interactive architecture walkthrough for the first project that has a `flow`. */
+/** Interactive architecture walkthrough, one tab per project that has a `flow`. */
 export function DeepDive() {
+  const [slug, setSlug] = useState(projects[0]?.slug)
+  // "See the architecture" in a case study opens that project's tab
+  useEffect(() => {
+    const onShow = (e: Event) => {
+      const wanted = (e as CustomEvent<string>).detail
+      if (projects.some((p) => p.slug === wanted)) setSlug(wanted)
+    }
+    window.addEventListener(DEEP_DIVE_EVENT, onShow)
+    return () => window.removeEventListener(DEEP_DIVE_EVENT, onShow)
+  }, [])
+
+  const project = projects.find((p) => p.slug === slug) ?? projects[0]
   if (!project?.flow) return null
-  const flow = project.flow
 
   return (
     <Section
@@ -29,8 +40,34 @@ export function DeepDive() {
       }
       intro={project.description}
     >
+      {projects.length > 1 && (
+        <Reveal>
+          <div role="tablist" aria-label="Project" className="mb-6 flex flex-wrap gap-2">
+            {projects.map((p) => (
+              <button
+                key={p.slug}
+                type="button"
+                role="tab"
+                aria-selected={p.slug === project.slug}
+                aria-controls="deep-dive-panel"
+                onClick={() => setSlug(p.slug)}
+                className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  p.slug === project.slug
+                    ? 'border-accent bg-accent text-ink-950'
+                    : 'border-ink-600 text-fg-muted hover:border-accent hover:text-accent'
+                }`}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+      )}
       <Reveal>
-        <Walkthrough flow={flow} />
+        <div id="deep-dive-panel" role="tabpanel" aria-label={`${project.name} architecture`}>
+          {/* Keyed so the tour restarts from the first node on every tab */}
+          <Walkthrough key={project.slug} flow={project.flow} />
+        </div>
       </Reveal>
       <Reveal delay={0.1}>
         <div className="mt-8 flex flex-wrap items-center gap-3">

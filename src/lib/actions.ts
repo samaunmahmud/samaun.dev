@@ -69,6 +69,15 @@ export function closeProject() {
   }
 }
 
+/* ── Deep dive: a case study can open its own architecture tab ── */
+
+export const DEEP_DIVE_EVENT = 'deepdive:show'
+
+export function showArchitecture(slug: string) {
+  window.dispatchEvent(new CustomEvent<string>(DEEP_DIVE_EVENT, { detail: slug }))
+  goTo('deep-dive')
+}
+
 /* ── Stack filter: the Skills section can filter the Projects list ── */
 
 export const STACK_EVENT = 'stack:filter'

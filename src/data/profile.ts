@@ -172,6 +172,56 @@ export const profile: Profile = {
       demo: 'https://zenith-h4ch.onrender.com',
       image: '/projects/investment-committee.webp',
       imageSize: [1200, 858],
+      flow: [
+        {
+          id: 'data',
+          label: 'Market data',
+          tech: 'FMP · Finnhub · Tiingo',
+          detail: 'About a year of daily prices, fundamentals and recent headlines are fetched and cached on disk.',
+        },
+        {
+          id: 'news',
+          label: 'News desk',
+          tech: 'Nemotron Nano',
+          detail: 'Condenses the headlines into themes and events for the Fundamentals and Risk analysts.',
+          branchOf: 'data',
+        },
+        {
+          id: 'facts',
+          label: 'Fact sheets',
+          tech: 'Java',
+          detail:
+            'Every number is calculated in Java, not by a model: returns, moving averages, RSI, MACD, volatility, drawdown, beta and valuation ratios, formatted once into a fact sheet for each analyst.',
+        },
+        {
+          id: 'analysts',
+          label: 'Analysts',
+          tech: 'Nemotron Nano · Super',
+          detail:
+            'Fundamentals, Technicals and Risk run in parallel on Java virtual threads, each starting as soon as its inputs exist. Every figure they cite must trace back to their fact sheet, or the reply is rejected and retried.',
+        },
+        {
+          id: 'rebuttal',
+          label: 'Rebuttal round',
+          tech: 'One round only',
+          detail: 'Each analyst gets exactly one short reply to a colleague. There are no open-ended debate loops, so cost and latency stay predictable.',
+          branchOf: 'analysts',
+        },
+        {
+          id: 'chair',
+          label: 'Chair',
+          tech: 'Nemotron Ultra',
+          detail:
+            'Calls BUY, HOLD or SELL, names the analyst behind each reason, records the strongest dissent and picks the conditions that would change its call from a menu computed in code.',
+        },
+        {
+          id: 'memo',
+          label: 'Memo & receipt',
+          tech: 'SHA-256 · SSE',
+          detail:
+            'Code assembles the memo from the structured outputs and hashes everything the committee saw. Live runs stream to the browser over Server-Sent Events.',
+        },
+      ],
       accent: 'violet',
       art: 'network',
     },
@@ -229,6 +279,59 @@ export const profile: Profile = {
       status: 'in-progress',
       repo: 'https://github.com/samaunmahmud/cinescout',
       demo: 'https://cinescout-4zjm.onrender.com',
+      flow: [
+        {
+          id: 'script',
+          label: 'Script',
+          tech: 'Screenplay import',
+          detail:
+            'A screenplay is cut into scenes at its INT./EXT. headings and the speaking parts are read from the script’s format. No AI is used for this step.',
+        },
+        {
+          id: 'extract',
+          label: 'Scene reading',
+          tech: 'IBM watsonx.ai',
+          detail:
+            'Reads each scene for the location it needs: the kind of place, mood, light, time of day, how quiet it must be and how many people will be on set.',
+        },
+        {
+          id: 'search',
+          label: 'Venue search',
+          tech: 'Parallel',
+          detail:
+            'Grounded web search for venues in the production’s area. Directory pages are dropped, the venues they name are looked up one by one, and duplicates are merged.',
+        },
+        {
+          id: 'resilience',
+          label: 'Resilience',
+          tech: 'Resilience4j',
+          detail:
+            'Every external call goes through retry and a circuit breaker, and calls to watsonx are spaced app-wide to stay under the plan’s rate.',
+          branchOf: 'search',
+        },
+        {
+          id: 'score',
+          label: 'Fit scoring',
+          tech: 'Java',
+          detail:
+            'The model judges the kind of place and each stated requirement; the score itself is worked out in code, so it is consistent and explainable.',
+        },
+        {
+          id: 'store',
+          label: 'Storage',
+          tech: 'PostgreSQL · Flyway',
+          detail:
+            'The API is reactive (WebFlux), so blocking JPA calls run on boundedElastic and never on an event-loop thread. Flyway owns the schema; Hibernate only validates it.',
+          branchOf: 'score',
+        },
+        {
+          id: 'logistics',
+          label: 'Shoot day',
+          tech: 'Open-Meteo · OpenStreetMap',
+          detail:
+            'Golden and blue hour, the sun’s direction, weather, noise risk, nearest services, a place for the unit base and drive times between venues. If a service is down, that section is marked unavailable.',
+        },
+      ],
       image: '/projects/cinescout.webp',
       imageSize: [1200, 750],
       accent: 'teal',
