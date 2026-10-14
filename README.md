@@ -25,6 +25,7 @@ Other files you'll touch:
 |---|---|
 | `public/cv.pdf` | optional designed résumé — set `cvUrl` and the Résumé buttons link here instead of the generated `/resume` page |
 | `public/og.png` | 1200×630 preview image for LinkedIn / WhatsApp |
+| `public/og/<slug>.png` | optional 1200×630 preview for one project — used by its `/p/<slug>` share link (falls back to `og.png`) |
 | `src/index.css` | colours, fonts, animations (`@theme` block) |
 | `src/data/sections.ts` | navbar order |
 
