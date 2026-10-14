@@ -11,7 +11,7 @@ Audience: placement recruiters and engineers who give it 30–60 seconds. Speed 
 
 ## Stack
 
-React 19 + TypeScript + Vite · Tailwind CSS v4 (config lives in `src/index.css` `@theme`, there is no tailwind.config.js) · `motion` for animation · self-hosted fonts via `@fontsource-variable/*`. Static site, no backend. Deployed on Vercel.
+React 19 + TypeScript + Vite · Tailwind CSS v4 (config lives in `src/index.css` `@theme`, there is no tailwind.config.js) · `motion` for animation · self-hosted fonts via `@fontsource-variable/*`. Static site plus one Vercel Function (`api/github.ts`, a cached GitHub API proxy). Deployed on Vercel.
 
 ## Architecture
 

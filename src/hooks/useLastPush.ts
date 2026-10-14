@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { fetchGitHub } from '../lib/github'
 import { isHiddenRepo } from './useGitHubRepos'
 
 export interface LastPush {
@@ -8,7 +9,7 @@ export interface LastPush {
 }
 
 /**
- * Most recent public push from the GitHub events API (no token, 60 requests/hour per visitor).
+ * Most recent public push from the GitHub events API (cached by /api/github in production, see lib/github.ts).
  * Returns null while loading, if there are no recent pushes, or if the API is unavailable.
  */
 export function useLastPush(username: string) {
@@ -17,9 +18,8 @@ export function useLastPush(username: string) {
   useEffect(() => {
     if (!username) return
     const ctrl = new AbortController()
-    fetch(`https://api.github.com/users/${username}/events/public?per_page=30`, { signal: ctrl.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((events: { type: string; repo: { name: string }; created_at: string }[]) => {
+    fetchGitHub<{ type: string; repo: { name: string }; created_at: string }[]>('events', username, ctrl.signal)
+      .then((events) => {
         const e = events.find((ev) => ev.type === 'PushEvent' && !isHiddenRepo(ev.repo.name.split('/')[1] ?? ''))
         if (!e) return
         setPush({

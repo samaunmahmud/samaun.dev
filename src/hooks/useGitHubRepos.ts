@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { profile } from '../data/profile'
+import { fetchGitHub } from '../lib/github'
 
 export interface Repo {
   name: string
@@ -20,7 +21,7 @@ export function isHiddenRepo(name: string) {
 }
 
 /**
- * Most recently pushed public repos (forks excluded), from the public GitHub API.
+ * Most recently pushed public repos (forks excluded), from the public GitHub API (see lib/github.ts).
  * `null` while loading, `[]` if the API is unavailable — the UI hides itself then.
  */
 export function useGitHubRepos(username: string, limit = 6) {
@@ -29,20 +30,19 @@ export function useGitHubRepos(username: string, limit = 6) {
   useEffect(() => {
     if (!username) return
     const ctrl = new AbortController()
-    fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=30`, { signal: ctrl.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    fetchGitHub<
+      {
+        name: string
+        html_url: string
+        description: string | null
+        language: string | null
+        stargazers_count: number
+        pushed_at: string
+        fork: boolean
+      }[]
+    >('repos', username, ctrl.signal)
       .then(
-        (
-          data: {
-            name: string
-            html_url: string
-            description: string | null
-            language: string | null
-            stargazers_count: number
-            pushed_at: string
-            fork: boolean
-          }[],
-        ) =>
+        (data) =>
           setRepos(
             data
               // skip forks, practice repos and the profile-README repo (named after the user)

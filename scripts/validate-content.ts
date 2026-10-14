@@ -3,6 +3,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { profile } from '../src/data/profile.ts'
 import { NAV_SECTIONS } from '../src/data/sections.ts'
+import { GITHUB_USER } from '../api/github.ts'
 
 const errors: string[] = []
 const fail = (msg: string) => errors.push(msg)
@@ -66,6 +67,10 @@ for (const p of profile.projects) {
 for (const file of [profile.cvUrl, profile.photo]) {
   if (file && !existsSync(publicFile(file))) fail(`${file} is set in profile.ts but missing from public/`)
 }
+
+// The GitHub proxy only serves one account — it must be the one on the site
+const githubHandle = profile.socials.find((s) => s.key === 'github')?.handle
+if (githubHandle && githubHandle !== GITHUB_USER) fail(`api/github.ts: GITHUB_USER is "${GITHUB_USER}" but profile.ts has "${githubHandle}"`)
 
 // Every navbar entry has a matching <Section id> (or <section id>) in a component
 const componentSource = readdirSync('src/components/sections')
