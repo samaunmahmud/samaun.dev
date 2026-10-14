@@ -1,7 +1,9 @@
 import { execSync } from 'node:child_process'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { profile } from './src/data/profile.ts'
+import { llmsTxt, personJsonLd } from './src/data/seo.ts'
 
 /** Short commit hash shown in the footer. Vercel exposes it as an env var; locally we ask git. */
 function commitHash() {
@@ -14,9 +16,32 @@ function commitHash() {
   }
 }
 
+/** Generates the JSON-LD in index.html and /llms.txt from profile.ts, so neither can drift from the page. */
+function siteMeta(): Plugin {
+  return {
+    name: 'site-meta',
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html, ctx) =>
+        ctx.path === '/index.html'
+          ? html.replace('<!-- person-json-ld -->', `<script type="application/ld+json">${JSON.stringify(personJsonLd(profile)).replace(/</g, '\\u003c')}</script>`)
+          : html,
+    },
+    configureServer(server) {
+      server.middlewares.use('/llms.txt', (_req, res) => {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.end(llmsTxt(profile))
+      })
+    },
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'llms.txt', source: llmsTxt(profile) })
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), siteMeta()],
   // Two pages: the portfolio and the printable résumé (served at /resume via cleanUrls in vercel.json)
   build: {
     rollupOptions: {

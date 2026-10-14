@@ -15,7 +15,7 @@ npm run check      # lint + type-check + build — run before every push
 
 Everything the site says lives in **`src/data/profile.ts`**. Components never hard-code text.
 
-- Add a project → append to `projects` (screenshots go in `public/projects/<slug>.png`, then set `image`)
+- Add a project → append to `projects` (screenshots go in `public/projects/<slug>.webp`, ~1200px wide, then set `image` and `imageSize`)
 - Update the "Right now" card → `now`
 - Search the file for `TODO` to find what still needs filling in
 
@@ -23,7 +23,7 @@ Other files you'll touch:
 
 | File | What |
 |---|---|
-| `public/cv.pdf` | your résumé — the Résumé buttons link here |
+| `public/cv.pdf` | optional designed résumé — set `cvUrl` and the Résumé buttons link here instead of the generated `/resume` page |
 | `public/og.png` | 1200×630 preview image for LinkedIn / WhatsApp |
 | `src/index.css` | colours, fonts, animations (`@theme` block) |
 | `src/data/sections.ts` | navbar order |
