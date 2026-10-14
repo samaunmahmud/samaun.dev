@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useRef, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { profile } from '../../data/profile'
 import { useProjectParam } from '../../hooks/useProjectParam'
-import { closeProject, goTo, openProject } from '../../lib/actions'
-import { ArrowUpRight, CloseIcon } from './Icons'
+import { closeProject, copyText, goTo, openProject, projectLink } from '../../lib/actions'
+import { ArrowUpRight, CheckIcon, CloseIcon, CopyIcon } from './Icons'
 import { ProjectCover } from './ProjectCover'
 import { ProjectLinks, Status } from './ProjectMeta'
 import { Tag } from './Tag'
@@ -146,6 +146,7 @@ export function ProjectModal() {
                       See the architecture <ArrowUpRight size={14} />
                     </button>
                   )}
+                  <CopyLink slug={project.slug} />
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -165,5 +166,27 @@ export function ProjectModal() {
         </motion.div>
       )}
     </AnimatePresence>
+  )
+}
+
+/** Copies a direct link to this case study, so it can be forwarded to a hiring manager. */
+function CopyLink({ slug }: { slug: string }) {
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!copied) return
+    const t = window.setTimeout(() => setCopied(false), 2000)
+    return () => window.clearTimeout(t)
+  }, [copied])
+
+  return (
+    <button
+      type="button"
+      onClick={async () => setCopied(await copyText(projectLink(slug)))}
+      className="inline-flex items-center gap-1.5 rounded-full border border-ink-600 px-4 py-2 text-sm font-medium text-fg transition hover:border-accent hover:text-accent"
+    >
+      {copied ? <CheckIcon size={15} className="text-up" /> : <CopyIcon size={15} />}
+      <span aria-live="polite">{copied ? 'Link copied' : 'Copy link'}</span>
+    </button>
   )
 }
