@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import type { ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import type { Project, TimelineItem } from '../../data/types'
@@ -109,6 +110,7 @@ export function Resume() {
           </dl>
         </Block>
       </article>
+      <Analytics />
     </div>
   )
 }

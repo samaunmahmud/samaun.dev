@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { BackToTop } from './components/layout/BackToTop'
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
@@ -36,6 +37,7 @@ export default function App() {
       <Footer />
       <CommandPalette />
       <BackToTop />
+      <Analytics />
     </>
   )
 }
