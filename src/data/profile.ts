@@ -32,12 +32,13 @@ export const profile: Profile = {
     { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
   ],
   email: 'samaunmahmud9@gmail.com',
+  emailSubject: 'Placement enquiry',
   // TODO: optional — add a designed CV as public/cv.pdf, then uncomment. Until then the résumé buttons
   // open /resume, a printable page generated from this file.
   // cvUrl: '/cv.pdf',
   siteUrl: 'https://samaun-dev.vercel.app',
   sourceRepo: 'https://github.com/samaunmahmud/samaun.dev',
-  hiddenRepos: ['CashMatrix', 'Pacific-E-Commerce-Marketplace', 'Expense-Tracker-*'],
+  hiddenRepos: ['CashMatrix', 'Pacific-E-Commerce-Marketplace', 'Expense-Tracker-*', 'Bear-Bull-Market'],
 
   socials: [
     {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { profile } from '../../data/profile'
+import { enquiryMailto } from '../../lib/actions'
 import { CheckIcon, CopyIcon, MailIcon } from '../ui/Icons'
 import { socialIcon } from '../ui/socialIcons'
 import { Reveal } from '../ui/Reveal'
@@ -13,7 +14,7 @@ export function Contact() {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      window.location.href = `mailto:${profile.email}`
+      window.location.href = enquiryMailto
     }
   }
 
@@ -38,7 +39,7 @@ export function Contact() {
 
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
-                href={`mailto:${profile.email}`}
+                href={enquiryMailto}
                 className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-ink-950 shadow-[0_0_40px_-8px] shadow-accent/60 transition hover:bg-accent-strong"
               >
                 <MailIcon size={18} /> Send an email

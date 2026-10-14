@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
-import { copyText, goTo, openExternal, openProject, PALETTE_EVENT, resumeUrl } from '../../lib/actions'
+import { copyText, enquiryMailto, goTo, openExternal, openProject, PALETTE_EVENT, resumeUrl } from '../../lib/actions'
 import { ArrowUpRight, CopyIcon, DownloadIcon, HashIcon, SearchIcon } from './Icons'
 import { socialIcon } from './socialIcons'
 
@@ -54,7 +54,7 @@ function buildCommands(onCopied: () => void): Command[] {
       icon: <CopyIcon size={16} />,
       run: async () => {
         if (await copyText(profile.email)) onCopied()
-        else openExternal(`mailto:${profile.email}`)
+        else openExternal(enquiryMailto)
       },
     },
     {

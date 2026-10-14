@@ -5,6 +5,9 @@ import { profile } from '../data/profile'
 /** The designed PDF if there is one, otherwise the printable page generated from profile.ts. */
 export const resumeUrl = profile.cvUrl ?? '/resume'
 
+/** mailto: link with the enquiry subject already filled in. */
+export const enquiryMailto = `mailto:${profile.email}?subject=${encodeURIComponent(profile.emailSubject)}`
+
 /** Scrolls to a section or project anchor. CSS scroll-behavior handles smooth vs. reduced motion. */
 export function goTo(id: string) {
   const el = document.getElementById(id)
@@ -51,6 +54,9 @@ export function openProject(slug: string) {
   else history.pushState({ project: true }, '', url)
   window.dispatchEvent(new Event(PROJECT_EVENT))
 }
+
+/** Shareable link straight to one project's case study. */
+export const projectLink = (slug: string) => `${window.location.origin}/?${PROJECT_PARAM}=${slug}`
 
 export function closeProject() {
   // If we opened it, going back restores the previous URL; otherwise (deep link) just strip the param

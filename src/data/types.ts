@@ -89,6 +89,8 @@ export interface Profile {
   /** "Right now" card in About — keep it current, it's the first thing that goes stale. */
   now: NowItem[]
   email: string
+  /** Subject line pre-filled when a visitor clicks "Send an email". */
+  emailSubject: string
   /** Path under /public. Unset = résumé buttons open the printable /resume page generated from this file. */
   cvUrl?: string
   /** Live URL of this site, shown on the printable résumé. */
