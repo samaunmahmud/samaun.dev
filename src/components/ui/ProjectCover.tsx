@@ -68,7 +68,7 @@ function Shot({ src, alt, label, size, peek, className }: { src: string; alt: st
             <span className="h-2 w-2 rounded-full bg-rose/70" />
             <span className="h-2 w-2 rounded-full bg-amber/70" />
             <span className="h-2 w-2 rounded-full bg-up/70" />
-            <span className="mx-auto truncate rounded-md bg-ink-800 px-3 py-0.5 font-mono text-[10px] text-fg-faint">{label}</span>
+            <span className="mx-auto truncate rounded-md bg-ink-800 px-3 py-0.5 font-mono text-[10px] text-fg-muted">{label}</span>
           </div>
           <img
             src={src}
