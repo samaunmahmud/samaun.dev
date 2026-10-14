@@ -1,9 +1,10 @@
 import { execSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { profile } from './src/data/profile.ts'
-import { llmsTxt, personJsonLd } from './src/data/seo.ts'
+import { llmsTxt, personJsonLd, projectSharePage } from './src/data/seo.ts'
 
 /** Short commit hash shown in the footer. Vercel exposes it as an env var; locally we ask git. */
 function commitHash() {
@@ -16,7 +17,7 @@ function commitHash() {
   }
 }
 
-/** Generates the JSON-LD in index.html and /llms.txt from profile.ts, so neither can drift from the page. */
+/** Generates the JSON-LD in index.html, /llms.txt and the /p/<slug> share pages from profile.ts, so none can drift from the page. */
 function siteMeta(): Plugin {
   return {
     name: 'site-meta',
@@ -35,6 +36,11 @@ function siteMeta(): Plugin {
     },
     generateBundle() {
       this.emitFile({ type: 'asset', fileName: 'llms.txt', source: llmsTxt(profile) })
+      for (const project of profile.projects) {
+        // Per-project preview card if one has been made (public/og/<slug>.png), else the site card
+        const image = existsSync(`public/og/${project.slug}.png`) ? `/og/${project.slug}.png` : '/og.png'
+        this.emitFile({ type: 'asset', fileName: `p/${project.slug}.html`, source: projectSharePage(profile, project, image) })
+      }
     },
   }
 }

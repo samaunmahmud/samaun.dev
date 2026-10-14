@@ -73,3 +73,37 @@ export function llmsTxt(p: Profile) {
     ...p.faq.flatMap((f) => [`**${f.q}**`, f.a, '']),
   ].join('\n')
 }
+
+const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+/**
+ * /p/<slug>: a tiny page whose only job is the link preview. Crawlers read its Open Graph tags
+ * (the project's own title, tagline and image); people are sent straight on to the case study.
+ * `image` is a path under /public, e.g. /og/meridian.png.
+ */
+export function projectSharePage(p: Profile, project: Profile['projects'][number], image: string) {
+  const target = `/?project=${project.slug}`
+  const title = escape(`${project.name} — ${p.name}`)
+  const description = escape(project.tagline)
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    <link rel="canonical" href="${p.siteUrl}${target}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${p.siteUrl}/p/${project.slug}" />
+    <meta property="og:image" content="${p.siteUrl}${image}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>location.replace(${JSON.stringify(target)})</script>
+  </head>
+  <body>
+    <p><a href="${target}">${escape(project.name)}: ${description}</a></p>
+  </body>
+</html>
+`
+}

@@ -55,8 +55,9 @@ export function openProject(slug: string) {
   window.dispatchEvent(new Event(PROJECT_EVENT))
 }
 
-/** Shareable link straight to one project's case study. */
-export const projectLink = (slug: string) => `${window.location.origin}/?${PROJECT_PARAM}=${slug}`
+/** Shareable link to one project. In production it's the /p/<slug> page, whose link preview shows that project. */
+export const projectLink = (slug: string) =>
+  import.meta.env.PROD ? `${window.location.origin}/p/${slug}` : `${window.location.origin}/?${PROJECT_PARAM}=${slug}`
 
 export function closeProject() {
   // If we opened it, going back restores the previous URL; otherwise (deep link) just strip the param
