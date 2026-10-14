@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { Reveal } from '../ui/Reveal'
@@ -59,7 +59,7 @@ export function Faq() {
                 </h3>
                 <AnimatePresence initial={false}>
                   {expanded && (
-                    <motion.div
+                    <m.div
                       id={`faq-a-${i}`}
                       role="region"
                       aria-labelledby={`faq-q-${i}`}
@@ -70,7 +70,7 @@ export function Faq() {
                       className="overflow-hidden"
                     >
                       <p className="max-w-3xl pb-7 text-lg leading-relaxed text-fg-muted">{item.a}</p>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </div>

@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
@@ -173,7 +173,7 @@ export function CommandPalette() {
     <>
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             className="fixed inset-0 z-[70] flex items-start justify-center px-4 pt-[12vh]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -181,7 +181,7 @@ export function CommandPalette() {
             transition={{ duration: 0.15 }}
           >
             <div className="absolute inset-0 bg-ink-950/70 backdrop-blur-sm" onClick={() => setOpen(false)} aria-hidden />
-            <motion.div
+            <m.div
               role="dialog"
               aria-modal="true"
               aria-label="Command palette"
@@ -259,22 +259,22 @@ export function CommandPalette() {
                 </span>
                 <span className="ml-auto">{results.length} results</span>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       <div aria-live="polite" className="pointer-events-none fixed bottom-6 left-1/2 z-[80] -translate-x-1/2">
         <AnimatePresence>
           {toast && (
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               className="rounded-lg border border-accent/40 bg-ink-900 px-4 py-2 font-mono text-sm text-accent shadow-lg"
             >
               ✔ {toast}
-            </motion.p>
+            </m.p>
           )}
         </AnimatePresence>
       </div>

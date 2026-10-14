@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
+import { AnimatePresence, m, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { profile } from '../../data/profile'
 import type { FlowNode } from '../../data/types'
@@ -136,7 +136,7 @@ function Walkthrough({ flow }: { flow: FlowNode[] }) {
           <span className="text-accent">{String(step).padStart(2, '0')}</span> / {String(order.length).padStart(2, '0')}
         </p>
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={current.id}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -146,14 +146,14 @@ function Walkthrough({ flow }: { flow: FlowNode[] }) {
             <p className="font-mono text-xs tracking-widest text-accent uppercase">{current.tech}</p>
             <h3 className="mt-2 font-display text-display-md font-bold text-fg">{current.label}</h3>
             <p className="mt-3 max-w-2xl text-lg leading-relaxed text-fg-muted">{current.detail}</p>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 
       {/* Tour progress: fills while auto-advancing */}
       <div className="h-0.5 bg-ink-800" aria-hidden>
         {cycling && (
-          <motion.div
+          <m.div
             key={current.id}
             className="h-full origin-left bg-accent"
             initial={{ scaleX: 0 }}

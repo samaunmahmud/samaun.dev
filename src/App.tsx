@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react'
+import { LazyMotion } from 'motion/react'
 import { BackToTop } from './components/layout/BackToTop'
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
@@ -13,9 +14,12 @@ import { Projects } from './components/sections/Projects'
 import { Skills } from './components/sections/Skills'
 import { CommandPalette } from './components/ui/CommandPalette'
 
+const loadMotion = () => import('./lib/motionFeatures').then((mod) => mod.default)
+
 export default function App() {
   return (
-    <>
+    // `m` components render straight away; the animation engine loads in its own chunk
+    <LazyMotion features={loadMotion} strict>
       <a
         href="#about"
         className="sr-only z-[60] rounded-lg bg-accent px-4 py-2 text-ink-950 focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -38,6 +42,6 @@ export default function App() {
       <CommandPalette />
       <BackToTop />
       <Analytics />
-    </>
+    </LazyMotion>
   )
 }

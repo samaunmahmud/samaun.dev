@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
+import { AnimatePresence, m, useScroll, useSpring } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { profile } from '../../data/profile'
 import { NAV_SECTIONS } from '../../data/sections'
@@ -58,7 +58,7 @@ export function Navbar() {
                 }`}
               >
                 {active === s.id && (
-                  <motion.span
+                  <m.span
                     layoutId="nav-pill"
                     className="absolute inset-0 -z-10 rounded-full bg-accent"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
@@ -111,7 +111,7 @@ export function Navbar() {
             {open ? <CloseIcon size={20} /> : <MenuIcon size={20} />}
           </button>
         </div>
-        <motion.div
+        <m.div
           className="absolute inset-x-6 bottom-0 h-0.5 origin-left rounded-full bg-accent"
           style={{ scaleX: progress }}
           aria-hidden
@@ -120,7 +120,7 @@ export function Navbar() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -129,7 +129,7 @@ export function Navbar() {
           >
             <ul className="flex flex-col gap-1 px-5 pt-2 pb-5 text-fg">
               {NAV_SECTIONS.map((s, i) => (
-                <motion.li
+                <m.li
                   key={s.id}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -143,7 +143,7 @@ export function Navbar() {
                     <span className="font-mono text-xs text-accent">0{i + 1}</span>
                     {s.label}
                   </a>
-                </motion.li>
+                </m.li>
               ))}
               <li className="pt-6">
                 <a
@@ -157,7 +157,7 @@ export function Navbar() {
                 </a>
               </li>
             </ul>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

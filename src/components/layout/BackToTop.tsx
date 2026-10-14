@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { ArrowUpIcon } from '../ui/Icons'
 
@@ -16,7 +16,7 @@ export function BackToTop() {
   return (
     <AnimatePresence>
       {show && (
-        <motion.a
+        <m.a
           href="#top"
           aria-label="Back to top"
           initial={{ opacity: 0, y: 12 }}
@@ -25,7 +25,7 @@ export function BackToTop() {
           className="fixed right-5 bottom-5 z-40 grid h-11 w-11 place-items-center rounded-full border border-ink-700 bg-ink-900/90 text-fg-muted shadow-lg shadow-black/10 backdrop-blur transition-colors hover:border-accent hover:text-accent sm:right-8 sm:bottom-8"
         >
           <ArrowUpIcon size={18} />
-        </motion.a>
+        </m.a>
       )}
     </AnimatePresence>
   )

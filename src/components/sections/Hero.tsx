@@ -1,4 +1,4 @@
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { useState } from 'react'
 import { profile } from '../../data/profile'
 import { useClock } from '../../hooks/useClock'
@@ -25,27 +25,25 @@ export function Hero() {
       <div className="relative mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
         {/* Greeting badge + headline, centred */}
         <div className="text-center">
-          <motion.p {...fade(0)} className="relative inline-block">
+          <m.p {...fade(0)} className="relative inline-block">
             <span className="inline-block rounded-full border border-fg/80 px-4 py-1.5 text-sm font-medium text-fg">
               {profile.greeting}
             </span>
             <Doodle className="absolute -top-4 -right-6 h-6 w-6 text-accent" />
-          </motion.p>
+          </m.p>
 
-          <motion.h1
-            {...fade(0.08)}
-            className="relative mt-5 font-display text-display-xl font-semibold text-fg"
-          >
+          {/* No entrance fade: this is the page's largest paint, so it shows on the first frame */}
+          <h1 className="relative mt-5 font-display text-display-xl font-semibold text-fg">
             {profile.headline.lead} <span className="text-accent">{profile.headline.accent}</span>,
             <br />
             {profile.headline.tail}
             <Doodle className="absolute -bottom-6 -left-2 hidden h-9 w-9 rotate-180 text-accent sm:block lg:-left-6" />
-          </motion.h1>
+          </h1>
         </div>
 
         {/* Quote · visual · stat — stacks on mobile */}
         <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:mt-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,580px)_minmax(0,1fr)] lg:gap-8">
-          <motion.div {...fade(0.16)} className="max-w-xs lg:mt-16">
+          <m.div {...fade(0.16)} className="max-w-xs lg:mt-16">
             <QuoteIcon className="h-7 w-7 text-fg" />
             <p className="mt-3 text-[15px] leading-relaxed text-fg-muted">{profile.tagline}</p>
             <div className="mt-5 flex items-center gap-2">
@@ -65,19 +63,19 @@ export function Hero() {
                 )
               })}
             </div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="relative order-first lg:order-none"
           >
             <Stage />
-          </motion.div>
+          </m.div>
 
           {stat && (
-            <motion.div {...fade(0.24)} className="lg:mt-16 lg:justify-self-end lg:text-right">
+            <m.div {...fade(0.24)} className="lg:mt-16 lg:justify-self-end lg:text-right">
               <p className="flex gap-1 text-accent lg:justify-end" aria-hidden>
                 {[0, 1, 2, 3, 4].map((i) => (
                   <StarIcon key={i} className="h-4 w-4" />
@@ -91,13 +89,13 @@ export function Hero() {
                 <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
                 {profile.availability}
               </p>
-            </motion.div>
+            </m.div>
           )}
         </div>
 
-        <motion.div {...fade(0.32)}>
+        <m.div {...fade(0.32)}>
           <StatusLine />
-        </motion.div>
+        </m.div>
       </div>
 
       <StackTicker />

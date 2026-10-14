@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { profile } from '../../data/profile'
 import { useProjectParam } from '../../hooks/useProjectParam'
@@ -64,7 +64,7 @@ export function ProjectModal() {
   return (
     <AnimatePresence>
       {project && (
-        <motion.div
+        <m.div
           key="project-modal"
           className="fixed inset-0 z-[65] flex items-end justify-center sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
@@ -75,7 +75,7 @@ export function ProjectModal() {
         >
           <div className="absolute inset-0 bg-ink-950/70 backdrop-blur-md" onClick={closeProject} aria-hidden />
 
-          <motion.div
+          <m.div
             ref={panelRef}
             role="dialog"
             aria-modal="true"
@@ -100,7 +100,7 @@ export function ProjectModal() {
             </div>
 
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div
+              <m.div
                 key={project.slug}
                 className="p-7 sm:p-10"
                 initial={{ opacity: 0, x: 12 }}
@@ -148,7 +148,7 @@ export function ProjectModal() {
                   )}
                   <CopyLink slug={project.slug} />
                 </div>
-              </motion.div>
+              </m.div>
             </AnimatePresence>
 
             <div className="sticky bottom-0 flex items-center justify-between border-t border-ink-700 bg-ink-900/95 px-7 py-4 font-mono text-xs text-fg-faint backdrop-blur sm:px-10">
@@ -162,8 +162,8 @@ export function ProjectModal() {
                 {projects[(index + 1) % projects.length].name} →
               </button>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   )
