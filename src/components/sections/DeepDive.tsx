@@ -160,7 +160,7 @@ function Walkthrough({ flow }: { flow: FlowNode[] }) {
         <ol className="relative space-y-8 lg:hidden" aria-label="Architecture diagram">
           {order.map((n, i) => (
             <li key={n.id} className={`relative ${n.branchOf ? 'ml-8' : ''}`}>
-              {i > 0 && <Connector direction="y" />}
+              {i > 0 && <Connector direction="y" indented={!!n.branchOf} />}
               <Node node={n} active={active === n.id} onPick={pick} />
             </li>
           ))}
@@ -221,8 +221,8 @@ function Node({ node, active, onPick }: { node: FlowNode; active: boolean; onPic
   )
 }
 
-/** Line between two nodes with a data packet travelling along it. */
-function Connector({ direction }: { direction: 'x' | 'y' }) {
+/** Line between two nodes with a data packet travelling along it. `indented`: mobile branch node, keep the line on the spine. */
+function Connector({ direction, indented = false }: { direction: 'x' | 'y'; indented?: boolean }) {
   if (direction === 'x') {
     return (
       <span className="absolute top-1/2 left-full h-px w-12 bg-ink-600" aria-hidden>
@@ -231,7 +231,7 @@ function Connector({ direction }: { direction: 'x' | 'y' }) {
     )
   }
   return (
-    <span className="absolute bottom-full left-8 h-8 w-px bg-ink-600 lg:left-1/2 lg:h-14" aria-hidden>
+    <span className={`absolute bottom-full ${indented ? 'left-0' : 'left-8'} h-8 w-px bg-ink-600 lg:left-1/2 lg:h-14`} aria-hidden>
       <span className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 animate-packet-y rounded-full bg-accent shadow-[0_0_8px] shadow-accent" />
     </span>
   )
