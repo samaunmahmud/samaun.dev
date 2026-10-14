@@ -27,9 +27,8 @@ export const profile: Profile = {
   ],
   availability: 'Open to 12-month industrial placements from summer 2027',
   now: [
-    // TODO: what are you building now? Meridian shipped as v1.0.0 in Oct 2026, so the old 'Building' line was stale
+    { label: 'Building', value: 'ReVive — agentic photo restoration for the OpenCV AI Competition 2026' },
     { label: 'Just shipped', value: 'Meridian v1.0.0 — a paper-trading broker for stocks and crypto' },
-    { label: 'Hacking', value: 'Multi-agent investment committee for Nebius × NVIDIA' },
     { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
   ],
   email: 'samaunmahmud9@gmail.com',
@@ -54,7 +53,8 @@ export const profile: Profile = {
       handle: 'samaun-mahmud',
       url: 'https://www.linkedin.com/in/samaun-mahmud',
     },
-    // TODO: add your LeetCode username, then uncomment (hidden so there's no broken link)
+    // TODO: LeetCode-365's README links leetcode.com/Samaun_Mahmud, but LeetCode says that user doesn't exist —
+    // confirm the real username, then uncomment
     // {
     //   key: 'leetcode',
     //   label: 'LeetCode',
@@ -70,7 +70,7 @@ export const profile: Profile = {
   ],
 
   stats: [
-    { value: '6', label: 'projects shipped or in build' },
+    { value: '7', label: 'projects shipped or in build' },
     { value: '3', label: 'hackathons in 2026' },
     { value: 'Java', label: 'first language' },
   ],
@@ -226,6 +226,26 @@ export const profile: Profile = {
       art: 'network',
     },
     {
+      slug: 'revive',
+      name: 'ReVive',
+      tagline: 'Agentic photo restoration with OpenCV 5',
+      description:
+        'Restores old, damaged photos the way a human restorer would: it measures what is wrong, plans a repair, acts, then re-measures to check the repair actually helped. When a fix could change what the photo really shows, it asks a person instead of guessing. Entry for the OpenCV AI Competition 2026.',
+      highlights: [
+        'Measure, plan, act, re-measure: OpenCV 5 measurements pick each repair, and a verifier keeps a step only if its metric improved and the structure survived',
+        'Across 35 seeded test cases, SSIM rose from 0.680 (damaged) to 0.822, where a naive fixed pipeline dropped it to 0.672',
+        'Asks instead of guessing: a colour cast that may be real, or damage over 3% of the photo, goes to a person before anything changes',
+        'LLM planner on Amazon Bedrock with a heuristic fallback: all 35 runs completed through 105 simulated model failures',
+      ],
+      stack: ['Python', 'OpenCV 5', 'FastAPI', 'React', 'Amazon Bedrock', 'AWS', 'Docker'],
+      status: 'hackathon',
+      repo: 'https://github.com/samaunmahmud/revive',
+      image: '/projects/revive.webp',
+      imageSize: [738, 300],
+      accent: 'violet',
+      art: 'scan',
+    },
+    {
       slug: 'pneumonia-classifier',
       name: 'Pneumonia Classifier',
       tagline: 'Chest X-ray CNN served behind a Java REST API',
@@ -353,6 +373,13 @@ export const profile: Profile = {
       period: 'Current', // TODO: start date
       kind: 'role',
       points: ['Help new and current students find their way around university life and support services'],
+    },
+    {
+      title: 'OpenCV AI Competition 2026',
+      org: 'OpenCV · AWS',
+      period: 'Autumn 2026',
+      kind: 'hackathon',
+      points: ['Building ReVive, an agentic photo-restoration system on OpenCV 5 and Amazon Bedrock'],
     },
     {
       title: 'Nebius × NVIDIA Global AI Hackathon',
