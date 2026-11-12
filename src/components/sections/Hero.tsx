@@ -18,7 +18,8 @@ const fade = (delay: number) => ({
 
 export function Hero() {
   const socials = profile.socials.filter((s) => s.key !== 'email')
-  const stat = profile.stats[0]
+  // Numeric stats only ("Java · first language" reads oddly at display size)
+  const heroStats = profile.stats.filter((s) => /^\d/.test(s.value)).slice(0, 2)
 
   return (
     <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
@@ -74,17 +75,18 @@ export function Hero() {
             <Stage />
           </m.div>
 
-          {stat && (
+          {heroStats.length > 0 && (
             <m.div {...fade(0.24)} className="lg:mt-16 lg:justify-self-end lg:text-right">
-              <p className="flex gap-1 text-accent lg:justify-end" aria-hidden>
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <StarIcon key={i} className="h-4 w-4" />
+              <dl className="flex items-start gap-8 lg:justify-end">
+                {heroStats.map((s) => (
+                  <div key={s.label} className="flex flex-col">
+                    <dt className="mt-1.5 w-32 text-sm leading-snug text-fg-muted">{s.label}</dt>
+                    <dd className="order-first font-display text-5xl leading-none font-bold text-fg">
+                      <CountUp value={s.value} />
+                    </dd>
+                  </div>
                 ))}
-              </p>
-              <p className="mt-2 font-display text-5xl leading-none font-bold text-fg">
-                <CountUp value={stat.value} />
-              </p>
-              <p className="text-sm text-fg-muted">{stat.label}</p>
+              </dl>
               <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-700 px-3 py-1 text-xs text-fg-muted">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
                 {profile.availability}
@@ -168,14 +170,6 @@ function QuoteIcon({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden>
       <path d="M13 8c-5 1.5-9 5.6-9 11.5V25h9v-9H8.6c.4-2.8 2.2-4.9 5.4-5.9L13 8Zm15 0c-5 1.5-9 5.6-9 11.5V25h9v-9h-4.4c.4-2.8 2.2-4.9 5.4-5.9L28 8Z" />
-    </svg>
-  )
-}
-
-function StarIcon({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" className={className}>
-      <path d="m10 1.5 2.6 5.5 6 .7-4.5 4.1 1.2 5.9L10 14.8l-5.3 2.9 1.2-5.9L1.4 7.7l6-.7L10 1.5Z" />
     </svg>
   )
 }
