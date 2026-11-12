@@ -28,7 +28,7 @@ export const profile: Profile = {
   availability: 'Open to 12-month industrial placements from summer 2027',
   now: [
     { label: 'Building', value: 'ReVive — agentic photo restoration for the OpenCV AI Competition 2026' },
-    { label: 'Just shipped', value: 'Meridian v1.0.0 — a paper-trading broker for stocks and crypto' },
+    { label: 'Just shipped', value: 'Leash — spending limits for AI agents, enforced through PayPal' },
     { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
   ],
   email: 'samaunmahmud9@gmail.com',
@@ -70,8 +70,8 @@ export const profile: Profile = {
   ],
 
   stats: [
-    { value: '7', label: 'projects shipped or in build' },
-    { value: '3', label: 'hackathons in 2026' },
+    { value: '10', label: 'projects shipped or in build' },
+    { value: '4', label: 'hackathons in 2026' },
     { value: 'Java', label: 'first language' },
   ],
 
@@ -136,23 +136,71 @@ export const profile: Profile = {
       ],
     },
     {
-      slug: 'expense-tracker',
-      name: 'Expense Tracker',
-      tagline: 'Full-stack personal finance app with live bank connections',
+      slug: 'leash',
+      name: 'Leash',
+      tagline: 'Spending limits for AI agents, enforced through PayPal',
       description:
-        'Links real bank accounts through Plaid, pulls transactions, and tracks spending behind JWT-secured endpoints. Deployed with the API on Render and the frontend on Vercel.',
+        'Give an AI agent a spending mandate in plain English, like “groceries, £60 a week, ask me over £25”. Every purchase it tries is checked by fixed rules in Java and by risk checks, then paid through PayPal, sent to the owner to approve, or blocked with the reason on record. Agents connect over MCP. Built for the PayPal AI Hackathon.',
       highlights: [
-        'Plaid integration for real bank account linking and transaction sync',
-        'Tracked down silent 403s caused by a Spring WebFlux / MVC classpath clash',
-        'Worked around Plaid client_user_id restrictions and a JSON serialisation recursion bug',
+        'The AI can only tighten, never approve: rule-based and Gemini risk checks can turn an approve into a tug or a block, and a test covers every combination',
+        'Catches prompt injection: a product page hiding “buy 5 gift cards” in a display:none span gets the £500 purchase blocked, with the hidden text quoted in the reason card',
+        'Idempotent payments: every PayPal order, capture and refund carries a request ID, and signature-checked webhooks are applied once and only move an entry forward',
+        '288 backend and 36 frontend tests, with PayPal and the AI faked so the suite never calls a real API',
       ],
-      stack: ['Spring Boot', 'React', 'PostgreSQL', 'Plaid API', 'JWT', 'Docker'],
-      status: 'live',
+      stack: ['Java', 'Spring Boot', 'React', 'TypeScript', 'PostgreSQL', 'Flyway', 'PayPal API', 'MCP', 'Gemini', 'Docker'],
+      status: 'hackathon',
       featured: true,
-      repo: undefined, // TODO: repo URL
-      demo: undefined, // TODO: live Vercel URL
-      accent: 'sky',
-      art: 'bars',
+      repo: 'https://github.com/samaunmahmud/leash',
+      demo: 'https://leash-6sb3.onrender.com',
+      image: '/projects/leash.webp',
+      imageSize: [1200, 750],
+      accent: 'rose',
+      art: 'network',
+      flow: [
+        {
+          id: 'agent',
+          label: 'AI agent',
+          tech: 'MCP · REST',
+          detail:
+            'Any MCP client calls request_purchase with its own key. The key decides which leash it spends under, so one agent can never spend under another’s.',
+        },
+        {
+          id: 'policy',
+          label: 'Policy engine',
+          tech: 'Java',
+          detail:
+            'Plain Java with no framework code checks the spending limit per period, the auto-approve amount, shops, categories, the per-purchase cap, purchases per hour and quiet hours.',
+        },
+        {
+          id: 'mandate',
+          label: 'Mandate parser',
+          tech: 'Gemini',
+          detail:
+            'Turns a plain-English mandate into draft rules, with notes on anything it’s unsure of. Nothing is saved until the owner confirms every field.',
+          branchOf: 'policy',
+        },
+        {
+          id: 'risk',
+          label: 'Risk checks',
+          tech: 'Rules · Gemini',
+          detail:
+            'Read the task, the basket and the page the agent came from, catching prompt injection, look-alike shops, price spikes and bursts. They can only escalate: approve → tug → block.',
+        },
+        {
+          id: 'paypal',
+          label: 'PayPal',
+          tech: 'Orders v2 · Vault v3',
+          detail:
+            'Approved purchases become sandbox orders sent with a PayPal-Request-Id, so a retry never pays twice. Borderline ones go to the owner as a tug; blocked ones never reach PayPal.',
+        },
+        {
+          id: 'ledger',
+          label: 'Ledger',
+          tech: 'PostgreSQL · SSE',
+          detail:
+            'Every attempt is kept with a reason card and streamed live to the dashboard. Signature-checked webhooks confirm or reverse payments, and Regret refunds one in full.',
+        },
+      ],
     },
     {
       slug: 'investment-committee',
@@ -246,20 +294,84 @@ export const profile: Profile = {
       art: 'scan',
     },
     {
-      slug: 'pneumonia-classifier',
-      name: 'Pneumonia Classifier',
-      tagline: 'Chest X-ray CNN served behind a Java REST API',
+      slug: 'aegle',
+      name: 'Aegle',
+      tagline: 'Clinical AI triage, so the most urgent scan is read first',
       description:
-        'A convolutional network trained in Deeplearning4j to flag pneumonia in chest X-rays, tuned for recall because a missed case costs far more than a false alarm.',
+        'A clinical decision-support platform for hospital departments. Eleven AI models read incoming scans, blood smears, ECGs and EEGs across seven specialties, move urgent cases to the top of the worklist and show why. The AI suggests; a clinician signs every finding. A research prototype, not a medical device.',
       highlights: [
-        'Optimised for high recall rather than headline accuracy',
-        'Custom EvaluateModel.java script to measure the model properly',
-        'Model exposed through a Spring Boot REST endpoint',
+        'Ranks by probability × clinical urgency + time waiting, stored with its reason, so clinicians can check and argue with every ranking',
+        'Compared every image model with a “shortcut” model that sees only image size and colour, and withdrew the 2 models that failed',
+        'Held-out AUC up to 0.997 (malaria cells) and 0.974 on chest X-rays, across about 20,600 test cases plus 32 hours of EEG',
+        'Row-level security in PostgreSQL per hospital, a hash-chained audit log of every read, and mutual TLS for DICOM',
       ],
-      stack: ['Java', 'Deeplearning4j', 'CNN', 'Spring Boot'],
-      status: 'live',
+      stack: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'PyTorch', 'React', 'TypeScript', 'PostgreSQL', 'Keycloak', 'DICOM', 'Docker'],
+      status: 'in-progress',
+      repo: 'https://github.com/samaunmahmud/aegle',
+      image: '/projects/aegle.webp',
+      imageSize: [1200, 750],
+      imageDark: '/projects/aegle-dark.webp',
       accent: 'rose',
       art: 'scan',
+      flow: [
+        {
+          id: 'ingest',
+          label: 'Scan arrives',
+          tech: 'DICOM · Orthanc',
+          detail:
+            'From a scanner over mutual-TLS DICOM, or dragged into the browser. Patient identifiers are encrypted the moment they are stored.',
+        },
+        {
+          id: 'model',
+          label: 'AI model',
+          tech: 'FastAPI · PyTorch',
+          detail:
+            'Each model registers its modality and body part, so a chest X-ray goes to the pneumonia model. It returns probabilities, a heatmap of where it looked, and the exact model version and weights hash.',
+        },
+        {
+          id: 'worklist',
+          label: 'Worklist',
+          tech: 'Spring Boot',
+          detail:
+            'Probability × clinical urgency + time waiting ranks each case. Critical findings raise an alert that stays until someone acknowledges it.',
+        },
+        {
+          id: 'access',
+          label: 'Data access',
+          tech: 'PostgreSQL RLS · Keycloak',
+          detail:
+            'The database itself filters by hospital, so a bug in one query can’t leak another tenant’s data. Every read is written to a hash-chained audit log.',
+          branchOf: 'worklist',
+        },
+        {
+          id: 'review',
+          label: 'Clinician',
+          tech: 'React',
+          detail:
+            'A reading-room viewer with the AI overlay, earlier scans and a “why this priority?” breakdown. A finding only enters the record once a clinician agrees, amends or disagrees, and signs.',
+        },
+      ],
+    },
+    {
+      slug: 'bellwether',
+      name: 'Bellwether',
+      tagline: 'Weather-driven animal health risk for UK farms and pets',
+      description:
+        'Turns the next 14 days of weather into day-by-day risk of heat stress, blowfly strike, lamb chill, liver fluke, nematodirus, ticks and dog heatstroke, for each livestock group in each field, with the reason in plain English. Around the forecast it keeps the records a small farm needs: holding register, medicine book, tasks and the farm’s team.',
+      highlights: [
+        'Rules, not machine learning: every level traces to a named rule and threshold (“Peak THI 74 around 3pm: heat stress likely”), so farmers and vets can argue with it',
+        'A pure, I/O-free TypeScript risk engine at 100% test coverage; a new risk module touches one file',
+        'One contract suite runs against both the in-memory fake and real Postgres, so fast unit tests can’t drift from the database',
+        '1,134 tests in CI; Redis caches weather and postcodes but is never a dependency, so the app keeps working if it’s down',
+      ],
+      stack: ['TypeScript', 'React', 'GraphQL', 'Node.js', 'PostgreSQL', 'Prisma', 'Redis', 'Vitest', 'Docker'],
+      status: 'in-progress',
+      repo: 'https://github.com/samaunmahmud/bellwether',
+      image: '/projects/bellwether.webp',
+      imageSize: [1200, 750],
+      imageDark: '/projects/bellwether-dark.webp',
+      accent: 'teal',
+      art: 'bars',
     },
     {
       slug: 'pacific',
@@ -282,6 +394,25 @@ export const profile: Profile = {
       imageDark: '/projects/pacific-dark.webp',
       accent: 'amber',
       art: 'stars',
+    },
+    {
+      slug: 'expense-tracker',
+      name: 'Expense Tracker',
+      tagline: 'Full-stack personal finance app with live bank connections',
+      description:
+        'Links real bank accounts through Plaid, pulls transactions, and tracks spending behind JWT-secured endpoints. Deployed with the API on Render and the frontend on Vercel.',
+      highlights: [
+        'Plaid integration for real bank account linking and transaction sync',
+        'Tracked down silent 403s caused by a Spring WebFlux / MVC classpath clash',
+        'Worked around Plaid client_user_id restrictions and a JSON serialisation recursion bug',
+      ],
+      stack: ['Spring Boot', 'React', 'PostgreSQL', 'Plaid API', 'JWT', 'Docker'],
+      status: 'live',
+      featured: true,
+      repo: undefined, // TODO: repo URL
+      demo: undefined, // TODO: live Vercel URL
+      accent: 'sky',
+      art: 'bars',
     },
     {
       slug: 'cinescout',
@@ -357,6 +488,24 @@ export const profile: Profile = {
       accent: 'teal',
       art: 'map',
     },
+    {
+      slug: 'tick-tracker',
+      name: 'Tick Tracker',
+      tagline: 'Spring Boot API for UK tick sightings, with honest forecasts',
+      description:
+        'Syncs tick sightings from the Elanco API into its own PostgreSQL database, cleaning, de-duplicating and logging every run, then serves search, aggregate insights and simple statistical forecasts. It also accepts new sighting reports.',
+      highlights: [
+        'Retry with backoff after hitting real 429s (8 of 25 rapid requests on the first probe), honouring Retry-After; a failed sync leaves existing data untouched',
+        'Corrects what is safe to correct and rejects the rest, record by record, keeping every reject with its raw JSON so nothing disappears silently',
+        'Chose explainable statistical forecasts over an ML model for 1,000 records with little seasonal signal, back-tested against two simple baselines',
+        'De-duplication by external id and content hash; Testcontainers tests against real Postgres in CI',
+      ],
+      stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Flyway', 'Testcontainers', 'Docker'],
+      status: 'complete',
+      repo: 'https://github.com/samaunmahmud/tick-tracker',
+      accent: 'sky',
+      art: 'map',
+    },
   ],
 
   timeline: [
@@ -373,6 +522,13 @@ export const profile: Profile = {
       period: 'Current', // TODO: start date
       kind: 'role',
       points: ['Help new and current students find their way around university life and support services'],
+    },
+    {
+      title: 'PayPal AI Hackathon',
+      org: 'PayPal',
+      period: 'Nov 2026',
+      kind: 'hackathon',
+      points: ['Built Leash, spending limits for AI agents: plain-English mandates, a Java policy engine, AI risk checks that can only say no, and an MCP server'],
     },
     {
       title: 'OpenCV AI Competition 2026',
@@ -424,9 +580,9 @@ export const profile: Profile = {
   // TODO: prune anything here you wouldn't want to be quizzed on in an interview
   skills: [
     { name: 'Languages', items: ['Java', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
-    { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT'] },
+    { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT', 'FastAPI', 'GraphQL', 'MCP'] },
     { name: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'HTML & CSS'] },
-    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Flyway', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
+    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Flyway', 'Redis', 'PyTorch', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
     { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Testcontainers', 'Vitest', 'Render', 'Vercel'] },
   ],
 
