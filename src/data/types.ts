@@ -44,6 +44,13 @@ export interface Project {
   flow?: FlowNode[]
 }
 
+/** A labelled group of non-featured project cards in the Projects section. */
+export interface ProjectGroup {
+  title: string
+  /** Projects with any of these statuses land here; featured projects always sit above every group. */
+  statuses: Project['status'][]
+}
+
 export interface FaqItem {
   q: string
   a: string
@@ -104,6 +111,8 @@ export interface Profile {
   socials: SocialLink[]
   stats: Stat[]
   projects: Project[]
+  /** How the non-featured cards are grouped, in page order. Unmatched projects fall into the last group. */
+  projectGroups: ProjectGroup[]
   timeline: TimelineItem[]
   skills: SkillGroup[]
   /** Recruiter FAQ. Only put answers here that are true today. */

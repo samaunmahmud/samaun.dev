@@ -1,4 +1,4 @@
-import { useEffect, useState, type PointerEvent, type ReactNode } from 'react'
+import { useEffect, useState, type PointerEvent } from 'react'
 import { profile } from '../../data/profile'
 import type { Project } from '../../data/types'
 import { openProject, projectAnchor, STACK_EVENT } from '../../lib/actions'
@@ -21,12 +21,28 @@ function spotlight(e: PointerEvent<HTMLElement>) {
 const spotlightCls =
   'before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:bg-[radial-gradient(420px_circle_at_var(--x)_var(--y),color-mix(in_oklab,var(--accent)_10%,transparent),transparent_60%)]'
 
-/** Tech that appears in 2+ projects, most-used first — these become the filter chips. */
+/** Tech used in 3+ projects, most-used first — these become the filter chips (rarer tech is still reachable from Skills). */
 const FILTERS = Object.entries(
   profile.projects.flatMap((p) => p.stack).reduce<Record<string, number>>((acc, t) => ({ ...acc, [t]: (acc[t] ?? 0) + 1 }), {}),
 )
-  .filter(([, n]) => n >= 2)
+  .filter(([, n]) => n >= 3)
   .sort((a, b) => b[1] - a[1])
+
+const FEATURED = profile.projects.filter((p) => p.featured)
+
+/** Non-featured projects sorted into profile.projectGroups; anything unmatched falls into the last group. */
+const GROUPS = (() => {
+  const groups = profile.projectGroups.map((g) => ({ title: g.title, projects: [] as Project[] }))
+  for (const p of profile.projects) {
+    if (p.featured) continue
+    const i = profile.projectGroups.findIndex((g) => g.statuses.includes(p.status))
+    groups[i === -1 ? groups.length - 1 : i].projects.push(p)
+  }
+  return groups.filter((g) => g.projects.length > 0)
+})()
+
+/** 3 across unless that would leave a lonely last row and 2 across divides evenly (e.g. 4 cards → 2×2). */
+const gridCols = (n: number) => (n % 3 !== 0 && n % 2 === 0 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3')
 
 export function Projects() {
   const [tech, setTech] = useState<string | null>(null)
@@ -36,10 +52,10 @@ export function Projects() {
     window.addEventListener(STACK_EVENT, onFilter)
     return () => window.removeEventListener(STACK_EVENT, onFilter)
   }, [])
-  const featured = profile.projects.filter((p) => p.featured)
-  const rest = profile.projects.filter((p) => !p.featured)
   const matches = (p: Project) => !tech || p.stack.includes(tech)
   const count = profile.projects.filter(matches).length
+  const featured = FEATURED.filter(matches)
+  const groups = GROUPS.map((g) => ({ ...g, projects: g.projects.filter(matches) })).filter((g) => g.projects.length > 0)
 
   return (
     <Section
@@ -55,7 +71,7 @@ export function Projects() {
     >
       {FILTERS.length > 0 && (
         <Reveal>
-          <div className="mb-8 flex flex-wrap items-center gap-2 font-mono text-xs">
+          <div className="mb-4 flex flex-wrap items-center gap-2 font-mono text-xs">
             <span className="mr-1 text-fg-faint">
               <span className="text-accent">$</span> filter --stack
             </span>
@@ -63,42 +79,64 @@ export function Projects() {
             {FILTERS.map(([t, n]) => (
               <FilterChip key={t} label={t} count={n} active={tech === t} onClick={() => setTech(tech === t ? null : t)} />
             ))}
-            {/* A skill picked from the Skills section may be used by only one project, so it has no chip of its own */}
+            {/* A skill picked from the Skills section may be rarer than the chips, so it gets a chip of its own */}
             {tech && !FILTERS.some(([t]) => t === tech) && (
               <FilterChip label={tech} count={count} active onClick={() => setTech(null)} />
             )}
-            <span className="sr-only" aria-live="polite">
-              {tech ? `${count} of ${profile.projects.length} projects use ${tech}` : ''}
-            </span>
           </div>
+          <p className="mb-10 min-h-5 text-sm text-fg-muted" aria-live="polite">
+            {tech && (
+              <>
+                Showing {count} of {profile.projects.length} projects that use <span className="text-fg">{tech}</span>
+                {' · '}
+                <button type="button" onClick={() => setTech(null)} className="text-accent underline-offset-4 hover:underline">
+                  show all
+                </button>
+              </>
+            )}
+          </p>
         </Reveal>
       )}
 
-      <div className="space-y-8">
-        {featured.map((p, i) => (
-          <Reveal key={p.slug}>
-            <Dim on={!matches(p)}>
-              <FeaturedCard project={p} flip={i % 2 === 1} tech={tech} />
-            </Dim>
-          </Reveal>
-        ))}
-      </div>
+      {featured.length > 0 && (
+        <>
+          <GroupHeading title="Featured" count={featured.length} />
+          <div className="space-y-8">
+            {featured.map((p, i) => (
+              <Reveal key={p.slug}>
+                <FeaturedCard project={p} flip={i % 2 === 1} tech={tech} />
+              </Reveal>
+            ))}
+          </div>
+        </>
+      )}
 
-      {/* 3 across unless that would leave a lonely last row and 2 across divides evenly (e.g. 4 cards → 2×2) */}
-      <div
-        className={`mt-8 grid gap-6 md:grid-cols-2 ${rest.length % 3 !== 0 && rest.length % 2 === 0 ? '' : 'lg:grid-cols-3'}`}
-      >
-        {rest.map((p, i) => (
-          <Reveal key={p.slug} delay={i * 0.08} className="h-full">
-            <Dim on={!matches(p)}>
-              <SmallCard project={p} tech={tech} />
-            </Dim>
-          </Reveal>
-        ))}
-      </div>
+      {groups.map((g, gi) => (
+        <div key={g.title} className={featured.length > 0 || gi > 0 ? 'mt-16' : ''}>
+          <GroupHeading title={g.title} count={g.projects.length} />
+          <div className={`grid gap-6 ${gridCols(g.projects.length)}`}>
+            {g.projects.map((p, i) => (
+              <Reveal key={p.slug} delay={i * 0.08} className="h-full">
+                <SmallCard project={p} tech={tech} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      ))}
 
       <ProjectModal />
     </Section>
+  )
+}
+
+/** Small mono label + rule above each group of cards, in the same style as the section eyebrows. */
+function GroupHeading({ title, count }: { title: string; count: number }) {
+  return (
+    <h3 className="mb-6 flex items-center gap-3 font-mono text-xs tracking-widest text-fg-faint uppercase">
+      <span className="text-accent-ink">{title}</span>
+      <span>{String(count).padStart(2, '0')}</span>
+      <span className="h-px flex-1 bg-ink-700" aria-hidden />
+    </h3>
   )
 }
 
@@ -115,11 +153,6 @@ function FilterChip({ label, count, active, onClick }: { label: string; count: n
       {label} <span className={active ? 'text-accent/70' : 'text-fg-faint'}>{count}</span>
     </button>
   )
-}
-
-/** Fades out cards that don't match the active tech filter, without reflowing the layout. */
-function Dim({ on, children }: { on: boolean; children: ReactNode }) {
-  return <div className={`h-full transition duration-300 ${on ? 'opacity-25 grayscale' : ''}`}>{children}</div>
 }
 
 /** Makes the whole card open the case study; real links inside sit above it (z-20). */
@@ -160,11 +193,10 @@ function FeaturedCard({ project, flip, tech }: { project: Project; flip: boolean
       </div>
 
       <div className="flex flex-col p-7 sm:p-9">
-        <div className="flex items-center gap-3">
+        <div>
           <Status status={project.status} />
-          <span className="font-mono text-xs text-fg-faint">Featured</span>
         </div>
-        <h3 className="mt-4 font-display text-display-md font-bold">{project.name}</h3>
+        <h4 className="mt-4 font-display text-display-md font-bold">{project.name}</h4>
         <p className="mt-1 text-accent">{project.tagline}</p>
         <p className="mt-4 leading-relaxed text-fg-muted">{project.description}</p>
 
@@ -208,7 +240,7 @@ function SmallCard({ project, tech }: { project: Project; tech: string | null })
       </div>
       <div className="flex flex-1 flex-col p-6">
         <Status status={project.status} />
-        <h3 className="mt-3 font-display text-display-sm font-bold">{project.name}</h3>
+        <h4 className="mt-3 font-display text-display-sm font-bold">{project.name}</h4>
         <p className="mt-1 text-sm text-accent">{project.tagline}</p>
         <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-fg-muted">{project.description}</p>
         <div className="mt-5 flex flex-wrap gap-1.5">

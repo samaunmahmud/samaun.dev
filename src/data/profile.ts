@@ -508,6 +508,11 @@ export const profile: Profile = {
     },
   ],
 
+  projectGroups: [
+    { title: 'Hackathon builds', statuses: ['hackathon'] },
+    { title: 'More projects', statuses: ['in-progress', 'complete', 'live', 'coursework'] },
+  ],
+
   timeline: [
     {
       title: 'BSc Computer Science (Artificial Intelligence) with Work Placement',
