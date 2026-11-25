@@ -28,8 +28,9 @@ export function About() {
           <Reveal delay={0.1}>
             <div className="grid grid-cols-3 gap-3">
               {profile.stats.map((s) => (
-                <div key={s.label} className="rounded-2xl surface p-4 hover:-translate-y-0.5 hover:border-accent/40">
-                  <p className="text-gradient font-display text-4xl font-bold tabular-nums">
+                <div key={s.label} className="@container rounded-2xl surface p-3 hover:-translate-y-0.5 hover:border-accent/40 sm:p-4">
+                  {/* Sized to the card so a long value like "3,500+" never clips */}
+                  <p className="text-gradient font-display text-[clamp(1.25rem,26cqi,2.25rem)] leading-tight font-bold tabular-nums">
                     <CountUp value={s.value} />
                   </p>
                   <p className="mt-1 text-xs leading-snug text-fg-faint">{s.label}</p>

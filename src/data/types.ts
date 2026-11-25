@@ -113,6 +113,8 @@ export interface Profile {
   projects: Project[]
   /** How the non-featured cards are grouped, in page order. Unmatched projects fall into the last group. */
   projectGroups: ProjectGroup[]
+  /** Slugs shown on the printable /resume, in order — keep it to what fits two A4 pages. The rest are linked from the site. */
+  resumeProjects: string[]
   timeline: TimelineItem[]
   skills: SkillGroup[]
   /** Recruiter FAQ. Only put answers here that are true today. */

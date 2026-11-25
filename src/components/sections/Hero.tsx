@@ -19,7 +19,7 @@ const fade = (delay: number) => ({
 export function Hero() {
   const socials = profile.socials.filter((s) => s.key !== 'email')
   // Numeric stats only ("Java · first language" reads oddly at display size)
-  const heroStats = profile.stats.filter((s) => /^\d/.test(s.value)).slice(0, 2)
+  const heroStats = profile.stats.filter((s) => /^\d/.test(s.value)).slice(0, 3)
 
   return (
     <section id="top" className="relative flex min-h-svh flex-col overflow-hidden pt-28 sm:pt-32">
@@ -77,17 +77,18 @@ export function Hero() {
 
           {heroStats.length > 0 && (
             <m.div {...fade(0.24)} className="lg:mt-16 lg:justify-self-end lg:text-right">
-              <dl className="flex items-start gap-8 lg:justify-end">
+              {/* Side by side on mobile; stacked on desktop, where this column is only ~220px wide */}
+              <dl className="flex flex-wrap items-start gap-x-8 gap-y-5 lg:flex-col lg:items-end lg:gap-5">
                 {heroStats.map((s) => (
                   <div key={s.label} className="flex flex-col">
-                    <dt className="mt-1.5 w-32 text-sm leading-snug text-fg-muted">{s.label}</dt>
-                    <dd className="order-first font-display text-5xl leading-none font-bold text-fg">
+                    <dt className="mt-1.5 w-28 text-sm leading-snug text-fg-muted lg:w-40">{s.label}</dt>
+                    <dd className="order-first font-display text-4xl leading-none font-bold text-fg lg:text-5xl">
                       <CountUp value={s.value} />
                     </dd>
                   </div>
                 ))}
               </dl>
-              <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-700 px-3 py-1 text-xs text-fg-muted">
+              <p className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-ink-700 px-3 py-1.5 text-left text-xs text-fg-muted">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-up" />
                 {profile.availability}
               </p>

@@ -1,9 +1,11 @@
 import { animate, useInView, useReducedMotion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
-/** Counts a whole number up from 0 when it scrolls into view. Non-numeric values render as-is. */
+/** Counts a whole number ("10", "3,500+") up from 0 when it scrolls into view. Other values render as-is. */
 export function CountUp({ value }: { value: string }) {
-  const target = /^\d+$/.test(value) ? Number(value) : null
+  const match = /^(\d[\d,]*)(\+?)$/.exec(value)
+  const target = match ? Number(match[1].replaceAll(',', '')) : null
+  const suffix = match?.[2] ?? ''
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: '-40px' })
   const reduce = useReducedMotion()
@@ -22,7 +24,10 @@ export function CountUp({ value }: { value: string }) {
   if (target === null || reduce) return <span ref={ref}>{value}</span>
   return (
     <span ref={ref} aria-label={value}>
-      <span aria-hidden>{shown}</span>
+      <span aria-hidden>
+        {shown.toLocaleString('en-GB')}
+        {suffix}
+      </span>
     </span>
   )
 }

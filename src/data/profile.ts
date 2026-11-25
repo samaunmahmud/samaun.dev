@@ -71,8 +71,10 @@ export const profile: Profile = {
 
   stats: [
     { value: '10', label: 'projects shipped or in build' },
+    // Sum of the test counts in the highlights below: Meridian 526, Leash 324, Zenith 202, Pacific 181,
+    // CineScout 1,146, Bellwether 1,134 = 3,513. Update it when those change.
+    { value: '3,500+', label: 'automated tests across projects' },
     { value: '4', label: 'hackathons in 2026' },
-    { value: 'Java', label: 'first language' },
   ],
 
   projects: [
@@ -512,6 +514,9 @@ export const profile: Profile = {
     { title: 'Hackathon builds', statuses: ['hackathon'] },
     { title: 'More projects', statuses: ['in-progress', 'complete', 'live', 'coursework'] },
   ],
+
+  // The printable résumé lists these (strongest measurable results, each with a code link); the site shows all of them
+  resumeProjects: ['meridian', 'leash', 'investment-committee', 'pacific', 'cinescout', 'aegle'],
 
   timeline: [
     {

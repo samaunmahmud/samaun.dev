@@ -42,6 +42,7 @@ if (profile.siteUrl.endsWith('/')) fail('siteUrl: drop the trailing slash')
 
 // Projects: unique slugs, images exist and match imageSize
 const slugs = profile.projects.map((p) => p.slug)
+for (const s of profile.resumeProjects) if (!slugs.includes(s)) fail(`resumeProjects: unknown slug "${s}"`)
 for (const s of new Set(slugs)) if (slugs.filter((x) => x === s).length > 1) fail(`projects: duplicate slug "${s}"`)
 
 for (const p of profile.projects) {

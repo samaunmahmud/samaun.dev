@@ -7,8 +7,9 @@ import { DownloadIcon } from '../ui/Icons'
 /** "https://github.com/x" → "github.com/x": reads better on paper, still a live link in the PDF. */
 const bare = (url: string) => url.replace(/^(https?:|mailto:)\/*/, '').replace(/\/$/, '')
 
-/** Featured work first, then the rest in profile order. */
-const projects: Project[] = [...profile.projects.filter((p) => p.featured), ...profile.projects.filter((p) => !p.featured)]
+/** The shortlist from profile.resumeProjects, in that order; the site links the rest. */
+const projects: Project[] = profile.resumeProjects.flatMap((slug) => profile.projects.filter((p) => p.slug === slug))
+const moreCount = profile.projects.length - projects.length
 
 const byKind = (kind: TimelineItem['kind']) => profile.timeline.filter((t) => t.kind === kind)
 
@@ -90,6 +91,14 @@ export function Resume() {
                 </section>
               ))}
             </div>
+            {moreCount > 0 && (
+              <p className="mt-2 text-xs text-fg-muted">
+                {moreCount} more projects, with screenshots and architecture walkthroughs, at{' '}
+                <a href={`${profile.siteUrl}/#projects`} className="font-medium text-accent underline underline-offset-2">
+                  {bare(profile.siteUrl)}
+                </a>
+              </p>
+            )}
           </Block>
 
           <Block title="Experience">
