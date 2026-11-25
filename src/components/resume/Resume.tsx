@@ -67,7 +67,7 @@ export function Resume() {
 
           <Block title="Projects">
             <div className="space-y-3 print:space-y-2">
-              {projects.map((p) => (
+              {projects.map((p, i) => (
                 <section key={p.slug} className="break-inside-avoid">
                   <h3 className="font-semibold">
                     {p.name} <span className="font-normal text-fg-muted">— {p.tagline}</span>
@@ -84,7 +84,8 @@ export function Resume() {
                     )}
                   </p>
                   <ul className="mt-1 list-disc space-y-0.5 pl-4 marker:text-accent">
-                    {p.highlights.slice(0, 3).map((h) => (
+                    {/* Three bullets for the top four, two after that, so the page count stays at two */}
+                    {p.highlights.slice(0, i < 4 ? 3 : 2).map((h) => (
                       <li key={h}>{h}</li>
                     ))}
                   </ul>

@@ -23,11 +23,12 @@ export const profile: Profile = {
   about: [
     "I’m a second-year Computer Science (Artificial Intelligence) student at Brunel University London, on the four-year track with an industrial placement.",
     "Most of what I build sits where backend engineering meets finance: streaming market data over WebSockets, keeping trade ledgers consistent with transactions, and wiring third-party banking APIs into apps people can actually use.",
+    "It started in Dhaka with physics and maths puzzles, and perfect 5.00 GPAs in both my SSC and HSC. That habit stuck: whether it’s a lab experiment or a neural network, I want to know why the answer is what it is, so I build software that shows its reasoning.",
     "I learn by shipping. Every project here was deployed, broken, debugged and rebuilt — and the debugging stories are usually my favourite part. Outside my own projects I’m a Student Support Ambassador at Brunel, and I spend a lot of weekends at hackathons.",
   ],
   availability: 'Open to 12-month industrial placements from summer 2027',
   now: [
-    { label: 'Building', value: 'ReVive — agentic photo restoration for the OpenCV AI Competition 2026' },
+    { label: 'Practising', value: 'LeetCode in Java, with every accepted solution synced to GitHub (LeetCode-365)' },
     { label: 'Just shipped', value: 'Leash — spending limits for AI agents, enforced through PayPal' },
     { label: 'Looking for', value: 'A 12-month placement in fintech or big tech' },
   ],
@@ -410,7 +411,6 @@ export const profile: Profile = {
       ],
       stack: ['Spring Boot', 'React', 'PostgreSQL', 'Plaid API', 'JWT', 'Docker'],
       status: 'live',
-      featured: true,
       repo: undefined, // TODO: repo URL
       demo: undefined, // TODO: live Vercel URL
       accent: 'sky',
@@ -430,6 +430,7 @@ export const profile: Profile = {
       ],
       stack: ['Java', 'Spring Boot', 'Spring WebFlux', 'PostgreSQL', 'Flyway', 'React', 'TypeScript', 'watsonx.ai', 'Parallel', 'Docker'],
       status: 'in-progress',
+      featured: true,
       repo: 'https://github.com/samaunmahmud/cinescout',
       demo: 'https://cinescout-4zjm.onrender.com',
       flow: [
@@ -543,9 +544,9 @@ export const profile: Profile = {
     {
       title: 'OpenCV AI Competition 2026',
       org: 'OpenCV · AWS',
-      period: 'Autumn 2026',
+      period: 'Oct 2026',
       kind: 'hackathon',
-      points: ['Building ReVive, an agentic photo-restoration system on OpenCV 5 and Amazon Bedrock'],
+      points: ['Built ReVive, an agentic photo-restoration system on OpenCV 5 and Amazon Bedrock that asks a person before any risky repair'],
     },
     {
       title: 'Nebius × NVIDIA Global AI Hackathon',
@@ -560,6 +561,13 @@ export const profile: Profile = {
       period: 'Sep 2026',
       kind: 'hackathon',
       points: ['Built a film-production research agent on the Parallel track'],
+    },
+    {
+      title: 'SSC and HSC',
+      org: 'Dhaka, Bangladesh',
+      period: 'Before Brunel', // TODO: add the exam years
+      kind: 'education',
+      points: ['GPA 5.00 out of 5.00 in both: the top possible result'],
     },
   ],
 
@@ -590,10 +598,10 @@ export const profile: Profile = {
   // TODO: prune anything here you wouldn't want to be quizzed on in an interview
   skills: [
     { name: 'Languages', items: ['Java', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
-    { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT', 'FastAPI', 'GraphQL', 'MCP'] },
+    { name: 'Backend', items: ['Spring Boot', 'Spring Security', 'REST', 'WebSockets', 'JPA / Hibernate', 'JWT', 'FastAPI', 'Node.js', 'GraphQL', 'MCP'] },
     { name: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'HTML & CSS'] },
-    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Flyway', 'Redis', 'PyTorch', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
-    { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Testcontainers', 'Vitest', 'Render', 'Vercel'] },
+    { name: 'Data & ML', items: ['PostgreSQL', 'MySQL', 'Flyway', 'Prisma', 'Redis', 'PyTorch', 'OpenCV', 'Deeplearning4j', 'CNNs', 'LLM agents'] },
+    { name: 'Tooling', items: ['Docker', 'Git & GitHub', 'CI/CD', 'JUnit / TDD', 'Testcontainers', 'Vitest', 'Nginx', 'AWS', 'Render', 'Vercel'] },
   ],
 
 }
